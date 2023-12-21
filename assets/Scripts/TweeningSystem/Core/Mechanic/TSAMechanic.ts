@@ -16,17 +16,14 @@ export abstract class TSAMechanic extends TSRObject
     )
     active: boolean = true;
 
-    @property()
-    enable_bounding_target: boolean = false;
-
     @property(
         {
             type: [cc.Node],
-            visible() { return this.enable_bounding_target },
             tooltip: `- All other bounding target here.
                     \n- Make sure any of these target are not the 'Main' target of this TweeningComponent's Infomation
                     \n- These target will be called after this action is reached its condition.
-                    \n- These target's tween will be run out side the main tween of this TweeningComponent's owner.`
+                    \n- These target's tween will be run out side the main tween of this TweeningComponent's owner.
+                    \n[WARNING] UNSAFE OPTION.`
         }
     )
     bounding_targets: cc.Node[] = []
@@ -39,12 +36,9 @@ export abstract class TSAMechanic extends TSRObject
     public gter(action: cc.Tween<any>): cc.Tween<any>
     {
         if(!this.active) return action;
-        if(this.enable_bounding_target)
-        {
-            for (const ret of this.bounding_targets)
+        for (const ret of this.bounding_targets) 
             {
-                action.call(() => {  this.generator(cc.tween(ret)).start() })
-            }
+            action.call(() => {this.generator(cc.tween(ret)).start()})
         }
         return this.generator(action)
     }
