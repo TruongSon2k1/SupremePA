@@ -81,16 +81,16 @@
         "__id__": 23
       },
       {
-        "__id__": 25
+        "__id__": 41
       }
     ],
     "_active": true,
     "_components": [
       {
-        "__id__": 46
+        "__id__": 62
       },
       {
-        "__id__": 47
+        "__id__": 63
       }
     ],
     "_prefab": null,
@@ -576,6 +576,9 @@
     "_components": [
       {
         "__id__": 24
+      },
+      {
+        "__id__": 25
       }
     ],
     "_prefab": null,
@@ -659,6 +662,165 @@
     "_id": "02D3c9jidO6Zwkweox50w1"
   },
   {
+    "__type__": "d534cfzCEhEkLyM2pCYbJG6",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 23
+    },
+    "_enabled": true,
+    "anti_duplicate": false,
+    "cleaner_mode": 0,
+    "information": {
+      "__id__": 26
+    },
+    "editor": {
+      "__id__": 27
+    },
+    "_id": "91MErW6vpMH6z2mYkjYGAi"
+  },
+  {
+    "__type__": "TSInformator",
+    "details": "A NEW TWEENING COMPONENT",
+    "main": {
+      "__id__": 23
+    },
+    "silent_backend": false,
+    "conditon_type": 0,
+    "reset_type": 0,
+    "mechanic_execution_mode": 0
+  },
+  {
+    "__type__": "TSEditorManager",
+    "editor_mode": 3,
+    "condition": {
+      "__id__": 28
+    },
+    "mechanic": {
+      "__id__": 35
+    }
+  },
+  {
+    "__type__": "TSConditionEditor",
+    "_view_mode_": 2,
+    "_search_": "",
+    "_content_list_": [
+      {
+        "__id__": 29
+      },
+      {
+        "__id__": 30
+      }
+    ],
+    "list": [
+      {
+        "__id__": 31
+      }
+    ]
+  },
+  {
+    "__type__": "TSContentPreviewHelper",
+    "_description_": "Invoke after a certain duration delay.",
+    "_name_": "TSCAwait",
+    "add_me": false,
+    "add_confirm": false
+  },
+  {
+    "__type__": "TSContentPreviewHelper",
+    "_description_": "Invoked after reaching the certain amount of the target caller number.",
+    "_name_": "TSCNumericCaller",
+    "add_me": false,
+    "add_confirm": false
+  },
+  {
+    "__type__": "TSConditionPreviewObject",
+    "action": {
+      "__id__": 32
+    },
+    "remove": false,
+    "remove_confirm": false,
+    "index": 0
+  },
+  {
+    "__type__": "TSCAwait",
+    "_runtime_type_": 0,
+    "_execution_type_": 0,
+    "runtimer": {
+      "__id__": 33
+    },
+    "executor": {
+      "__id__": 34
+    },
+    "duration": 0.5
+  },
+  {
+    "__type__": "TSACNormalRuntime",
+    "max_run_time": 10
+  },
+  {
+    "__type__": "TSANormalConditionExecutor"
+  },
+  {
+    "__type__": "TSMechanicEditor",
+    "_view_mode_": 2,
+    "_search_": "",
+    "_content_list_": [
+      {
+        "__id__": 36
+      },
+      {
+        "__id__": 37
+      },
+      {
+        "__id__": 38
+      }
+    ],
+    "list": [
+      {
+        "__id__": 39
+      }
+    ]
+  },
+  {
+    "__type__": "TSContentPreviewHelper",
+    "_description_": "Apply a moving action.",
+    "_name_": "TSMoving",
+    "add_me": false,
+    "add_confirm": false
+  },
+  {
+    "__type__": "TSContentPreviewHelper",
+    "_description_": "...",
+    "_name_": "TSMNumericCaller",
+    "add_me": false,
+    "add_confirm": false
+  },
+  {
+    "__type__": "TSContentPreviewHelper",
+    "_description_": "Apply a scaling action.",
+    "_name_": "TSMScaling",
+    "add_me": false,
+    "add_confirm": false
+  },
+  {
+    "__type__": "TSMechanicPreviewObject",
+    "action": {
+      "__id__": 40
+    },
+    "remove": false,
+    "remove_confirm": false,
+    "index": 0
+  },
+  {
+    "__type__": "TSMNumericCaller",
+    "active": true,
+    "bounding_targets": [],
+    "amount": 1,
+    "ids": [
+      "TEST"
+    ]
+  },
+  {
     "__type__": "cc.Node",
     "_name": "Main",
     "_objFlags": 0,
@@ -669,10 +831,10 @@
     "_active": true,
     "_components": [
       {
-        "__id__": 26
+        "__id__": 42
       },
       {
-        "__id__": 45
+        "__id__": 43
       }
     ],
     "_prefab": null,
@@ -724,28 +886,60 @@
     "_id": "ec2/xDUTRNwJqtua585vAF"
   },
   {
+    "__type__": "cc.Sprite",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 41
+    },
+    "_enabled": true,
+    "_materials": [
+      {
+        "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
+      }
+    ],
+    "_srcBlendFactor": 770,
+    "_dstBlendFactor": 771,
+    "_spriteFrame": {
+      "__uuid__": "1a32fc76-f0bd-4f66-980f-56929c0ca0b3"
+    },
+    "_type": 0,
+    "_sizeMode": 1,
+    "_fillType": 0,
+    "_fillCenter": {
+      "__type__": "cc.Vec2",
+      "x": 0,
+      "y": 0
+    },
+    "_fillStart": 0,
+    "_fillRange": 0,
+    "_isTrimmedMode": true,
+    "_atlas": null,
+    "_id": "cdFTqRFl5DvZ0sfPsio3wp"
+  },
+  {
     "__type__": "d534cfzCEhEkLyM2pCYbJG6",
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 25
+      "__id__": 41
     },
     "_enabled": true,
     "anti_duplicate": false,
     "cleaner_mode": 0,
     "information": {
-      "__id__": 27
+      "__id__": 44
     },
     "editor": {
-      "__id__": 28
+      "__id__": 45
     },
-    "_id": "12DzLXSmpKgaKPgCfh+DK6"
+    "_id": "e4/nvXDeFA0KaQLFY9Vd0h"
   },
   {
     "__type__": "TSInformator",
     "details": "A NEW TWEENING COMPONENT",
     "main": {
-      "__id__": 25
+      "__id__": 41
     },
     "silent_backend": true,
     "conditon_type": 0,
@@ -754,12 +948,12 @@
   },
   {
     "__type__": "TSEditorManager",
-    "editor_mode": 2,
+    "editor_mode": 3,
     "condition": {
-      "__id__": 29
+      "__id__": 46
     },
     "mechanic": {
-      "__id__": 35
+      "__id__": 54
     }
   },
   {
@@ -768,12 +962,15 @@
     "_search_": "",
     "_content_list_": [
       {
-        "__id__": 30
+        "__id__": 47
+      },
+      {
+        "__id__": 48
       }
     ],
     "list": [
       {
-        "__id__": 31
+        "__id__": 49
       }
     ]
   },
@@ -785,25 +982,35 @@
     "add_confirm": false
   },
   {
+    "__type__": "TSContentPreviewHelper",
+    "_description_": "Invoked after reaching the certain amount of the target caller number.",
+    "_name_": "TSCNumericCaller",
+    "add_me": false,
+    "add_confirm": false
+  },
+  {
     "__type__": "TSConditionPreviewObject",
     "action": {
-      "__id__": 32
+      "__id__": 50
     },
     "remove": false,
     "remove_confirm": false,
     "index": 0
   },
   {
-    "__type__": "TSCAwait",
+    "__type__": "TSCNumericCaller",
     "_runtime_type_": 0,
     "_execution_type_": 0,
     "runtimer": {
-      "__id__": 33
+      "__id__": 51
     },
     "executor": {
-      "__id__": 34
+      "__id__": 52
     },
-    "duration": 1
+    "numeric": {
+      "__id__": 53
+    },
+    "recirculate": false
   },
   {
     "__type__": "TSACNormalRuntime",
@@ -813,23 +1020,29 @@
     "__type__": "TSANormalConditionExecutor"
   },
   {
+    "__type__": "NSCallerHelper",
+    "target_amount": 5,
+    "id": "TEST",
+    "register_to_pool": true
+  },
+  {
     "__type__": "TSMechanicEditor",
     "_view_mode_": 2,
     "_search_": "",
     "_content_list_": [
       {
-        "__id__": 36
+        "__id__": 55
       },
       {
-        "__id__": 37
+        "__id__": 56
+      },
+      {
+        "__id__": 57
       }
     ],
     "list": [
       {
-        "__id__": 38
-      },
-      {
-        "__id__": 42
+        "__id__": 58
       }
     ]
   },
@@ -837,6 +1050,13 @@
     "__type__": "TSContentPreviewHelper",
     "_description_": "Apply a moving action.",
     "_name_": "TSMoving",
+    "add_me": false,
+    "add_confirm": false
+  },
+  {
+    "__type__": "TSContentPreviewHelper",
+    "_description_": "...",
+    "_name_": "TSMNumericCaller",
     "add_me": false,
     "add_confirm": false
   },
@@ -850,7 +1070,7 @@
   {
     "__type__": "TSMechanicPreviewObject",
     "action": {
-      "__id__": 39
+      "__id__": 59
     },
     "remove": false,
     "remove_confirm": false,
@@ -859,17 +1079,9 @@
   {
     "__type__": "TSMoving",
     "active": true,
-    "enable_bounding_target": true,
-    "bounding_targets": [
-      {
-        "__id__": 19
-      },
-      {
-        "__id__": 23
-      }
-    ],
+    "bounding_targets": [],
     "action": {
-      "__id__": 40
+      "__id__": 60
     }
   },
   {
@@ -877,87 +1089,7 @@
     "target": {
       "__type__": "cc.Vec3",
       "x": 0,
-      "y": 200,
-      "z": 0
-    },
-    "duration": 1,
-    "type": 0,
-    "easing": "linear",
-    "show_less": true,
-    "_list_": [
-      "linear",
-      "quadIn",
-      "quadOut",
-      "quadInOut",
-      "cubicIn",
-      "cubicOut",
-      "cubicInOut",
-      "quartIn",
-      "quartOut",
-      "quartInOut",
-      "quintIn",
-      "quintOut",
-      "quintInOut",
-      "sineIn",
-      "sineOut",
-      "sineInOut",
-      "expoIn",
-      "expoOut",
-      "expoInOut",
-      "circIn",
-      "circOut",
-      "circInOut",
-      "elasticIn",
-      "elasticOut",
-      "elasticInOut",
-      "backIn",
-      "backOut",
-      "backInOut",
-      "bounceIn",
-      "bounceOut",
-      "bounceInOut",
-      "smooth",
-      "fade"
-    ],
-    "_moving_type_": 0,
-    "movement": {
-      "__id__": 41
-    }
-  },
-  {
-    "__type__": "EXTLinearMovingHelper"
-  },
-  {
-    "__type__": "TSMechanicPreviewObject",
-    "action": {
-      "__id__": 43
-    },
-    "remove": false,
-    "remove_confirm": false,
-    "index": 1
-  },
-  {
-    "__type__": "TSMScaling",
-    "active": true,
-    "enable_bounding_target": true,
-    "bounding_targets": [
-      {
-        "__id__": 21
-      },
-      {
-        "__id__": 23
-      }
-    ],
-    "action": {
-      "__id__": 44
-    }
-  },
-  {
-    "__type__": "EXTScalingAction",
-    "target": {
-      "__type__": "cc.Vec3",
-      "x": 1,
-      "y": 1,
+      "y": 300,
       "z": 0
     },
     "duration": 0.5,
@@ -998,39 +1130,14 @@
       "bounceInOut",
       "smooth",
       "fade"
-    ]
+    ],
+    "_moving_type_": 0,
+    "movement": {
+      "__id__": 61
+    }
   },
   {
-    "__type__": "cc.Sprite",
-    "_name": "",
-    "_objFlags": 0,
-    "node": {
-      "__id__": 25
-    },
-    "_enabled": true,
-    "_materials": [
-      {
-        "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
-      }
-    ],
-    "_srcBlendFactor": 770,
-    "_dstBlendFactor": 771,
-    "_spriteFrame": {
-      "__uuid__": "1a32fc76-f0bd-4f66-980f-56929c0ca0b3"
-    },
-    "_type": 0,
-    "_sizeMode": 1,
-    "_fillType": 0,
-    "_fillCenter": {
-      "__type__": "cc.Vec2",
-      "x": 0,
-      "y": 0
-    },
-    "_fillStart": 0,
-    "_fillRange": 0,
-    "_isTrimmedMode": true,
-    "_atlas": null,
-    "_id": "cdFTqRFl5DvZ0sfPsio3wp"
+    "__type__": "EXTLinearMovingHelper"
   },
   {
     "__type__": "cc.Canvas",

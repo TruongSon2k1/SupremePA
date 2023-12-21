@@ -37,13 +37,14 @@ export abstract class TSAMechanic extends TSRObject
     {
         if(!this.active) return action;
         for (const ret of this.bounding_targets) 
-            {
+        {
             action.call(() => {this.generator(cc.tween(ret)).start()})
         }
         return this.generator(action)
     }
 
     protected abstract generator(action: cc.Tween<any>): cc.Tween<any>;
+
 }
 
 export const _TSQMecha_: IQuickFactoryManager = 

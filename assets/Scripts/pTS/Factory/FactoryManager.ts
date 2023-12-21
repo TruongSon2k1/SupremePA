@@ -1,7 +1,6 @@
 import {BaseMasterClass} from "../Root/Class/BaseMasterClass";
 import {BaseMasterFactory} from "./BaseMasterFactory";
 
-
 export class FactoryManager extends BaseMasterClass
 {
     public register<T>(id: string)
