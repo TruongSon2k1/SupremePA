@@ -1,0 +1,1 @@
+- Better buy [super-html](https://store.cocos.com/app/en/detail/3657) package for the best capacity optimization.
