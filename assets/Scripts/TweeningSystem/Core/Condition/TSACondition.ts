@@ -46,11 +46,10 @@ export abstract class TSACondition extends TSRObject
             return;
         }
     }
-    @property({displayName: 'Line'}) get line() { return constant.line }
+    @property({displayName: 'Line'}) get line() { return "[ INFOR ] ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"}
 
     @property({type: TSAConditionRuntime, visible() { return this.runtimer } })
     runtimer: TSAConditionRuntime = this.runtimer_creator();
-
 
     runtimer_creator(): TSAConditionRuntime
     {
@@ -75,8 +74,7 @@ export abstract class TSACondition extends TSRObject
     @property({ type: TSAConditionExecutor, visible() { return this.executor } })
     executor: TSAConditionExecutor = this.executor_creator();
 
-    @property({displayName: 'Line'}) get line2() { return constant.line }
-    protected _passed_time_: number = 0;
+    @property({displayName: 'Line'}) get line2() { return "[ OPTIONS ] vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv"}
 
     /**
      * @description
@@ -87,7 +85,12 @@ export abstract class TSACondition extends TSRObject
      */
     public get is_passed(): boolean
     {
-        return this.runtimer._is_passed_;
+        return this.runtimer.is_passed;
+    }
+
+    public ready_up(): void
+    {
+        this.runtimer._is_passed_ = this.executor.ready();
     }
 
     public reset()

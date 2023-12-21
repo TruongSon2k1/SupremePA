@@ -1,4 +1,3 @@
-
 const {ccclass, property, executeInEditMode} = cc._decorator;
 
 enum FPSType
@@ -299,12 +298,15 @@ export class GameMaster extends cc.Component
 
     protected onLoad(): void 
     {
-        GameMaster.instance = this;
+        gm = GameMaster.instance = this;
         this.config.init();
         this.physic.init();
     }
 
     protected start(): void 
     {
+        
     }
 }
+
+export let gm: Readonly<GameMaster> = null;

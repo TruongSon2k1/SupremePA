@@ -65,14 +65,14 @@ export class TSConditionEditor extends TSAEditorObject
         adders.forEach( ret => { this.add_action(ret, this.list, (id: string) => { return TSConditionPreviewObject.create(id, this.list.length) }) } )
     }
 
-    to_manager(  type: ConditionType, reset_type: ResetType = ResetType.THIS)
+    to_manager(  type: ConditionType, reset_type: ResetType = ResetType.THIS, silent: boolean)
     {
         switch(type)
         {
             case ConditionType.OR:
-                return TSConditionORManager.create(reset_type, this.list)
+                return TSConditionORManager.create(reset_type, this.list, silent)
             case ConditionType.AND:
-                return TSConditionANDManager.create(this.list)
+                return TSConditionANDManager.create(this.list, silent)
         }
     }
 }

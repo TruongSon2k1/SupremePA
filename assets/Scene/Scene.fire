@@ -78,10 +78,10 @@
     "_active": true,
     "_components": [
       {
-        "__id__": 39
+        "__id__": 43
       },
       {
-        "__id__": 40
+        "__id__": 44
       }
     ],
     "_prefab": null,
@@ -379,13 +379,13 @@
         "__id__": 20
       },
       {
-        "__id__": 30
+        "__id__": 25
       }
     ],
     "_active": true,
     "_components": [
       {
-        "__id__": 38
+        "__id__": 42
       }
     ],
     "_prefab": null,
@@ -451,9 +451,6 @@
       },
       {
         "__id__": 22
-      },
-      {
-        "__id__": 27
       }
     ],
     "_prefab": null,
@@ -537,230 +534,6 @@
     "_id": "dahRrqDhZN5Lu269IvehjF"
   },
   {
-    "__type__": "c1fbfLA3j5DiIJjPWqYEoz8",
-    "_name": "",
-    "_objFlags": 0,
-    "node": {
-      "__id__": 20
-    },
-    "_enabled": true,
-    "anti_duplicate": false,
-    "cleaner_mode": 0,
-    "start_state": 2,
-    "pre_delay": 0,
-    "_enable_logger_": true,
-    "custom_logger": "TEST",
-    "max_run_time": 0,
-    "loop_time": 0,
-    "actions": [
-      {
-        "__id__": 23
-      },
-      {
-        "__id__": 24
-      },
-      {
-        "__id__": 25
-      },
-      {
-        "__id__": 26
-      }
-    ],
-    "_id": "fbExGeWc5FBbxVyuNfzsVi"
-  },
-  {
-    "__type__": "EXTMovingAction",
-    "target": {
-      "__type__": "cc.Vec3",
-      "x": 300,
-      "y": 0,
-      "z": 0
-    },
-    "duration": 1,
-    "type": 0,
-    "easing": "linear",
-    "show_less": true,
-    "_list_": [
-      "linear",
-      "quadIn",
-      "quadOut",
-      "quadInOut",
-      "cubicIn",
-      "cubicOut",
-      "cubicInOut",
-      "quartIn",
-      "quartOut",
-      "quartInOut",
-      "quintIn",
-      "quintOut",
-      "quintInOut",
-      "sineIn",
-      "sineOut",
-      "sineInOut",
-      "expoIn",
-      "expoOut",
-      "expoInOut",
-      "circIn",
-      "circOut",
-      "circInOut",
-      "elasticIn",
-      "elasticOut",
-      "elasticInOut",
-      "backIn",
-      "backOut",
-      "backInOut",
-      "bounceIn",
-      "bounceOut",
-      "bounceInOut",
-      "smooth",
-      "fade"
-    ]
-  },
-  {
-    "__type__": "EXTMovingAction",
-    "target": {
-      "__type__": "cc.Vec3",
-      "x": 0,
-      "y": 300,
-      "z": 0
-    },
-    "duration": 1,
-    "type": 0,
-    "easing": "linear",
-    "show_less": true,
-    "_list_": [
-      "linear",
-      "quadIn",
-      "quadOut",
-      "quadInOut",
-      "cubicIn",
-      "cubicOut",
-      "cubicInOut",
-      "quartIn",
-      "quartOut",
-      "quartInOut",
-      "quintIn",
-      "quintOut",
-      "quintInOut",
-      "sineIn",
-      "sineOut",
-      "sineInOut",
-      "expoIn",
-      "expoOut",
-      "expoInOut",
-      "circIn",
-      "circOut",
-      "circInOut",
-      "elasticIn",
-      "elasticOut",
-      "elasticInOut",
-      "backIn",
-      "backOut",
-      "backInOut",
-      "bounceIn",
-      "bounceOut",
-      "bounceInOut",
-      "smooth",
-      "fade"
-    ]
-  },
-  {
-    "__type__": "EXTMovingAction",
-    "target": {
-      "__type__": "cc.Vec3",
-      "x": -300,
-      "y": 0,
-      "z": 0
-    },
-    "duration": 1,
-    "type": 0,
-    "easing": "linear",
-    "show_less": true,
-    "_list_": [
-      "linear",
-      "quadIn",
-      "quadOut",
-      "quadInOut",
-      "cubicIn",
-      "cubicOut",
-      "cubicInOut",
-      "quartIn",
-      "quartOut",
-      "quartInOut",
-      "quintIn",
-      "quintOut",
-      "quintInOut",
-      "sineIn",
-      "sineOut",
-      "sineInOut",
-      "expoIn",
-      "expoOut",
-      "expoInOut",
-      "circIn",
-      "circOut",
-      "circInOut",
-      "elasticIn",
-      "elasticOut",
-      "elasticInOut",
-      "backIn",
-      "backOut",
-      "backInOut",
-      "bounceIn",
-      "bounceOut",
-      "bounceInOut",
-      "smooth",
-      "fade"
-    ]
-  },
-  {
-    "__type__": "EXTMovingAction",
-    "target": {
-      "__type__": "cc.Vec3",
-      "x": 0,
-      "y": -300,
-      "z": 0
-    },
-    "duration": 1,
-    "type": 0,
-    "easing": "linear",
-    "show_less": true,
-    "_list_": [
-      "linear",
-      "quadIn",
-      "quadOut",
-      "quadInOut",
-      "cubicIn",
-      "cubicOut",
-      "cubicInOut",
-      "quartIn",
-      "quartOut",
-      "quartInOut",
-      "quintIn",
-      "quintOut",
-      "quintInOut",
-      "sineIn",
-      "sineOut",
-      "sineInOut",
-      "expoIn",
-      "expoOut",
-      "expoInOut",
-      "circIn",
-      "circOut",
-      "circInOut",
-      "elasticIn",
-      "elasticOut",
-      "elasticInOut",
-      "backIn",
-      "backOut",
-      "backInOut",
-      "bounceIn",
-      "bounceOut",
-      "bounceInOut",
-      "smooth",
-      "fade"
-    ]
-  },
-  {
     "__type__": "1a3b2cGmAVEopAQkVNFHjTR",
     "_name": "",
     "_objFlags": 0,
@@ -772,27 +545,27 @@
     "cleaner_mode": 0,
     "start_state": 2,
     "pre_delay": 0,
-    "_enable_logger_": true,
+    "_enable_logger_": false,
     "custom_logger": "",
     "max_run_time": 0,
-    "loop_time": 0,
+    "loop_time": 1,
     "actions": [
       {
-        "__id__": 28
+        "__id__": 23
       },
       {
-        "__id__": 29
+        "__id__": 24
       }
     ],
-    "_id": "f1TyBzh1pGI5J2ImVDtuk9"
+    "_id": "52QR1U0yNPjpHOOLhwE8B7"
   },
   {
     "__type__": "EXTScalingAction",
     "target": {
       "__type__": "cc.Vec3",
-      "x": 3,
-      "y": 3,
-      "z": 1
+      "x": 1,
+      "y": 1,
+      "z": 0
     },
     "duration": 1,
     "type": 0,
@@ -838,9 +611,9 @@
     "__type__": "EXTScalingAction",
     "target": {
       "__type__": "cc.Vec3",
-      "x": -3,
-      "y": -3,
-      "z": 1
+      "x": -1,
+      "y": -1,
+      "z": 0
     },
     "duration": 1,
     "type": 0,
@@ -893,7 +666,10 @@
     "_active": true,
     "_components": [
       {
-        "__id__": 31
+        "__id__": 26
+      },
+      {
+        "__id__": 41
       }
     ],
     "_prefab": null,
@@ -907,8 +683,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 0,
-      "height": 0
+      "width": 30,
+      "height": 30
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -919,15 +695,15 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        0,
-        0,
+        142.545,
+        -213.818,
         0,
         0,
         0,
         0,
         1,
-        1,
-        1,
+        3,
+        3,
         1
       ]
     },
@@ -949,34 +725,35 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 30
+      "__id__": 25
     },
     "_enabled": true,
     "anti_duplicate": false,
     "cleaner_mode": 0,
     "information": {
-      "__id__": 32
+      "__id__": 27
     },
     "editor": {
-      "__id__": 33
+      "__id__": 28
     },
-    "_id": "a3Oyvla4xPg5wixQzpJX7A"
+    "_id": "12DzLXSmpKgaKPgCfh+DK6"
   },
   {
     "__type__": "TSInformator",
     "details": "A NEW TWEENING COMPONENT",
     "main": {
-      "__id__": 30
+      "__id__": 25
     },
     "silent_backend": true,
     "conditon_type": 0,
+    "reset_type": 0,
     "mechanic_execution_mode": 0
   },
   {
     "__type__": "TSEditorManager",
-    "editor_mode": 1,
+    "editor_mode": 3,
     "condition": {
-      "__id__": 34
+      "__id__": 29
     },
     "mechanic": {
       "__id__": 35
@@ -986,36 +763,176 @@
     "__type__": "TSConditionEditor",
     "_view_mode_": 2,
     "_search_": "",
-    "_content_list_": [],
-    "list": []
+    "_content_list_": [
+      {
+        "__id__": 30
+      }
+    ],
+    "list": [
+      {
+        "__id__": 31
+      }
+    ]
+  },
+  {
+    "__type__": "TSContentPreviewHelper",
+    "_description_": "Invoke after a certain duration delay.",
+    "_name_": "TSCAwait",
+    "add_me": false,
+    "add_confirm": false
+  },
+  {
+    "__type__": "TSConditionPreviewObject",
+    "action": {
+      "__id__": 32
+    },
+    "remove": false,
+    "remove_confirm": false,
+    "index": 0
+  },
+  {
+    "__type__": "TSCAwait",
+    "_runtime_type_": 0,
+    "_execution_type_": 0,
+    "runtimer": {
+      "__id__": 33
+    },
+    "executor": {
+      "__id__": 34
+    },
+    "duration": 1
+  },
+  {
+    "__type__": "TSACNormalRuntime",
+    "max_run_time": 1
+  },
+  {
+    "__type__": "TSANormalConditionExecutor"
   },
   {
     "__type__": "TSMechanicEditor",
-    "_view_mode_": 1,
+    "_view_mode_": 2,
     "_search_": "",
     "_content_list_": [
       {
         "__id__": 36
-      },
+      }
+    ],
+    "list": [
       {
         "__id__": 37
       }
+    ]
+  },
+  {
+    "__type__": "TSContentPreviewHelper",
+    "_description_": "Apply a moving action.",
+    "_name_": "TSMoving",
+    "add_me": false,
+    "add_confirm": false
+  },
+  {
+    "__type__": "TSMechanicPreviewObject",
+    "action": {
+      "__id__": 38
+    },
+    "remove": false,
+    "remove_confirm": false,
+    "index": 0
+  },
+  {
+    "__type__": "TSMoving",
+    "active": true,
+    "action": {
+      "__id__": 39
+    }
+  },
+  {
+    "__type__": "EXTMovingAction",
+    "target": {
+      "__type__": "cc.Vec3",
+      "x": 0,
+      "y": 200,
+      "z": 0
+    },
+    "duration": 1,
+    "type": 0,
+    "easing": "linear",
+    "show_less": true,
+    "_list_": [
+      "linear",
+      "quadIn",
+      "quadOut",
+      "quadInOut",
+      "cubicIn",
+      "cubicOut",
+      "cubicInOut",
+      "quartIn",
+      "quartOut",
+      "quartInOut",
+      "quintIn",
+      "quintOut",
+      "quintInOut",
+      "sineIn",
+      "sineOut",
+      "sineInOut",
+      "expoIn",
+      "expoOut",
+      "expoInOut",
+      "circIn",
+      "circOut",
+      "circInOut",
+      "elasticIn",
+      "elasticOut",
+      "elasticInOut",
+      "backIn",
+      "backOut",
+      "backInOut",
+      "bounceIn",
+      "bounceOut",
+      "bounceInOut",
+      "smooth",
+      "fade"
     ],
-    "list": []
+    "_moving_type_": 0,
+    "movement": {
+      "__id__": 40
+    }
   },
   {
-    "__type__": "TSContentPreviewHelper",
-    "_description_": "Test",
-    "_name_": "TSMTest",
-    "add_me": false,
-    "add_confirm": false
+    "__type__": "EXTLinearMovingHelper"
   },
   {
-    "__type__": "TSContentPreviewHelper",
-    "_description_": "Test 23",
-    "_name_": "TSMTest2",
-    "add_me": false,
-    "add_confirm": false
+    "__type__": "cc.Sprite",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 25
+    },
+    "_enabled": true,
+    "_materials": [
+      {
+        "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
+      }
+    ],
+    "_srcBlendFactor": 770,
+    "_dstBlendFactor": 771,
+    "_spriteFrame": {
+      "__uuid__": "1a32fc76-f0bd-4f66-980f-56929c0ca0b3"
+    },
+    "_type": 0,
+    "_sizeMode": 1,
+    "_fillType": 0,
+    "_fillCenter": {
+      "__type__": "cc.Vec2",
+      "x": 0,
+      "y": 0
+    },
+    "_fillStart": 0,
+    "_fillRange": 0,
+    "_isTrimmedMode": true,
+    "_atlas": null,
+    "_id": "cdFTqRFl5DvZ0sfPsio3wp"
   },
   {
     "__type__": "cc.Sprite",

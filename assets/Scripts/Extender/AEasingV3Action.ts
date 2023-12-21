@@ -2,8 +2,9 @@ import {constant} from "../Configer/Constanst";
 import {AVec3Action} from "./AVec3Action";
 import {EasingAction} from "./EasingAction";
 
-const {property} = cc._decorator;
+const {ccclass, property} = cc._decorator;
 
+@ccclass('AEasingV3Action')
 export abstract class AEasingV3Action extends AVec3Action implements EasingAction
 {
     @property()

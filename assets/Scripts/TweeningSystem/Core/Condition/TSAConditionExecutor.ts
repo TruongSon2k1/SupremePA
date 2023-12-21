@@ -5,13 +5,13 @@ const {ccclass, property} = cc._decorator;
 @ccclass('TSAConditionExecutor')
 export abstract class TSAConditionExecutor
 {
-    public abstract on_pass(): boolean;
+    public abstract ready(): boolean;
 }
 
 @ccclass('TSANormalConditionExecutor')
 export class TSANormalConditionExecutor extends TSAConditionExecutor
 {
-    public on_pass(): boolean
+    public ready(): boolean
     {
         return true;
     }
@@ -43,7 +43,7 @@ export class TSAOverloadingExecutor extends TSAConditionExecutor
     
     _ready_up_: boolean = true;
 
-    public on_pass(): boolean 
+    public ready(): boolean 
     {
         if(this._ready_up_)
         {

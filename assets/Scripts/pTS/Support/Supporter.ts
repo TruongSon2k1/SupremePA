@@ -19,7 +19,11 @@ export const sup =
     console:
     {
 
-        default_option: { mode: 'crash', message: "" },
+        default_option: {
+            mode: 'crash',
+            message: "",
+        },
+
         /**
          * @description
          * | Smart assert function.
@@ -42,10 +46,10 @@ export const sup =
                     case "break":
                         console.warn(msg);
                         debugger;        
-                        break;
+                        return;
                     case "warn":
                         console.warn(msg);
-                        break;
+                        return;
                 }
             }
         },

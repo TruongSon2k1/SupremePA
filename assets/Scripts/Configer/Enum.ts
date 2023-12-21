@@ -12,6 +12,12 @@ export enum ByTo
     TO
 }
 
+export enum MovingType
+{
+    LINEAR,
+    BEZIER
+}
+
 export enum StartUpMode
 {
     NONE,

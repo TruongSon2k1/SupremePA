@@ -21,14 +21,15 @@ export default class TSMechanicManager extends BaseMasterClass
         return root_action;
     }
 
-    invalid()
+    valid()
     {
-        return this.mechanics.length <= 0
+        return this.mechanics.length > 0
     }
     
     static create(list: TSMechanicPreviewObject[])
     {
         let ret = new TSMechanicManager(); 
         for(const temp of list) ret.mechanics.push(temp.action)
+        return ret;
     }
 }

@@ -1,6 +1,6 @@
 import {IQuickFactoryManager} from "../../../Interfaces/IQuickFactoryManager";
 import {FactoryManager} from "../../../pTS/Factory/FactoryManager";
-import {fm_quick_reg, fm_quick_reg_to, force_override } from "../../../pTS/Support/Decorators";
+import {fm_quick_reg} from "../../../pTS/Support/Decorators";
 import {TSRObject} from "../../Root/TSRObject";
 
 const {ccclass, property} = cc._decorator;
@@ -16,9 +16,6 @@ export abstract class TSAMechanic extends TSRObject
     )
     active: boolean = true;
 
-    //@property()
-    //get duration(): number { return 0 };
-    
     @property()
     get time_cost() { return this.duration }
 
@@ -27,6 +24,7 @@ export abstract class TSAMechanic extends TSRObject
     public gter(action: cc.Tween<any>): cc.Tween<any>
     {
         if(!this.active) return action;
+        return this.generator(action);
     }
 
     protected abstract generator(action: cc.Tween<any>): cc.Tween<any>;

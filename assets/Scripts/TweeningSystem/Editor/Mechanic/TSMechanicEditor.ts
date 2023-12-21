@@ -1,4 +1,5 @@
 import {_TSQMecha_} from "../../Core/Mechanic/TSAMechanic";
+import TSMechanicManager from "../../Core/Mechanic/TSMechanicManager";
 import {ViewMode} from "../../Helper/TSEnum";
 import {TSAEditorObject} from "../Root/TSAEditorObject";
 import {TSContentPreviewHelper} from "../Root/TSContentPreviewHelper";
@@ -62,5 +63,6 @@ export class TSMechanicEditor extends TSAEditorObject
 
     to_manager()
     {
+        return TSMechanicManager.create(this.list)
     }
 }

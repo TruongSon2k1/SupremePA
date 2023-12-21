@@ -10,7 +10,8 @@ export default class FCChainScaling extends FCChainAction
     @property(
         {
             type: [EXTScalingAction],
-            override: true
+            override: true,
+            tooltip: "Add action for this `FastComponent`"
         }
     )
     actions: EXTScalingAction[] = []

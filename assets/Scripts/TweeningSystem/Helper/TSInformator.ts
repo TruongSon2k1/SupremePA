@@ -1,5 +1,5 @@
 import {BaseMasterClass} from "../../pTS/Root/Class/BaseMasterClass";
-import {ConditionType, ExecutionMode} from "./TSEnum";
+import {ConditionType, ExecutionMode, ResetType} from "./TSEnum";
 
 const {ccclass, property} = cc._decorator;
 
@@ -36,10 +36,21 @@ export class TSInformator extends BaseMasterClass
 
     @property(
         {
+            type: cc.Enum(ResetType),
+            visible() { return this.conditon_type === ConditionType.OR }
+        }
+    )
+    reset_type: ResetType = ResetType.THIS;
+
+    @property(
+        {
             type: cc.Enum(ExecutionMode)
         }
     )
     mechanic_execution_mode: ExecutionMode = ExecutionMode.SEQUENCE;
 
-    _action_: cc.Tween<any> = null;
+    tween(): cc.Tween<any>
+    {
+        return cc.tween(this.main);
+    }
 }
