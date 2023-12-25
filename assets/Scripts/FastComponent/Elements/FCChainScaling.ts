@@ -7,6 +7,7 @@ const {ccclass, property, menu} = cc._decorator;
 @menu('FastComponent/Chain/Scaling')
 export default class FCChainScaling extends FCChainAction
 {
+
     @property(
         {
             type: [EXTScalingAction],
@@ -31,7 +32,6 @@ export default class FCChainScaling extends FCChainAction
         for(const ret of this.actions)
         {
             ret.generate(this._action_);
-            this.node.scale
         }
     }
 }

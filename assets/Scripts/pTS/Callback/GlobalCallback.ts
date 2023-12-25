@@ -8,35 +8,41 @@ export const global_callback =
     {
         let uuid = cm.getUUID();
 
-        if(global_callback.container.has(uuid)) return false;
-        global_callback.container[uuid] = cm;
+        if(this.container.has(uuid)) return false;
+        this.container[uuid] = cm;
         return true;
     },
 
     register(id: string): CallbackManager
     {
-        if(!global_callback.container.has(id))
+        if(!this.container.has(id))
         {
             let ret = CallbackManager.createEmpty();
-            global_callback.container.set(id, ret);
+            this.container.set(id, ret);
             return ret;
         }
-        return global_callback.container.get(id);
+        return this.container.get(id);
     },
 
-
-    get(id: string): CallbackManager
+    remove(id: string): void
     {
-        if(global_callback.container.has(id))
+        if(!this.container.has(id)) return;
+        this.container.delete(id);
+    },
+
+    get(id: string, safe: boolean = true): CallbackManager
+    {
+        if(safe) return this.register(id);
+        if(this.container.has(id))
         {
-            return global_callback.container.get(id);
+            return this.container.get(id);
         }
         return null;
     },
 
     reg(id: string, func: Function, binder = null, runTime = 0, order: number = 0)
     {
-        let cb = global_callback.get(id);
+        let cb = global_callback.register(id);
         if(cb)
         {
             cb.quickReg(func, binder, runTime, order);

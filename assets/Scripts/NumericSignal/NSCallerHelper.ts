@@ -48,13 +48,10 @@ export class NSCallerHelper
     )
     target_amount: number = 1;
 
-    @property(
-        {
-
-        }
-    )
+    @property()
     id: string = sup['string'].uuid('NS', 'CH');
-    
+
+
     @property(
         {
 
@@ -78,9 +75,13 @@ export class NSCallerHelper
 
     public get is_ready() { return this._is_passed_ }
 
+    constructor()
+    {
+        
+    }
+
     init(func: Function, binder = null)
     {
-        global_callback.register(this.id);
         global_callback.reg(this.id, func, binder);
 
         if(this.register_to_pool) NSPooling.instance().register(this);

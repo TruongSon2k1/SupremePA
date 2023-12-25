@@ -34,13 +34,13 @@ export class TSMNumericCaller extends TSAMechanic
         }
 
         action.call( () =>
-                    {
-                        for(const ret of arr)
-                            {
-                                ret.invoke(this.amount)
-                            }
-                    })
-                    return action;
+        {
+            for (const ret of arr) {
+                ret.invoke(this.amount)
+            }
+        })
+        return action;
     }
+
     _description_: string = "...";
 }

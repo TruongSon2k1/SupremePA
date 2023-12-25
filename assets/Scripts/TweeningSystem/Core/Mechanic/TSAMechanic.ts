@@ -44,7 +44,6 @@ export abstract class TSAMechanic extends TSRObject
     }
 
     protected abstract generator(action: cc.Tween<any>): cc.Tween<any>;
-
 }
 
 export const _TSQMecha_: IQuickFactoryManager = 

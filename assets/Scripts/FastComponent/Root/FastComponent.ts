@@ -88,6 +88,7 @@ export abstract class FastComponent extends BaseMasterComponent
     }
 
     protected abstract _mechanic(): void;
+    abstract reverse(): void;
 
     private _executor(): void
     {
@@ -111,6 +112,7 @@ export abstract class FastComponent extends BaseMasterComponent
             }, this.pre_delay)
         }
     }
+
 
     _oned_: boolean = false;                            //< 
 

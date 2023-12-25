@@ -30,7 +30,6 @@ export class TweeningComponent extends BaseMasterComponent
         else
         {
             this._backend_ = TSBackendManager.create(this)
-            console.log(this._backend_);
         }
     }
 

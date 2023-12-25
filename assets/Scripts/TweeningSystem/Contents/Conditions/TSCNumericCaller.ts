@@ -17,7 +17,9 @@ export class TSCNumericCaller extends TSACondition
 
     @property(
         {
-
+            tooltip: `- Determine how the 'Numeric' should be reset.
+                    \n- TRUE: The numeric will be set to the residual value after reaching to the target amount.
+                    \n- FALE: The numeric will be set to 0`
         }
     )
     recirculate: boolean = false;
@@ -26,6 +28,7 @@ export class TSCNumericCaller extends TSACondition
 
     protected _reset(): void 
     {
+        if(this.recirculate) this.numeric.recirculate_reset()
         this.numeric.reset();
     }
 
@@ -34,12 +37,7 @@ export class TSCNumericCaller extends TSACondition
         this.numeric.init(this.call, this)
     }
 
-    //protected init(): void {
-    //    super.init();
-    //    this.numeric.init(this.call, this)
-    //}
-
-    public update(dt: number): void 
+    public update(): void 
     {
         if(this.numeric.is_ready) this.ready_up();
     }

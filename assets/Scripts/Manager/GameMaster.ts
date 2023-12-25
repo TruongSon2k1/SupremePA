@@ -1,5 +1,22 @@
 const {ccclass, property, executeInEditMode} = cc._decorator;
 
+export var g_vlt = 
+{
+        time_scale: 1
+};
+
+cc.director.calculateDeltaTime = function(now: number)
+{
+    if (!now) now = performance.now();
+
+    this._deltaTime = now > this._lastUpdate ? (now - this._lastUpdate) / 1000 : 0;
+    if (CC_DEBUG && (this._deltaTime > 1)) this._deltaTime = 1 / 60.0;
+
+    this._lastUpdate = now;
+
+    this._deltaTime *= g_vlt.time_scale;
+}
+
 enum FPSType
 {
     SYSTEM,
@@ -204,6 +221,7 @@ export class Physics2DManager
     init()
     {
         this.physics_2d_manager = cc.director.getPhysicsManager();
+        //this.physics_2d_manager.enabledAccumulator = true
         this.collider_manager = cc.director.getCollisionManager();
 
         this.physics_2d_manager.enabled = true;
@@ -305,7 +323,11 @@ export class GameMaster extends cc.Component
 
     protected start(): void 
     {
-        
+        console.log(cc.game.step)
+    }
+
+    protected update(dt: number): void {
+        //console.log()
     }
 }
 
