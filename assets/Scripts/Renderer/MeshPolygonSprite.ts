@@ -1,4 +1,4 @@
-import {BaseMasterComponent} from "../ExpertComponent/BaseMasterComponent";
+import {BaseMasterComponent} from "../CC_pTS/ExpertComponent/BaseMasterComponent";
 
 const gfx = cc.gfx;
 

@@ -1,4 +1,4 @@
-import {constant} from "../Configer/Constanst";
+import {constant} from "../CC_pTS/Constant/Constanst";
 
 const {ccclass, property} = cc._decorator;
 

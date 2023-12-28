@@ -7,6 +7,11 @@ export interface IAssertOption
     message?: string;
 }
 
+export const DefaultAssertOption: IAssertOption = {
+    mode: 'crash',
+    message: ''
+}
+
 export const sup =
 {
     config:
@@ -19,11 +24,6 @@ export const sup =
     console:
     {
 
-        default_option: {
-            mode: 'crash',
-            message: "",
-        },
-
         /**
          * @description
          * | Smart assert function.
@@ -34,7 +34,7 @@ export const sup =
          * @param {string} [option.message] Out put message if caught.
          *
          */
-        assert_is_true(cond: unknown, option: IAssertOption = this.default_option): asserts cond 
+        assert_is_true(cond: unknown, option: IAssertOption = DefaultAssertOption): asserts cond 
         {
             if(!cond)
             {
@@ -226,46 +226,46 @@ export const sup =
             return vamps;
         },
 
-        /**
-         * @description
-         * | Resorting two elements inside the array.
-         *
-         * @deprecated Please use `sup.utils.shift(...)` instead.
-         */
-        sort_two_in_array(array: any[], first_index: number, second_index: number, option: IAssertOption = sup.console.default_option): any[] 
-        {
-            const arr = [...array];
+        ///**
+        // * @description
+        // * | Resorting two elements inside the array.
+        // *
+        // * @deprecated Please use `sup.utils.shift(...)` instead.
+        // */
+        //sort_two_in_array(array: any[], first_index: number, second_index: number, option: IAssertOption = sup.console.default_option): any[] 
+        //{
+        //    const arr = [...array];
 
-            sup.console.asserts_array_index(array, option, first_index, second_index);
-            const temp = arr[first_index];
-            arr[first_index] = arr[second_index];
-            arr[second_index] = temp;
+        //    sup.console.asserts_array_index(array, option, first_index, second_index);
+        //    const temp = arr[first_index];
+        //    arr[first_index] = arr[second_index];
+        //    arr[second_index] = temp;
 
-            return arr;
-        },
+        //    return arr;
+        //},
 
-        shift<T>(array: T[], first: number, second: number, ref?: T[], option: IAssertOption = sup.console.default_option): T[] 
-        {
-            if(first === second) return array;
+        //shift<T>(array: T[], first: number, second: number, ref?: T[], option: IAssertOption = sup.console.default_option): T[] 
+        //{
+        //    if(first === second) return array;
 
-            sup.console.asserts_array_index(array, option, first, second);
+        //    sup.console.asserts_array_index(array, option, first, second);
 
-            const temp = array[first];
+        //    const temp = array[first];
 
-            if(first < second)
-            {
-                for(let i = first + 1; i <= second; i++) array[i - 1] = array[i];
-            }
-            else 
-            {
-                for(let i = first; i !== second; i--) array[i] = array[i-1];
-            }
+        //    if(first < second)
+        //    {
+        //        for(let i = first + 1; i <= second; i++) array[i - 1] = array[i];
+        //    }
+        //    else 
+        //    {
+        //        for(let i = first; i !== second; i--) array[i] = array[i-1];
+        //    }
 
-            array[second] = temp;
+        //    array[second] = temp;
 
-            if(!!ref) ref = array;
-            return array;
-        },
+        //    if(!!ref) ref = array;
+        //    return array;
+        //},
         
         only_contain_char(char: string, target: string[]): string[]
         {

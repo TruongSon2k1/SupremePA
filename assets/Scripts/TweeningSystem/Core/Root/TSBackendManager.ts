@@ -1,7 +1,5 @@
 import {BaseMasterClass} from "../../../pTS/Root/Class/BaseMasterClass";
-import {TweeningComponent} from "../../Component/TweeningComponent";
-import {TSEditorManager} from "../../Editor/Root/TSEditorManager";
-import {TSInformator} from "../../Helper/TSInformator";
+import {ITweeningComponent} from "../../Component/ITweeningComponent";
 import {TSAConditionManager} from "../Condition/TSConditionManager";
 import TSMechanicManager from "../Mechanic/TSMechanicManager";
 
@@ -12,7 +10,7 @@ export class TSBackendManager extends BaseMasterClass
 
     _tween_: cc.Tween<any> = null;
 
-    public static create(ts: TweeningComponent)
+    public static create(ts: ITweeningComponent)
     {
         let ret = new TSBackendManager();
         const inform = ts.information;
@@ -28,7 +26,7 @@ export class TSBackendManager extends BaseMasterClass
         return ret;
     }
 
-    public ctor(ts_ref: TweeningComponent): boolean
+    public ctor(ts_ref: ITweeningComponent): boolean
     {
         if(!this.condition_manager.ctor()) 
         {

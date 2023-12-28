@@ -29,9 +29,4 @@ export abstract class FCChainAction extends FastComponent
         if(this.loop_time <= 0) cc.tween(this.node).repeatForever(this._action_).start();
         else cc.tween(this.node).repeat(this.loop_time, this._action_).start();
     }
-
-    reverse(): void 
-    {
-        this._action_.reverseTime().start();    
-    }
 }

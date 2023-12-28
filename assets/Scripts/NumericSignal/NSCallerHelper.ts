@@ -1,7 +1,6 @@
-import {TSACNormalRuntime} from "../TweeningSystem/Core/Condition/TSAConditionRuntime";
 import {global_callback} from "../pTS/Callback/GlobalCallback";
 import {sup} from "../pTS/Support/Supporter";
-import {NSPooling, nsp} from "./NSPooling";
+import {NSPooling} from "./NSPooling";
 
 const {ccclass, property} = cc._decorator;
 

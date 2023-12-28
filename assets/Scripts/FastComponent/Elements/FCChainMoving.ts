@@ -7,7 +7,6 @@ const {ccclass, property, menu} = cc._decorator;
 @menu('FastComponent/Chain/Moving')
 export default class FCChainMoving extends FCChainAction
 {
-
     @property(
         {
             type: [EXTMovingAction],

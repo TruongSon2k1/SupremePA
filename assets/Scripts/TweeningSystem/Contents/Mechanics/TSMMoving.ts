@@ -16,6 +16,7 @@ export class TSMoving extends TSAMechanic
     action: EXTMovingAction = new EXTMovingAction();
 
     _description_: string = "Apply a moving action.";
+
     get duration(): number 
     {
         return this.action.duration;

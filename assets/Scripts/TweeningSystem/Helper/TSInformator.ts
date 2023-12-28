@@ -22,7 +22,6 @@ export class TSInformator extends BaseMasterClass
 
     @property(
         {
-
         }
     )
     silent_backend: boolean = true;

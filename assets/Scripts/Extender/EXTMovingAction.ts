@@ -1,5 +1,5 @@
 import {ByTo, MovingType} from "../Configer/Enum";
-import {IBezierAction, IMovingAction} from "../Interfaces/IMovingAction";
+import {IMovingAction} from "../Interfaces/IMovingAction";
 import {AEasingV3Action} from "./AEasingV3Action";
 
 const {ccclass, property} = cc._decorator;
@@ -7,6 +7,12 @@ const {ccclass, property} = cc._decorator;
 @ccclass('EXTMovingHelper')
 abstract class EXTMovingHelper
 {
+    @property(
+        {
+            tooltip: "Mark this action to be reversed."
+        }
+    )
+    reverse: boolean = false;
     abstract generate(tween: cc.Tween<any>, option: IMovingAction): cc.Tween<any>;
 }
 
@@ -24,6 +30,7 @@ class EXTLinearMovingHelper extends EXTMovingHelper
                 tween.to(option.duration, {position: option.target}, {easing: option.easing})
                 break;
         }
+        if(this.reverse) tween.reverseTime();
         return tween;
     }
 }
@@ -48,14 +55,15 @@ class EXTBezierMovingHelper extends EXTMovingHelper
                 tween.bezierTo(option.duration, this.tempo_1, this.tempo_2, cc.v2(option.target))
                 break;
         }
+        if(this.reverse) tween.reverseTime();
         return tween;
-    
     }
 }
 
 @ccclass('EXTMovingAction')
 export default class EXTMovingAction extends AEasingV3Action
 {
+
 
     @property({ type: cc.Enum(MovingType) })
     _moving_type_: MovingType = MovingType.LINEAR;
@@ -67,6 +75,18 @@ export default class EXTMovingAction extends AEasingV3Action
         this.movement = this.movement_creator();
     }
 
+    @property(
+        {
+            type: EXTMovingHelper,
+            visible() 
+            {
+                return !!this.movement;
+            },
+            tooltip: "Determines how this action should be handled."
+        }
+    )
+    movement: EXTMovingHelper = this.movement_creator() 
+
     movement_creator()
     {
         switch(this._moving_type_)
@@ -77,17 +97,6 @@ export default class EXTMovingAction extends AEasingV3Action
                 return new EXTBezierMovingHelper();
         }
     }
-
-    @property(
-        {
-            type: EXTMovingHelper,
-            visible() 
-            {
-                return !!this.movement;
-            }
-        }
-    )
-    movement: EXTMovingHelper = this.movement_creator() 
 
     public generate(action: cc.Tween<any>): cc.Tween<any> 
     {

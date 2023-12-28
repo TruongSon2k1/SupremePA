@@ -1,4 +1,4 @@
-import {IAssertOption, sup} from "../../Support/Supporter";
+import {DefaultAssertOption, IAssertOption, sup} from "../../Support/Supporter";
 import {IBaseMasterClass} from "../Interface/IBaseMasterClass";
 
 export class BaseMasterClass implements IBaseMasterClass 
@@ -20,7 +20,7 @@ export class BaseMasterClass implements IBaseMasterClass
         console.error("[" + this._name_ + "] Error: ", params)
     }
 
-    assert(cond: boolean, option: IAssertOption = sup.console.default_option): boolean
+    assert(cond: boolean, option: IAssertOption = DefaultAssertOption): boolean
     {
         if(!cond)
         {

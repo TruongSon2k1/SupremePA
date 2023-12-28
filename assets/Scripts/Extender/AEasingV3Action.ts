@@ -1,4 +1,4 @@
-import {constant} from "../Configer/Constanst";
+import {constant} from "../CC_pTS/Constant/Constanst";
 import {AVec3Action} from "./AVec3Action";
 import {EasingAction} from "./EasingAction";
 
@@ -14,7 +14,7 @@ export abstract class AEasingV3Action extends AVec3Action implements EasingActio
     show_less: boolean = false;
 
     @property({type: [cc.String]})
-    _list_: string[] = []
+    _list_: string[] = [];
     @property({type: [cc.String], visible() { return !this.show_less }})
     get easing_list()
     {

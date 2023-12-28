@@ -31,6 +31,38 @@ export function fm_quick_reg_to(abstract_parent: string): ClassDecorator
     }
 }
 
+/**
+ * @description 
+ * Provide a very fast way to make this class as a singleton class.
+ *
+ * @param {Function} target The contructor function
+ *
+ * @example
+ * ```
+ *
+ * [@mark_singleton
+ * export class TestSingleton
+ * {
+ *      protected _test_: number = 10;
+ * }
+ *
+ * TestSingleton['instance']()          //< Get the singleton instance.
+ *
+ * Instance(TestSingleton)              //< Better way to get the singleton instance. Make sure imported the `Instance` function.
+ *
+ * ```
+ */
+export function mark_singleton(target: Function)
+{
+    target['_instance_'] = null;
+    target['instance'] = function ()
+    {
+        //@ts-ignore
+        if(!target['_instance_']) target['_instance_'] = new target();
+        return target['_instance_']
+    }
+}
+
 export function readonly(target: any, key: string, descriptor: PropertyDescriptor)
 {
     descriptor.writable = false;
@@ -47,3 +79,5 @@ export function force_override(target: any, key: string, descriptor: PropertyDes
 
     return descriptor;
 }
+
+

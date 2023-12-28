@@ -1,5 +1,5 @@
+import {BaseMasterComponent} from "../../CC_pTS/ExpertComponent/BaseMasterComponent";
 import {StartUpMode} from "../../Configer/Enum";
-import {BaseMasterComponent} from "../../ExpertComponent/BaseMasterComponent";
 
 const {ccclass, property, executeInEditMode} = cc._decorator;
 
@@ -88,7 +88,6 @@ export abstract class FastComponent extends BaseMasterComponent
     }
 
     protected abstract _mechanic(): void;
-    abstract reverse(): void;
 
     private _executor(): void
     {

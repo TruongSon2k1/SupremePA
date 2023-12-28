@@ -161,8 +161,10 @@ export class Fraction implements IFractionLike
         }
         else 
         {
+            //@ts-ignore
             let deno = sup.other.is_boolean(denominator) ? sup.number.to_number(denominator) : denominator;
 
+            //@ts-ignore
             ret = new Fraction(numerator, deno);
 
             if(!ret.is_valid()) return Fraction.ONE;

@@ -1,4 +1,3 @@
-import {constant} from "../../../Configer/Constanst";
 import {IQuickFactoryManager} from "../../../Interfaces/IQuickFactoryManager";
 import {FactoryManager} from "../../../pTS/Factory/FactoryManager";
 import {fm_quick_reg} from "../../../pTS/Support/Decorators";

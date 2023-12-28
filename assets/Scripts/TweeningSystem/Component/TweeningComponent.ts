@@ -1,14 +1,16 @@
-import {BaseMasterComponent} from "../../ExpertComponent/BaseMasterComponent";
+import {BaseMasterComponent} from "../../CC_pTS/ExpertComponent/BaseMasterComponent";
 import {TSBackendManager} from "../Core/Root/TSBackendManager";
 import {TSEditorManager} from "../Editor/Root/TSEditorManager";
 import {TSInformator} from "../Helper/TSInformator";
+import {ITweeningComponent} from "./ITweeningComponent";
 
-const {ccclass, property, executeInEditMode, menu} = cc._decorator;
+const {ccclass, property, executeInEditMode, menu, inspector, playOnFocus} = cc._decorator;
 
 @ccclass
 @executeInEditMode
+@playOnFocus
 @menu('ExpertComponent/TweeningComponent')
-export class TweeningComponent extends BaseMasterComponent
+export class TweeningComponent extends BaseMasterComponent implements ITweeningComponent
 {
     @property(TSInformator)
     information: TSInformator = new TSInformator();

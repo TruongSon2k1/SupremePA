@@ -1,5 +1,5 @@
-import {IBaseMasterClass} from "../pTS/Root/Interface/IBaseMasterClass";
-import {IAssertOption, sup} from "../pTS/Support/Supporter";
+import {IBaseMasterClass} from "../../pTS/Root/Interface/IBaseMasterClass";
+import {DefaultAssertOption, IAssertOption, sup} from "../../pTS/Support/Supporter";
 
 const {ccclass, property} = cc._decorator;
 
@@ -50,7 +50,7 @@ export abstract class BaseMasterComponent extends cc.Component implements IBaseM
         console.error("[" + this._name_ + "] Error: ", params)
     }
 
-    assert(cond: boolean, option: IAssertOption = sup.console.default_option)
+    assert(cond: boolean, option: IAssertOption = DefaultAssertOption)
     {
         if(!cond)
         {
