@@ -1,4 +1,4 @@
-import {global_callback} from "../pTS/Callback/GlobalCallback";
+import {GS} from "../pTS/Signal/GlobalSignal";
 import {sup} from "../pTS/Support/Supporter";
 import {NSPooling} from "./NSPooling";
 
@@ -48,18 +48,22 @@ export class NSCallerHelper
     target_amount: number = 1;
 
     @property()
-    id: string = sup['string'].uuid('NS', 'CH');
+    _id_: string = sup['string'].uuid('NS', 'CH');
+    @property()
+    set id(value: string)
+    {
+    }
 
-
-    @property(
-        {
-
-        }
-    )
+    @property()
     get refresh() { return false; }
     set refresh(value: boolean) 
     {
-        if(value) this.id = sup['string'].uuid('NS', 'CH');
+        if(value) this._auto_id();
+    }
+
+    _auto_id()
+    {
+        this.id = sup['string'].uuid('NS', 'CH');
     }
 
     @property(
@@ -81,7 +85,7 @@ export class NSCallerHelper
 
     init(func: Function, binder = null)
     {
-        global_callback.reg(this.id, func, binder);
+        GS.signal.fast({id: this.id, safe: true}, {callback: func, binder: binder, max_run_time: 0, order: 0})
 
         if(this.register_to_pool) NSPooling.instance().register(this);
     }

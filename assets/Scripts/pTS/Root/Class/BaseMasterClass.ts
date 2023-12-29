@@ -44,10 +44,12 @@ export class BaseMasterClass implements IBaseMasterClass
 
     constructor()
     {
+        this.__pre_init();
         this._name_ = sup.js.get_class_name(this);
         this.init();
     }
 
+    protected __pre_init() {};
     protected init() {}
 
 }

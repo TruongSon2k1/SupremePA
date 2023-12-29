@@ -1,21 +1,9 @@
+import {AntiDuplicateLevel, BaseMasterComponent} from "../CC_pTS/ExpertComponent/BaseMasterComponent";
+import {UniqueComponent} from "../CC_pTS/ExpertComponent/UniqueComponent";
+
 const {ccclass, property, executeInEditMode} = cc._decorator;
 
-export var g_vlt = 
-{
-        time_scale: 1
-};
 
-cc.director.calculateDeltaTime = function(now: number)
-{
-    if (!now) now = performance.now();
-
-    this._deltaTime = now > this._lastUpdate ? (now - this._lastUpdate) / 1000 : 0;
-    if (CC_DEBUG && (this._deltaTime > 1)) this._deltaTime = 1 / 60.0;
-
-    this._lastUpdate = now;
-
-    this._deltaTime *= g_vlt.time_scale;
-}
 
 enum FPSType
 {
@@ -53,6 +41,11 @@ class FPSConfig
     config()
     {
         if(this.type === FPSType.SYSTEM) return; 
+        if(this.name === "ALL")
+        {
+            cc.game.setFrameRate(this.fps);
+            return;
+        }
 
         if(cc.sys.platform === this._mark_)
         {
@@ -71,6 +64,14 @@ class FPSConfig
         ret._mark_ = target_platform;
         return ret;
     }
+
+    static all()
+    {
+        const ret = new FPSConfig();
+        ret.name = "ALL"
+        ret._mark_ = cc.sys.platform;
+        return ret;
+    }
 }
 export const CONST_FPS_LIST: FPSConfig[] = [
     FPSConfig.create('WINDOWN', cc.sys.WIN32) ,
@@ -82,6 +83,10 @@ export const CONST_FPS_LIST: FPSConfig[] = [
     FPSConfig.create('BLACK BERRY', cc.sys.BLACKBERRY ),
     FPSConfig.create('MOBILE BROWSER', cc.sys.MOBILE_BROWSER ),
     FPSConfig.create('DESKTOP BROWSER', cc.sys.DESKTOP_BROWSER ),
+]
+
+export const CONST_FPS_ALL: FPSConfig[] = [
+    FPSConfig.all()
 ]
 
 @ccclass('FPSDisplayer')
@@ -110,13 +115,21 @@ class FPSDisplayer
     {
         if(!this.label) return;
 
-        this.label.string = "FPS: " + Math.round(1/cc.director.getDeltaTime()).toString();
+        //this.label.string = "FPS: " + Math.round(1/cc.director.getDeltaTime()).toString();
+        this.label.string = `FPS: ${cc.game.config.frameRate}`
     }
 
     destroy()
     {
         this.label.node.removeFromParent()
     }
+}
+
+enum FPSConfigManagerType
+{
+    NONE,
+    ALL,
+    CUSTOM
 }
 
 @ccclass('FPSConfigManager')
@@ -141,12 +154,28 @@ class FPSConfigManager
     @property({type: FPSDisplayer, visible() { return this.fps_displayer }})
     fps_displayer: FPSDisplayer = null;
 
-    @property()
-    _enable_manager_: boolean = false;
+    @property({type: cc.Enum(FPSConfigManagerType)})
+    _manager_: FPSConfigManagerType = FPSConfigManagerType.NONE
 
-    @property()
-    get enable_manager(): boolean { this.setup_list(); return this._enable_manager_ }
-    set enable_manager(value: boolean) { this._enable_manager_ = value; }
+    @property({type: cc.Enum(FPSConfigManagerType)})
+    get manager_type(): FPSConfigManagerType { return this._manager_ }
+    set manager_type(value: FPSConfigManagerType)
+    {
+        if(value === this._manager_) return;
+        this._manager_ = value;
+        switch(value)
+        {
+            case FPSConfigManagerType.NONE:
+                this._list_ = []
+            return;
+            case FPSConfigManagerType.ALL:
+                this._list_ = CONST_FPS_ALL;
+            return;
+            case FPSConfigManagerType.CUSTOM:
+                this._list_ = CONST_FPS_LIST;
+            return;
+        }
+    }
 
     setup_list()
     {
@@ -162,7 +191,7 @@ class FPSConfigManager
     @property(
         {
             type: [FPSConfig],
-            visible() { return this.enable_manager }
+            visible() { return this.manager_type != FPSConfigManagerType.NONE }
         }
     ) 
     get list(): FPSConfig[] { return this._list_ }
@@ -174,7 +203,7 @@ class FPSConfigManager
                 GameMaster.instance.schedule(() => {this.fps_displayer.update()})
         }
 
-        if(this._enable_manager_)
+        if(this._manager_ != FPSConfigManagerType.NONE)
         {
             for(const ret of this._list_) ret.config();
         }
@@ -184,6 +213,18 @@ class FPSConfigManager
 @ccclass('GMConfiguration')
 export class GMConfiguration
 {
+    @property()
+    _time_scale_: number = 1;
+    @property(
+        {
+            min: 0,
+            step: 0.001,
+            tooltip: `Rescale the delta-time, which will make the game run faster or slower.
+                    \nDefault: 1`
+        }
+    )
+    get time_scale() { return this._time_scale_ }
+    set time_scale(value) { this._time_scale_ = value }
     @property(
         {
             type: FPSConfigManager
@@ -194,6 +235,7 @@ export class GMConfiguration
     init()
     {
         this.fpg_config.init();
+        cc.director.setTimeScale(this._time_scale_)
     }
 }
 
@@ -225,6 +267,7 @@ export class Physics2DManager
         this.collider_manager = cc.director.getCollisionManager();
 
         this.physics_2d_manager.enabled = true;
+        this.collider_manager.enabled = true;
 
         if(this.enalbe_debug_2d_physic) 
         {
@@ -235,7 +278,8 @@ export class Physics2DManager
                                                      cc.PhysicsManager.DrawBits['e_shapeBit']
         }
 
-        if(this.enable_debug_2d_collider) cc.director.getCollisionManager()
+       this.collider_manager.enabledDebugDraw = this.enable_debug_2d_collider; 
+       this.collider_manager.enabledDrawBoundingBox = this.enable_debug_2d_collider; 
     }
 
 }
@@ -304,8 +348,10 @@ export class PhysicsManager
 
 @ccclass
 @executeInEditMode
-export class GameMaster extends cc.Component 
+export class GameMaster extends BaseMasterComponent 
 {
+    protected anti_duplicate: AntiDuplicateLevel = AntiDuplicateLevel.SINGLETON;
+
     public static instance: GameMaster
 
     @property(GMConfiguration)
@@ -314,8 +360,9 @@ export class GameMaster extends cc.Component
     @property(PhysicsManager)
     physic: PhysicsManager = new PhysicsManager();
 
-    protected onLoad(): void 
+    onLoad(): void 
     {
+        super.onLoad();
         gm = GameMaster.instance = this;
         this.config.init();
         this.physic.init();
@@ -326,9 +373,6 @@ export class GameMaster extends cc.Component
         console.log(cc.game.step)
     }
 
-    protected update(dt: number): void {
-        //console.log()
-    }
 }
 
 export let gm: Readonly<GameMaster> = null;

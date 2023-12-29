@@ -1,14 +1,14 @@
 import {mark_cc_singleton} from "../CC_pTS/Support/CCDecorator";
-import {Instance} from "../pTS/Support/Functions";
 import {TEST2} from "./TEST2";
 
 const {ccclass, property} = cc._decorator;
 
 @ccclass
-@mark_cc_singleton
 export class TESTT extends cc.Component {
-    protected onLoad(): void {
-        Instance(TEST2).log("LM<AO")
+    @property(TEST2)
+    t: TEST2
+    protected onLoad(): void 
+    {
     }
     @property()
     num: number = 0

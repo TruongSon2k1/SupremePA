@@ -1,4 +1,5 @@
 import {FactoryManager} from "../Factory/FactoryManager"
+import {Instance} from "./Functions"
 import {sup} from "./Supporter"
 
 /**
@@ -7,11 +8,12 @@ import {sup} from "./Supporter"
  *
  * @returns {function} The function to quick register this abstract class to the FactoryManager.
  */
-export function fm_quick_reg() : ClassDecorator
+export function fm_quick_reg(class_type: boolean = false) : ClassDecorator
 {
     return function (target: any)
     {
-        FactoryManager.instance().register<typeof target>(sup.js.get_class_name(target))
+        if(class_type) Instance(FactoryManager).register<ClassType<typeof target>>(sup.js.get_class_name(target))
+        else Instance(FactoryManager).register<typeof target>(sup.js.get_class_name(target))
     }
 }
 
@@ -27,7 +29,7 @@ export function fm_quick_reg_to(abstract_parent: string): ClassDecorator
 {
     return function (target: any)
     {
-        FactoryManager.instance().get(abstract_parent).register(sup.js.get_class_name(target), target)
+        Instance(FactoryManager).get(abstract_parent).register(sup.js.get_class_name(target), target)
     }
 }
 

@@ -1,5 +1,9 @@
 import {CallbackManager} from "./CallbackManager";
 
+/**
+ * @deprecated Using `Signal` instead.
+ *
+ */
 export const global_callback =
 {
     container: new Map<string, CallbackManager>(),

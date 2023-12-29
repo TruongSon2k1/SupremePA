@@ -353,6 +353,11 @@ export const sup =
      */
     js:
     {
+        is_object(obj: any)
+        {
+            return obj instanceof Object || typeof obj === 'object';
+        },
+
         /**
          * @description
          * | Get the name of the object.

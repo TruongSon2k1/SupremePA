@@ -1,6 +1,7 @@
 import {IQuickFactoryManager} from "../../../Interfaces/IQuickFactoryManager";
 import {FactoryManager} from "../../../pTS/Factory/FactoryManager";
 import {fm_quick_reg} from "../../../pTS/Support/Decorators";
+import {Instance} from "../../../pTS/Support/Functions";
 import {TSRObject} from "../../Root/TSRObject";
 
 const {ccclass, property} = cc._decorator;
@@ -49,9 +50,12 @@ export abstract class TSAMechanic extends TSRObject
 export const _TSQMecha_: IQuickFactoryManager = 
 {
     string: "TSAMechanic",
-    creator: FactoryManager.instance().get<TSAMechanic>("TSAMechanic"),
+    creator: Instance(FactoryManager).get<ClassType<TSAMechanic>>("TSAMechanic"),
     generator: function (id: string) 
     {
-        return FactoryManager.instance().get<TSAMechanic>("TSAMechanic").generate(id);
+        const ret = Instance(FactoryManager).get<ClassType<TSAMechanic>>("TSAMechanic").generate(id)
+        //@ts-ignore
+        return new ret();
     }
 }
+

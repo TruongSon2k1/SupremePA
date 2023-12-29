@@ -1,20 +1,44 @@
-import {mark_cc_singleton} from "../CC_pTS/Support/CCDecorator";
+import {SchedulableObject} from "../CC_pTS/ExpertComponent/SchedulabelObject";
 
 const {ccclass, property} = cc._decorator;
 
-@ccclass
-@mark_cc_singleton
-export class TEST2 extends cc.Component {
+@ccclass('TestScheduler')
+export class TestScheduler extends SchedulableObject
+{
+    @property()
+    interval: number = 0
+
+    @property({type: cc.Integer})
+    repeat: number = cc.macro.REPEAT_FOREVER;
 
     @property()
-    num: number = 10
-    protected onLoad(): void 
+    delay: number = 0;
+
+    settup()
     {
-        console.log(">>", this.num);
+        this.schedule_once(this.test)
     }
 
-    log(str: string)
+    test()
     {
-        console.log(this, str)
+        console.log(this, "TEST")
+    }
+
+    update()
+    {
+        console.log(this, "UPDATING BY SCHEDULER")
     }
 }
+
+@ccclass
+export class TEST2 extends cc.Component 
+{
+    @property(TestScheduler)
+    x: TestScheduler = new TestScheduler()
+    protected start(): void {
+        this.x.settup()
+    }
+    
+}
+
+

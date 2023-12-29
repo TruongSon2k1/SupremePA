@@ -1,8 +1,19 @@
 import {mark_singleton} from "../../pTS/Support/Decorators";
 import {Instance} from "../../pTS/Support/Functions";
 
+
 class CCTween
 {
+    /**
+     * @description 
+     * | Get the main target of the given tween.
+     *
+     * @param {cc.Tween<T>} tween The target tween to get the target from.
+     *
+     * @returns {T} The target of the tween.
+     *
+     * @deprecated Using `tween.getTarger()` directly to get the target of the tween if using pTSEngine.
+     */
     get_target_from_tween<T>(tween: cc.Tween<T>): T
     {
         //@ts-ignore
@@ -56,6 +67,27 @@ class CCComponent
     }
 
     /**
+     *
+     *
+     */
+    count_component<T extends cc.Component>(scene: cc.Node | cc.Scene, type: ClassType<T> | string): number
+    {
+        var num: number = 0;
+        if(!(scene instanceof cc.Scene))
+        {
+            //@ts-ignore
+            num += scene.getComponents(type).length;
+        }
+
+        for(const ret of scene.children)
+        {
+            num += this.count_component(ret, type)
+        }
+
+        return num;
+    }
+
+    /**
      * @description
      * | Get the component of a node or component.
      * | If there is no matching component, automatically add one.
@@ -74,6 +106,13 @@ class CCComponent
         //
         if(!comp) comp = node.addComponent(type);
         return comp
+    }
+
+    find_root_node(node: cc.Node): cc.Node 
+    {
+        const papa = node.parent;
+        if(papa) return this.find_root_node(papa);
+        return node;
     }
 }
 

@@ -17,7 +17,8 @@ export abstract class TSRObject extends BaseMasterClass
     @property(
         {
             visible() { return this._description_ },
-            tooltip: "A short description about this object."
+            tooltip: "A short description about this object.",
+            multiline: true
         }
     )
     get description() { return this._description_; }

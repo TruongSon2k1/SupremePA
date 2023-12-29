@@ -4,22 +4,21 @@ import {TSAMechanic, _TSQMecha_} from "../../Core/Mechanic/TSAMechanic";
 const {ccclass, property} = cc._decorator;
 
 @fm_quick_reg_to(_TSQMecha_.string)
-@ccclass("TSMDelay")
-export class TSMDelay extends TSAMechanic
+@ccclass('TSMSelfLog')
+export class TSMSelfLog extends TSAMechanic
 {
-    @property({min: 0})
-    amount_of_time: number = 0;
-
-    _description_: string = "Delay amount of time.";
+    @property()
+    custom_string: string = ""
 
     get duration(): number 
     {
-        return this.amount_of_time;
+        return 0;
     }
 
     protected generator(action: cc.Tween<any>): cc.Tween<any> 
     {
-        return action.delay(this.amount_of_time)
+        action.call(() => { console.log(this.custom_string, action.getTarget().getPosition()) });
+        return action;
     }
+    _description_: string = "Invoke a custom log message to the console.";
 }
-

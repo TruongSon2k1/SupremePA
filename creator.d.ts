@@ -2018,6 +2018,12 @@ declare namespace cc {
 		@param target target 
 		*/
 		target(target: any): Tween<T>;		
+
+                /**
+                 * @description
+                 * | Get the target of this tween action.
+                 */
+                getTarget(): T;
 		/**
 		!#en
 		Start this tween
@@ -3041,6 +3047,20 @@ declare namespace cc {
 		@param glPoint glPoint 
 		*/
 		convertToUI(glPoint: Vec2): Vec2;		
+
+                /**
+                 * @description
+                 * | Apply a new value for the time scale.
+                 * | This should > 0
+                 */
+                setTimeScale(value: number): void;
+
+                /**
+                 * @description
+                 * | Get the current time-scale.
+                 */
+                getTimeScale(): number;
+
 		/**
 		End the life of director in the next frame 
 		*/

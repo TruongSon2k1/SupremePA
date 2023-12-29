@@ -19,7 +19,7 @@ export class BaseMasterFactory<T> extends BaseMasterClass
 
             return null;
         }
-        return new it();
+        return it;
     }
 
     /**
@@ -28,7 +28,7 @@ export class BaseMasterFactory<T> extends BaseMasterClass
      * | Make sure the `id` is an unique one which mean, no `object` that registered with that id before.
      *
      */
-    public register(id: string, creator: new () => T)
+    public register(id: string, creator:  T)
     {
         if(this.assert(!this._creator_.has(id),
                     {
@@ -42,10 +42,11 @@ export class BaseMasterFactory<T> extends BaseMasterClass
 
     protected init()
     {
-        this._creator_ = new Map<string, new () => T>();
+        this._creator_ = new Map<string, T>();
     }
 
-    private _creator_: Map<string, new () => T>;
+    private _creator_: Map<string, T>;
     public get get() { return this._creator_ }
 
 }
+

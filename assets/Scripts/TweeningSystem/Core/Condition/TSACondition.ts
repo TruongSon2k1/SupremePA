@@ -1,6 +1,7 @@
 import {IQuickFactoryManager} from "../../../Interfaces/IQuickFactoryManager";
 import {FactoryManager} from "../../../pTS/Factory/FactoryManager";
 import {fm_quick_reg} from "../../../pTS/Support/Decorators";
+import {Instance} from "../../../pTS/Support/Functions";
 import {ExecutionType, RuntimeType} from "../../Helper/TSEnum";
 import {TSRObject} from "../../Root/TSRObject";
 import {TSAConditionExecutor, TSANormalConditionExecutor, TSAOverloadingExecutor} from "./TSAConditionExecutor";
@@ -110,8 +111,10 @@ export abstract class TSACondition extends TSRObject
 export const _TSQCond_: IQuickFactoryManager = 
     {
         string: "TSACondition",
-        creator: FactoryManager.instance().get<TSACondition>("TSACondition"),
+        creator: Instance(FactoryManager).get<ClassType<TSACondition>>("TSACondition"),
         generator: function (id: string) {
-            return FactoryManager.instance().get<TSACondition>("TSACondition").generate(id);
+            const ret = Instance(FactoryManager).get<ClassType<TSACondition>>("TSACondition").generate(id);
+            //@ts-ignore
+            return new ret();
         }
     }

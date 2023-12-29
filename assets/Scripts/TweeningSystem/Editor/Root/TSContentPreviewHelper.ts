@@ -13,7 +13,7 @@ export class TSContentPreviewHelper
     @property()
     get name() { return this._name_; }
 
-    @property()
+    @property({ multiline: true })
     get description() { return this._description_; }
 
     @property()

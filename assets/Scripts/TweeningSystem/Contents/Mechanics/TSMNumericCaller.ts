@@ -1,5 +1,5 @@
-import {CallbackManager} from "../../../pTS/Callback/CallbackManager";
-import {global_callback} from "../../../pTS/Callback/GlobalCallback";
+import {GS} from "../../../pTS/Signal/GlobalSignal";
+import {SignalManager} from "../../../pTS/Signal/SignalManager";
 import {fm_quick_reg_to} from "../../../pTS/Support/Decorators";
 import {TSAMechanic, _TSQMecha_} from "../../Core/Mechanic/TSAMechanic";
 
@@ -26,21 +26,22 @@ export class TSMNumericCaller extends TSAMechanic
 
     protected generator(action: cc.Tween<any>): cc.Tween<any> 
     {
-        let arr: CallbackManager[] = []
-        for(const ret of this.ids)
-        {
-            const t = global_callback.get(ret);
-            if (t) arr.push(t);
-        }
-
         action.call( () =>
         {
+        let arr: SignalManager[] = []
+        for(const ret of this.ids)
+        {
+            //const t = global_callback.get(ret);
+            const t = GS.signal.get({id: ret, safe: true});
+            console.log(t)
+            if (t) arr.push(t);
+        }
             for (const ret of arr) {
-                ret.invoke(this.amount)
+                ret.execute(this.amount)
             }
         })
         return action;
     }
 
-    _description_: string = "...";
+    _description_: string = `Increase amount of a 'NSCallerHelper' registered with the given id.`;
 }

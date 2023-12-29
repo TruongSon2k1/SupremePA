@@ -1,5 +1,6 @@
 import {IBaseMasterClass} from "../../pTS/Root/Interface/IBaseMasterClass";
 import {DefaultAssertOption, IAssertOption, sup} from "../../pTS/Support/Supporter";
+import {cc_support} from "../Support/CCSupporter";
 
 const {ccclass, property} = cc._decorator;
 
@@ -10,6 +11,13 @@ export enum CleanerMode
     OWNING_NODE
 }
 
+export enum AntiDuplicateLevel
+{
+    NONE,
+    CURRENT_NODE,
+    SINGLETON
+}
+
 @ccclass
 export abstract class BaseMasterComponent extends cc.Component implements IBaseMasterClass
 {
@@ -17,11 +25,12 @@ export abstract class BaseMasterComponent extends cc.Component implements IBaseM
         {
             readonly: true,
             tooltip: "This is an [anti-duplicate] Component, which mean one Node can not contain two or more of this.",
-            visible() { return !!this.anti_duplicate }
+            visible() { return this.anti_duplicate !== AntiDuplicateLevel.NONE },
+            type: cc.Enum(AntiDuplicateLevel)
 
         }
     )
-    protected anti_duplicate: boolean = false;
+    protected anti_duplicate: AntiDuplicateLevel = AntiDuplicateLevel.NONE;
 
     @property(
         {
@@ -86,11 +95,34 @@ export abstract class BaseMasterComponent extends cc.Component implements IBaseM
 
     protected anti_duplicate_function()
     {
-        this.assert(!this.anti_duplicate,
+        switch(this.anti_duplicate)
+        {
+            case AntiDuplicateLevel.CURRENT_NODE:
+                const components = this.getComponents(cc.Component);
+                for(const ret of components)
+                {
+                    if (ret != this && ret.constructor === this.constructor && ret.uuid != this.uuid) 
                     {
-                        mode: 'crash',
-                        message: "This Component named: " + this._name_ + " is marked as 'anti-duplicate', so please override the 'anti_duplicate_function()' method of it." 
-                    })
+                        this.warn('Detect duplicate Component!!')
+                        Editor.warn('Detect duplicate Component!!')
+                        this.destroy();
+                        return;
+                    }
+                }
+                return;
+            case AntiDuplicateLevel.SINGLETON:
+                if(!this.anti_duplicate) return;
+                const papa = cc_support.component.find_root_node(this.node)
+                if(cc_support.component.count_component(papa, sup.js.get_class_name(this)) > 1)
+                {
+
+                    this.warn('Detect duplicate Component in the whole world!!' )
+                    if(CC_EDITOR) Editor.warn('Detect duplicate Component in the whole world!!' )
+                    this.destroy();
+                }
+
+                return;
+        }
     }
 
 
