@@ -17,6 +17,12 @@ export class TSMNumericCaller extends TSAMechanic
     amount: number = 1;
 
     @property([cc.String])
+    get idz()
+    {
+        return GS.ids.get;
+    }
+
+    @property([cc.String])
     ids: string[] = [];
 
     get duration(): number 

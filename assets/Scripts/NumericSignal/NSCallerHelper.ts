@@ -48,11 +48,20 @@ export class NSCallerHelper
     target_amount: number = 1;
 
     @property()
-    _id_: string = sup['string'].uuid('NS', 'CH');
+    _id_: string = this._auto_id();
     @property()
     set id(value: string)
     {
+        if(value) 
+        {
+            GS.ids.remove(this._id_)        
+            GS.ids.register(value)
+            this._id_ = value;
+            Editor.log("???")
+            for(const ret of GS.ids.get) Editor.log(ret)
+        }
     }
+    get id() { return this._id_ }
 
     @property()
     get refresh() { return false; }
@@ -64,6 +73,7 @@ export class NSCallerHelper
     _auto_id()
     {
         this.id = sup['string'].uuid('NS', 'CH');
+        return this.id;
     }
 
     @property(

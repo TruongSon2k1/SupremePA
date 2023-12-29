@@ -27,14 +27,14 @@ class GlobalSignal extends BaseMasterClass
     {
         var sm = this.get(option);
         if(!sm) 
-        {
-            if(option.safe)
             {
-                sm = this.register(option.id);
+                if(option.safe)
+                {
+                    sm = this.register(option.id);
             }
             else 
-            {
-                this.warn(`There is no signal registered with id: ${option.id}`);
+                {
+                    this.warn(`There is no signal registered with id: ${option.id}`);
                 return;
             }
 
@@ -56,6 +56,19 @@ Instance(FactoryManager).register<string>('__GlobalSignal__');
 export const GS = 
 {
     signal: new GlobalSignal(),
-    pool: Instance(FactoryManager).get<string>("__GlobalSignal__")
+    pool: Instance(FactoryManager).get<string>("__GlobalSignal__"),
+    ids: {
+
+        register: function(id: string)
+        {
+            GS.pool.register(id, id)
+        },
+
+        remove: function(id: string)
+        {
+            GS.pool.remove(id);
+        },
+        get: Instance(FactoryManager).get<string>("__GlobalSignal__").array()
+    }
 }
 

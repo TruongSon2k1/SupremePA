@@ -45,8 +45,20 @@ export class BaseMasterFactory<T> extends BaseMasterClass
         this._creator_ = new Map<string, T>();
     }
 
+    public remove(id: string)
+    {
+        this._creator_.delete(id)
+    }
+
     private _creator_: Map<string, T>;
     public get get() { return this._creator_ }
 
+    public array(): T[]
+    {
+        let arr: T[] = []
+        this._creator_.forEach((v) => {arr.push(v)});
+
+        return arr;
+    }
 }
 

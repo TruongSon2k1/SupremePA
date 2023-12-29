@@ -17,7 +17,10 @@
         "__id__": 2
       },
       {
-        "__id__": 45
+        "__id__": 46
+      },
+      {
+        "__id__": 48
       }
     ],
     "_active": false,
@@ -320,7 +323,7 @@
       "__id__": 2
     },
     "_children": [],
-    "_active": true,
+    "_active": false,
     "_components": [
       {
         "__id__": 7
@@ -1128,14 +1131,21 @@
   },
   {
     "__type__": "PhysicsManager",
-    "_enable_2d_physic_": false,
-    "physic_2d": null,
+    "_enable_2d_physic_": true,
+    "physic_2d": {
+      "__id__": 45
+    },
     "_enable_3d_physic_": false,
     "physic_3d": null
   },
   {
+    "__type__": "Physics2DManager",
+    "enalbe_debug_2d_physic": true,
+    "enable_debug_2d_collider": true
+  },
+  {
     "__type__": "cc.Node",
-    "_name": "FPSCounter",
+    "_name": "New Node",
     "_objFlags": 0,
     "_parent": {
       "__id__": 1
@@ -1144,7 +1154,7 @@
     "_active": true,
     "_components": [
       {
-        "__id__": 46
+        "__id__": 47
       }
     ],
     "_prefab": null,
@@ -1158,8 +1168,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 144.51,
-      "height": 50.4
+      "width": 2160,
+      "height": 3840
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -1170,8 +1180,8 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        130.458,
-        1175.416,
+        360,
+        640,
         0,
         0,
         0,
@@ -1193,39 +1203,306 @@
     "_is3DNode": false,
     "_groupIndex": 0,
     "groupIndex": 0,
-    "_id": "097VcVPClHy4FkZexX/KA6"
+    "_id": "97sJQy70BJB7sRTMDFFYVc"
   },
   {
-    "__type__": "cc.Label",
+    "__type__": "9c0eapaoEBGzocBO68Zd1qQ",
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 45
+      "__id__": 46
+    },
+    "_enabled": true,
+    "anti_duplicate": 2,
+    "cleaner_mode": 0,
+    "radius": 64,
+    "_canvas_": {
+      "__id__": 39
+    },
+    "_id": "08hpCvvxNIZbAzTXnN7MQB"
+  },
+  {
+    "__type__": "cc.Node",
+    "_name": "COLLISION_MANAGER_DEBUG_DRAW",
+    "_objFlags": 0,
+    "_parent": {
+      "__id__": 1
+    },
+    "_children": [],
+    "_active": true,
+    "_components": [
+      {
+        "__id__": 49
+      },
+      {
+        "__id__": 50
+      }
+    ],
+    "_prefab": null,
+    "_opacity": 255,
+    "_color": {
+      "__type__": "cc.Color",
+      "r": 255,
+      "g": 255,
+      "b": 255,
+      "a": 255
+    },
+    "_contentSize": {
+      "__type__": "cc.Size",
+      "width": 0,
+      "height": 0
+    },
+    "_anchorPoint": {
+      "__type__": "cc.Vec2",
+      "x": 0.5,
+      "y": 0.5
+    },
+    "_trs": {
+      "__type__": "TypedArray",
+      "ctor": "Float64Array",
+      "array": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        1,
+        1,
+        1
+      ]
+    },
+    "_eulerAngles": {
+      "__type__": "cc.Vec3",
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    "_skewX": 0,
+    "_skewY": 0,
+    "_is3DNode": false,
+    "_groupIndex": 0,
+    "groupIndex": 0,
+    "_id": "a32YnIVIlDHoxE0nuNSZZY"
+  },
+  {
+    "__type__": "cc.Graphics",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 48
     },
     "_enabled": true,
     "_materials": [
       {
-        "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
+        "__uuid__": "a153945d-2511-4c14-be7b-05d242f47d57"
       }
     ],
-    "_srcBlendFactor": 770,
-    "_dstBlendFactor": 771,
-    "_string": "FPS: 60",
-    "_N$string": "FPS: 60",
-    "_fontSize": 40,
-    "_lineHeight": 40,
-    "_enableWrapText": true,
-    "_N$file": null,
-    "_isSystemFontUsed": true,
-    "_spacingX": 0,
-    "_batchAsBitmap": false,
-    "_styleFlags": 0,
-    "_underlineHeight": 0,
-    "_N$horizontalAlign": 0,
-    "_N$verticalAlign": 0,
-    "_N$fontFamily": "Arial",
-    "_N$overflow": 0,
-    "_N$cacheMode": 0,
-    "_id": "48QKuOu6FEEJypB0uvsBGn"
+    "_lineWidth": 2,
+    "_strokeColor": {
+      "__type__": "cc.Color",
+      "r": 0,
+      "g": 0,
+      "b": 0,
+      "a": 255
+    },
+    "_lineJoin": 2,
+    "_lineCap": 0,
+    "_fillColor": {
+      "__type__": "cc.Color",
+      "r": 255,
+      "g": 255,
+      "b": 255,
+      "a": 255
+    },
+    "_miterLimit": 10,
+    "_id": "day+SwRhlHDLMkQRqzLmhQ"
+  },
+  {
+    "__type__": "d534cfzCEhEkLyM2pCYbJG6",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 48
+    },
+    "_enabled": true,
+    "anti_duplicate": 0,
+    "cleaner_mode": 0,
+    "information": {
+      "__id__": 51
+    },
+    "editor": {
+      "__id__": 52
+    },
+    "_id": "a5QQOoEtxJxKbHJEI5mcR2"
+  },
+  {
+    "__type__": "TSInformator",
+    "details": "A NEW TWEENING COMPONENT",
+    "main": {
+      "__id__": 48
+    },
+    "silent_backend": true,
+    "conditon_type": 0,
+    "reset_type": 0,
+    "mechanic_execution_mode": 0
+  },
+  {
+    "__type__": "TSEditorManager",
+    "editor_mode": 3,
+    "condition": {
+      "__id__": 53
+    },
+    "mechanic": {
+      "__id__": 61
+    }
+  },
+  {
+    "__type__": "TSConditionEditor",
+    "_view_mode_": 2,
+    "_search_": "",
+    "_content_list_": [
+      {
+        "__id__": 54
+      },
+      {
+        "__id__": 55
+      }
+    ],
+    "list": [
+      {
+        "__id__": 56
+      }
+    ]
+  },
+  {
+    "__type__": "TSContentPreviewHelper",
+    "_description_": "Invoke after a certain duration delay.",
+    "_name_": "TSCAwait",
+    "add_me": false,
+    "add_confirm": false
+  },
+  {
+    "__type__": "TSContentPreviewHelper",
+    "_description_": "Invoked after reaching the certain amount of the target caller number.",
+    "_name_": "TSCNumericCaller",
+    "add_me": false,
+    "add_confirm": false
+  },
+  {
+    "__type__": "TSConditionPreviewObject",
+    "action": {
+      "__id__": 57
+    },
+    "remove": false,
+    "remove_confirm": false,
+    "index": 0
+  },
+  {
+    "__type__": "TSCNumericCaller",
+    "_runtime_type_": 0,
+    "_execution_type_": 0,
+    "runtimer": {
+      "__id__": 58
+    },
+    "executor": {
+      "__id__": 59
+    },
+    "numeric": {
+      "__id__": 60
+    },
+    "recirculate": false
+  },
+  {
+    "__type__": "TSACNormalRuntime",
+    "max_run_time": 1
+  },
+  {
+    "__type__": "TSANormalConditionExecutor"
+  },
+  {
+    "__type__": "NSCallerHelper",
+    "target_amount": 1,
+    "_id_": "4444444",
+    "register_to_pool": true
+  },
+  {
+    "__type__": "TSMechanicEditor",
+    "_view_mode_": 2,
+    "_search_": "",
+    "_content_list_": [
+      {
+        "__id__": 62
+      },
+      {
+        "__id__": 63
+      },
+      {
+        "__id__": 64
+      },
+      {
+        "__id__": 65
+      },
+      {
+        "__id__": 66
+      }
+    ],
+    "list": [
+      {
+        "__id__": 67
+      }
+    ]
+  },
+  {
+    "__type__": "TSContentPreviewHelper",
+    "_description_": "Delay amount of time.",
+    "_name_": "TSMDelay",
+    "add_me": false,
+    "add_confirm": false
+  },
+  {
+    "__type__": "TSContentPreviewHelper",
+    "_description_": "Apply a moving action.",
+    "_name_": "TSMoving",
+    "add_me": false,
+    "add_confirm": false
+  },
+  {
+    "__type__": "TSContentPreviewHelper",
+    "_description_": "Increase amount of a 'NSCallerHelper' registered with the given id.",
+    "_name_": "TSMNumericCaller",
+    "add_me": false,
+    "add_confirm": false
+  },
+  {
+    "__type__": "TSContentPreviewHelper",
+    "_description_": "Apply a scaling action.",
+    "_name_": "TSMScaling",
+    "add_me": false,
+    "add_confirm": false
+  },
+  {
+    "__type__": "TSContentPreviewHelper",
+    "_description_": "Invoke a custom log message to the console.",
+    "_name_": "TSMSelfLog",
+    "add_me": false,
+    "add_confirm": false
+  },
+  {
+    "__type__": "TSMechanicPreviewObject",
+    "action": {
+      "__id__": 68
+    },
+    "remove": false,
+    "remove_confirm": false,
+    "index": 0
+  },
+  {
+    "__type__": "TSMNumericCaller",
+    "active": true,
+    "bounding_targets": [],
+    "amount": 1,
+    "ids": []
   }
 ]
