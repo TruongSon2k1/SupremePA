@@ -26,5 +26,14 @@ export enum StartUpMode
     ENABLE, 
     ONLOAD_ENABLE,
     START_ENABLE 
-        
+}
+
+export namespace graphic
+{
+    export enum DrawMode
+    {
+        FILL_ONLY,
+        STROKE_ONLY,
+        BOTH
+    }
 }

@@ -1,12 +1,6 @@
 import {sup} from "../Support/Supporter";
 
-export interface IFractionLike
-{
-    numerator: number;                  //< The numerator of the fraction.
-    denominator: number;                //< The denominator of the fraction.
-}
-
-export function is_fraction_like(target: any): target is IFractionLike
+export function is_fraction_like(target: any): target is pTSMath.IFractionLike
 {
     return  (typeof target === 'object') &&
             ('numerator' in target && sup.number.is_number(target.numerator)) &&
@@ -23,7 +17,7 @@ export function is_fraction_like(target: any): target is IFractionLike
  * 
  * @author pTSern
  */
-export class Fraction implements IFractionLike
+export class Fraction implements pTSMath.IFractionLike
 {
     _numerator_: number;                        //< The numerator of the fraction.
     _denominator_: number;                      //< The denominator of the fraction.
@@ -60,7 +54,7 @@ export class Fraction implements IFractionLike
      * @param {number} denominator The denominator of the fraction.
      * 
      */
-    private constructor(numerator: IFractionLike | number , denominator?: number) 
+    private constructor(numerator: pTSMath.IFractionLike | number , denominator?: number) 
     {
         this._log_ = "[" + sup.js.get_class_name(this) + "]";
         
@@ -145,7 +139,7 @@ export class Fraction implements IFractionLike
      * k.to_string();                           //< Out put should be: `1/4`
      * ```
      */
-    public static create(numerator: IFractionLike | number, denominator: boolean | number = 1, short_cut: boolean = true): Fraction
+    public static create(numerator: pTSMath.IFractionLike | number, denominator: boolean | number = 1, short_cut: boolean = true): Fraction
     {
         let ret: Fraction;
 
@@ -185,7 +179,7 @@ export class Fraction implements IFractionLike
      * @param {number} decimal Decimal number that need to be converted to fraction.
      * @returns {IFractionLike} The Fraction converted from decimal.
      */
-    public static create_from_decimal(decimal: number): IFractionLike
+    public static create_from_decimal(decimal: number): pTSMath.IFractionLike
     {
         let numerator = decimal * this._max_decimal_length;
         const denominator = this._max_decimal_length;
@@ -495,7 +489,8 @@ export class Fraction implements IFractionLike
  * | Jump to `Fraction.create(...)` for details information.
  * 
  */
-export function fraction(numerator: IFractionLike | number, denominator: boolean | number = 1, short_cut: boolean = true): Fraction
+export function fraction(numerator: pTSMath.IFractionLike | number, denominator: boolean | number = 1, short_cut: boolean = true): Fraction
 {
     return Fraction.create(numerator, denominator, short_cut);
 }
+

@@ -83,6 +83,9 @@ export const sup =
 
     number:
     {
+        tiny: 1.0e-10,
+        maximum: 1.7976931348623157e+308,
+
         /**
          * @description
          * | Convert boolean or string variable to number.
@@ -344,7 +347,7 @@ export const sup =
         lcm(first: number, second: number)
         {
             return (first * second) / this.gcd(first, second);
-        }
+        },
     },
     
     /**
