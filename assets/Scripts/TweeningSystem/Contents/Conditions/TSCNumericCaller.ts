@@ -46,4 +46,14 @@ export class TSCNumericCaller extends TSACondition
     {
         this.numeric.call(amount);
     }
+
+    public e_updater(): void 
+    {
+        this.numeric.e_updater();        
+    }
+
+    destroy()
+    {
+        this.numeric.destroy();
+    }
 }

@@ -1,0 +1,25 @@
+{
+  "__type__": "cc.Material",
+  "_name": "DualBlurDown",
+  "_objFlags": 0,
+  "_native": "",
+  "_effectAsset": {
+    "__uuid__": "bb857877-8ddc-4c4d-9423-f4375a2eafae"
+  },
+  "_techniqueIndex": 0,
+  "_techniqueData": {
+    "0": {
+      "props": {
+        "offset": 5,
+        "resolution": {
+          "__type__": "cc.Vec2",
+          "x": 1920,
+          "y": 1080
+        }
+      },
+      "defines": {
+        "USE_TEXTURE": true
+      }
+    }
+  }
+}

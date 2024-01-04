@@ -7,12 +7,12 @@ const {ccclass, property} = cc._decorator;
 @ccclass('EXTMovingHelper')
 abstract class EXTMovingHelper
 {
-    @property(
-        {
-            tooltip: "Mark this action to be reversed."
-        }
-    )
-    reverse: boolean = false;
+    //@property(
+    //    {
+    //        tooltip: "Mark this action to be reversed."
+    //    }
+    //)
+    //reverse: boolean = false;
     abstract generate(tween: cc.Tween<any>, option: IMovingAction): cc.Tween<any>;
 }
 
@@ -30,7 +30,7 @@ class EXTLinearMovingHelper extends EXTMovingHelper
                 tween.to(option.duration, {position: option.target}, {easing: option.easing})
                 break;
         }
-        if(this.reverse) tween.reverseTime();
+        //if(this.reverse) tween.reverseTime();
         return tween;
     }
 }
@@ -55,7 +55,7 @@ class EXTBezierMovingHelper extends EXTMovingHelper
                 tween.bezierTo(option.duration, this.tempo_1, this.tempo_2, cc.v2(option.target))
                 break;
         }
-        if(this.reverse) tween.reverseTime();
+        //if(this.reverse) tween.reverseTime();
         return tween;
     }
 }
@@ -63,8 +63,6 @@ class EXTBezierMovingHelper extends EXTMovingHelper
 @ccclass('EXTMovingAction')
 export default class EXTMovingAction extends AEasingV3Action
 {
-
-
     @property({ type: cc.Enum(MovingType) })
     _moving_type_: MovingType = MovingType.LINEAR;
     @property({ type: cc.Enum(MovingType) })

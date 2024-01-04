@@ -103,9 +103,15 @@ export abstract class TSAEditorObject extends BaseMasterClass
         this.u_auto_add();
         this.u_auto_remove(this.list);
         this.u_auto_sort();
+        this.u_contents_update();
     }
 
     abstract u_auto_add(): void;
+
+    u_contents_update()
+    {
+        for(const ret of this.list) {ret.action.e_updater()}
+    }
 
     u_auto_sort()
     {
@@ -142,5 +148,14 @@ export abstract class TSAEditorObject extends BaseMasterClass
     {
         helper.filter(ret => ret.add_me && ret.add_confirm)
               .forEach(ret => this.add_action(ret, preview_targets, call_back))
+    }
+
+    /**
+     * @description
+     * | Only called at Editor mode.
+     */
+    destroy() 
+    {
+        for(const ret of this.list) ret.destroy();
     }
 }

@@ -9,7 +9,7 @@ const {ccclass, property, executeInEditMode, menu, inspector, playOnFocus} = cc.
 @ccclass
 @executeInEditMode
 @playOnFocus
-@menu('ExpertComponent/PackageTweeningComponent')
+//@menu('ExpertComponent/PackageTweeningComponent')
 @inspector('packages://pts-tween/inspector/tween_spector.js')
 export class PackageTweeningComponent extends BaseMasterComponent implements ITweeningComponent
 {

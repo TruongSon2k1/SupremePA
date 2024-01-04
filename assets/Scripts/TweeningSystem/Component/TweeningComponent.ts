@@ -4,7 +4,7 @@ import {TSEditorManager} from "../Editor/Root/TSEditorManager";
 import {TSInformator} from "../Helper/TSInformator";
 import {ITweeningComponent} from "./ITweeningComponent";
 
-const {ccclass, property, executeInEditMode, menu, inspector, playOnFocus} = cc._decorator;
+const {ccclass, property, executeInEditMode, menu, playOnFocus} = cc._decorator;
 
 @ccclass
 @executeInEditMode
@@ -49,6 +49,14 @@ export class TweeningComponent extends BaseMasterComponent implements ITweeningC
     onCollisionExit(other: cc.Collider, self: cc.Collider)
     {
         this._backend_.exit_collision(other, self)
+    }
+
+    protected pre_cleanup(): void 
+    {
+        if(CC_EDITOR)    
+        {
+            this.editor.destroy();
+        }
     }
 }
 

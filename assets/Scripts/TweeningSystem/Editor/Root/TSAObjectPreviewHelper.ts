@@ -16,4 +16,9 @@ export abstract class TSAObjectPreviewHelper
 
     @property( { type: cc.Integer } )
     index: number = 0;
+
+    destroy()
+    {
+        this.action.destroy()
+    }
 }

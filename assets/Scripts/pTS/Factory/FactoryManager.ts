@@ -1,5 +1,4 @@
 import {BaseMasterClass} from "../Root/Class/BaseMasterClass";
-import {mark_singleton} from "../Support/Decorators";
 import {BaseMasterFactory} from "./BaseMasterFactory";
 
 export class FactoryManager extends BaseMasterClass

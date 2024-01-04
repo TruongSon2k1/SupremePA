@@ -1,5 +1,5 @@
 import {GS} from "../pTS/Signal/GlobalSignal";
-import {sup} from "../pTS/Support/Supporter";
+import {str} from "../pTS/Support/STRING";
 import {NSPooling} from "./NSPooling";
 
 const {ccclass, property} = cc._decorator;
@@ -38,6 +38,14 @@ export class NSPasserHelper
 @ccclass('NSCallerHelper')
 export class NSCallerHelper 
 {
+    @property()
+    show_list: boolean = false;
+    @property({ visible() { return this.show_list;}, type: [cc.String] } )
+    get view_list()
+    {
+        return GS.pool.array();
+    }
+
     @property(
         {
             type: cc.Integer,
@@ -48,7 +56,7 @@ export class NSCallerHelper
     target_amount: number = 1;
 
     @property()
-    _id_: string = this._auto_id();
+    _id_: string = "";
     @property()
     set id(value: string)
     {
@@ -57,11 +65,12 @@ export class NSCallerHelper
             GS.ids.remove(this._id_)        
             GS.ids.register(value)
             this._id_ = value;
-            Editor.log("???")
-            for(const ret of GS.ids.get) Editor.log(ret)
         }
     }
-    get id() { return this._id_ }
+    get id() 
+    {
+        return this._id_ 
+    }
 
     @property()
     get refresh() { return false; }
@@ -72,7 +81,7 @@ export class NSCallerHelper
 
     _auto_id()
     {
-        this.id = sup['string'].uuid('NS', 'CH');
+        this.id = str.uuid('NS', 'CH');
         return this.id;
     }
 
@@ -87,11 +96,6 @@ export class NSCallerHelper
     _is_passed_: boolean = false;
 
     public get is_ready() { return this._is_passed_ }
-
-    constructor()
-    {
-        
-    }
 
     init(func: Function, binder = null)
     {
@@ -128,5 +132,28 @@ export class NSCallerHelper
     {
         if(this._is_passed_) return 1;
         return this.percent;
+    }
+
+
+    /**
+     * @description
+     * | Only called at Editor mode
+     */
+    e_updater() 
+    {
+        //if(CC_EDITOR) 
+        //{
+            
+        if(!this._id_) return;
+        GS.ids.register(this._id_)
+        
+
+        //}
+    }
+
+    destroy()
+    {
+        if(!this._id_) return;
+        GS.pool.remove(this._id_)
     }
 }

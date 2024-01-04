@@ -1,4 +1,5 @@
 import {SchedulableObject} from "../CC_pTS/ExpertComponent/SchedulabelObject";
+import {Fraction} from "../pTS/Math/Fraction";
 
 const {ccclass, property} = cc._decorator;
 
@@ -36,6 +37,8 @@ export class TEST2 extends cc.Component
     @property(TestScheduler)
     x: TestScheduler = new TestScheduler()
     protected start(): void {
+        const v = Fraction.create({numerator: 1, denominator: 2})
+        console.log(v)
         this.x.settup()
     }
     

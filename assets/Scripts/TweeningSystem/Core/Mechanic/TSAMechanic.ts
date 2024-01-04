@@ -45,6 +45,14 @@ export abstract class TSAMechanic extends TSRObject
     }
 
     protected abstract generator(action: cc.Tween<any>): cc.Tween<any>;
+
+    /**
+     * @description
+     * | Only run at Editor mode.
+     * | Some Mechanic need this to alway resign the data to the pool.
+     */
+    e_updater(dt: number = 0): void {  }
+    public destroy() {}
 }
 
 export const _TSQMecha_: IQuickFactoryManager = 

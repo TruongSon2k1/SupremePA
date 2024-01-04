@@ -1,4 +1,5 @@
 import {mark_singleton} from "../Support/Decorators";
+import {Instance} from "../Support/Functions";
 
 
 @mark_singleton
@@ -15,3 +16,4 @@ class MathSupport
     }
 }
 
+export const math = Instance(MathSupport);

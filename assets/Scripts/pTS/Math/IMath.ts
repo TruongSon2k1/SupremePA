@@ -1,6 +1,6 @@
 
-declare namespace pTSMath
-{
+//export namespace pTSMath
+//{
     export interface IVec2
     {
         x: number;
@@ -17,5 +17,5 @@ declare namespace pTSMath
         numerator: number;                  //< The numerator of the fraction.
         denominator: number;                //< The denominator of the fraction.
     }
-}
+//}
 

@@ -1,3 +1,4 @@
+import {pTSMath} from "../../pTS/Math/Fraction";
 import {GPCore} from "../Root/GPCore";
 import {GPCircle} from "./GPCircle";
 
@@ -79,7 +80,6 @@ export class GPBezier extends GPCore
 
     private __add_physic()
     {
-
     }
 
     private __destroy_physic()

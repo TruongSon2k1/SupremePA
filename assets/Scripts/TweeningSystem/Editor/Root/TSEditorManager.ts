@@ -52,4 +52,15 @@ export class TSEditorManager extends BaseMasterClass
                 break;
         }
     }
+
+    /**
+     * @description
+     * | Only called at Editor Mode
+     *
+     */
+    destroy()
+    {
+        this.condition.destroy();
+        this.mechanic.destroy();
+    }
 }

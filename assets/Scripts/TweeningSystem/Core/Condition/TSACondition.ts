@@ -104,8 +104,16 @@ export abstract class TSACondition extends TSRObject
     public abstract ctor(): void;
     public abstract update(dt: number): void;
 
+
     public enter_collision(other: cc.Collider, self: cc.Collider) {}
     public exit_collision(other: cc.Collider, self: cc.Collider) {}
+
+    /**
+     * @description
+     * | Only call at edtior mode.
+     */
+    public e_updater(dt: number = 0): void {}
+    public destroy() {}
 }
 
 export const _TSQCond_: IQuickFactoryManager = 

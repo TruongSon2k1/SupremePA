@@ -1,5 +1,6 @@
 import {IBaseMasterClass} from "../../pTS/Root/Interface/IBaseMasterClass";
-import {DefaultAssertOption, IAssertOption, sup} from "../../pTS/Support/Supporter";
+import {DefaultAssertOption, IAssertOption} from "../../pTS/Support/ISupport";
+import {js} from "../../pTS/Support/JS";
 import {cc_support} from "../Support/CCSupporter";
 
 const {ccclass, property} = cc._decorator;
@@ -16,6 +17,7 @@ export enum AntiDuplicateLevel
     NONE,
     CURRENT_NODE,
     SINGLETON
+
 }
 
 @ccclass
@@ -84,7 +86,7 @@ export abstract class BaseMasterComponent extends cc.Component implements IBaseM
     constructor()
     {
         super();
-        this._name_ = sup.js.get_class_name(this);
+        this._name_ = js.get_class_name(this);
     }
 
     onLoad(): void 
@@ -113,7 +115,7 @@ export abstract class BaseMasterComponent extends cc.Component implements IBaseM
             case AntiDuplicateLevel.SINGLETON:
                 if(!this.anti_duplicate) return;
                 const papa = cc_support.component.find_root_node(this.node)
-                if(cc_support.component.count_component(papa, sup.js.get_class_name(this)) > 1)
+                if(cc_support.component.count_component(papa, js.get_class_name(this)) > 1)
                 {
 
                     this.warn('Detect duplicate Component in the whole world!!' )
