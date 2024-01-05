@@ -58,6 +58,11 @@ export class TSBackendManager extends BaseMasterClass
         this.auto_invoke();
     }
 
+    public invoke()
+    {
+        this._tween_.start();
+    }
+
     enter_collision(other: cc.Collider, self: cc.Collider) { this.condition_manager.enter_collision(other, self) }
     exit_collision(other: cc.Collider, self: cc.Collider) { this.condition_manager.exit_collision(other, self) }
 

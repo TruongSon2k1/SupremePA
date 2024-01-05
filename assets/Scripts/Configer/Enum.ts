@@ -37,3 +37,9 @@ export namespace graphic
         BOTH
     }
 }
+
+export enum BezierCurvesType
+{
+    BEZIER,
+    QUAD
+}

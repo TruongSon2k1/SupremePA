@@ -4,19 +4,56 @@ import {TSEditorManager} from "../Editor/Root/TSEditorManager";
 import {TSInformator} from "../Helper/TSInformator";
 import {ITweeningComponent} from "./ITweeningComponent";
 
-const {ccclass, property, executeInEditMode, menu, playOnFocus} = cc._decorator;
+const {ccclass, property, executeInEditMode, menu, playOnFocus, help} = cc._decorator;
 
 @ccclass
 @executeInEditMode
 @playOnFocus
 @menu('ExpertComponent/TweeningComponent')
+@help('https://github.com/TSernXGamee/SupremePA/wiki#tweeningsystem')
 export class TweeningComponent extends BaseMasterComponent implements ITweeningComponent
 {
     @property(TSInformator)
     information: TSInformator = new TSInformator();
 
+    @property()
+    _is_testing_: boolean = false;
+    @property()
+    get test_this() { return this._is_testing_ }
+    set test_this(value: boolean) 
+    {
+        this._is_testing_ = value;
+        if(value) this._execute_test()
+        this._is_testing_ = false;
+    }
+
     @property(TSEditorManager)
     editor: TSEditorManager = new TSEditorManager();
+
+    _execute_test()
+    {
+        const ret = cc.instantiate(this.node)
+        const second = cc.instantiate(this.information.main)
+        this.node.parent.addChild(ret);
+        this.information.main.parent.addChild(second);
+        let tws = ret.getComponents(TweeningComponent);
+        for (const temp of tws) 
+        {
+            if (temp._is_testing_) 
+            {
+                temp.information.main = second;
+                temp.__TEST_API(ret);
+                return;
+            }
+        }
+    }
+
+    __TEST_API(ref: cc.Node)
+    {
+        const be = TSBackendManager.create(this)
+        be._tween_.delay(1).call( () => {ref.destroy()} ).removeSelf()
+        be.invoke();
+    }
 
     protected _backend_: TSBackendManager = null;
 

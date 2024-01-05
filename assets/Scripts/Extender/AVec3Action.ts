@@ -19,7 +19,21 @@ export abstract class AVec3Action
             type: cc.Enum(ByTo)
         }
     )
-    type: ByTo = ByTo.BY;
+    _type_: ByTo = ByTo.BY;
+    @property(
+        {
+            type: cc.Enum(ByTo)
+        }
+    )
+    get type() { return this._type_ }
+    set type(value) 
+    {
+        this._type_ = value
+        this.on_change_type();
+    }
+        
+    on_change_type() {}
+
 
     public abstract generate(action: cc.Tween<any>): cc.Tween<any>
 }

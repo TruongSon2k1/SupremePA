@@ -48,39 +48,22 @@ export abstract class BaseMasterComponent extends cc.Component implements IBaseM
 
     log(...params: any[]): void 
     {
-        console.log("[" + this._name_ + "] Log: ", params)
+        cc_support.console.log("[" + this._name_ + "] Log: ", params);
     }
 
     warn(...params: any[]): void 
     {
-        console.warn("[" + this._name_ + "] Warn: ", params)
+        cc_support.console.warn("[" + this._name_ + "] Warn: ", params);
     }
 
     error(...params: any[]): void 
     {
-        console.error("[" + this._name_ + "] Error: ", params)
+        cc_support.console.error("[" + this._name_ + "] Error: ", params);
     }
 
     assert(cond: boolean, option: IAssertOption = DefaultAssertOption)
     {
-        if(!cond)
-        {
-            switch(option.mode)
-            {
-                case "crash":
-                    if (!CC_EDITOR) throw new Error(option.message);
-                    else Editor.error(option.message);
-                case "break":
-                    if(!CC_EDITOR) console.warn(option.message);
-                    else Editor.warn(option.message);
-                    debugger;
-                    break; 
-                case "warn":
-                    if(!CC_EDITOR) console.warn(option.message);
-                    else Editor.warn(option.message);
-                    break; 
-            }
-        }
+        cc_support.console.assert(cond, option);
     }
 
     constructor()

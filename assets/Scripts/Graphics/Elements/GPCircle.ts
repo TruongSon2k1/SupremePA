@@ -1,3 +1,4 @@
+import {cc_support} from "../../CC_pTS/Support/CCSupporter";
 import {GPCore} from "../Root/GPCore";
 
 const {ccclass, property, menu} = cc._decorator;
@@ -32,6 +33,26 @@ export class GPCircle extends GPCore
         this.gender()
     }
 
+    protected __generate_collider(): void 
+    {
+        cc_support.component.get_component(this.node, cc.CircleCollider).radius = this._rad_;
+    }
+
+    protected __destroy_collider(): void 
+    {
+        this.node.removeComponent(cc.CircleCollider);
+    }
+
+    protected __generate_physic(): void 
+    {
+        cc_support.component.get_component(this.node, cc.PhysicsCircleCollider).radius = this._rad_;
+    }
+
+    protected __destroy_physic(): void 
+    {
+        this.node.removeComponent(cc.PhysicsCircleCollider);
+        this.node.removeComponent(cc.RigidBody)
+    }
 
     draw(): void 
     {

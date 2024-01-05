@@ -66,8 +66,8 @@ Thumbs.db
 # Test
 #//////////////////////////
 
-packages\test-packages
-assets\Scripts\Test
+#packages\test-packages
+#assets\Scripts\Test
 
 #//////////////////////////
 # Scene

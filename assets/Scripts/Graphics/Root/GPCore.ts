@@ -14,6 +14,7 @@ export abstract class GPCore extends BaseMasterComponent
     {
         if(!this._graphic_) this._graphic_ = this.getComponent(cc.Graphics)
         if(!this._graphic_) this._graphic_ = this.addComponent(cc.Graphics)
+
         return this._graphic_
     }
     
@@ -30,6 +31,7 @@ export abstract class GPCore extends BaseMasterComponent
         }
     )
     updater: boolean = false;
+
     @property
     _type_: graphic.DrawMode = graphic.DrawMode.FILL_ONLY;
     @property(
@@ -43,6 +45,47 @@ export abstract class GPCore extends BaseMasterComponent
         this._type_ = value;
         this.gender();
     }
+
+    @property()
+    _enable_physic_helper_: boolean = false;
+    @property()
+    get enable_physic_helper() { return this._enable_physic_helper_ }
+    set enable_physic_helper(value: boolean)
+    {
+        this._enable_physic_helper_ = value;
+        if(value) return;
+        this.add_physic = false;
+        this.add_collider = false;
+    }
+
+    @property()
+    _add_physic_: boolean = false
+    @property({ visible() { return this.enable_physic_helper } })
+    get add_physic() { return this._add_physic_ }
+    set add_physic(value)
+    {
+        this._add_physic_ = value;
+        if(value) this.__generate_physic();
+        else this.__destroy_physic();
+    }
+
+    protected abstract __generate_physic(): void;
+    protected abstract __destroy_physic(): void;
+
+    @property()
+    _add_collider_: boolean = false
+    @property({ visible() { return this.enable_physic_helper } })
+    get add_collider() { return this._add_collider_ }
+    set add_collider(value)
+    {
+        this._add_collider_ = value
+        if(value) this.__generate_collider();
+        else this.__destroy_collider();
+    }
+
+    protected abstract __generate_collider(): void;
+    protected abstract __destroy_collider(): void;
+
     onLoad(): void 
     {
         if(CC_EDITOR)
@@ -74,6 +117,8 @@ export abstract class GPCore extends BaseMasterComponent
     {
         this.draw();
         this.color_up();
+        if(this._add_physic_) this.__generate_physic();
+        if(this._add_collider_) this.__generate_collider();
     }
 
     abstract draw(): void

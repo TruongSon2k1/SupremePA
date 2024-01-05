@@ -1,6 +1,58 @@
 import {mark_singleton} from "../../pTS/Support/Decorators";
 import {Instance} from "../../pTS/Support/Functions";
+import {DefaultAssertOption, IAssertOption} from "../../pTS/Support/ISupport";
 
+class CCConsole
+{
+    warn(...params: any[]): void 
+    {
+        if(CC_EDITOR) Editor.warn(...params, "");
+        else console.warn(...params);
+    }
+
+    error(...params: any[]): void 
+    {
+        if(CC_EDITOR) Editor.error(...params, "");
+        else console.error(...params);
+    }
+
+    log(...params: any[]): void
+    {
+        if(CC_EDITOR) Editor.log(...params, "");
+        else console.log(...params);
+    }
+
+    assert(cond: boolean, option: IAssertOption = DefaultAssertOption)
+    {
+        if(!cond)
+        {
+            switch(option.mode)
+            {
+                case "crash":
+                    if (!CC_EDITOR) throw new Error(option.message);
+                    else Editor.error(option.message);
+                case "break":
+                    if(!CC_EDITOR) console.warn(option.message);
+                    else Editor.warn(option.message);
+                    debugger;
+                    break; 
+                case "warn":
+                    if(!CC_EDITOR) console.warn(option.message);
+                    else Editor.warn(option.message);
+                    break; 
+            }
+        }
+    }
+}
+
+class CCNode
+{
+    tree(root: cc.Node, tab: string = ">")
+    {
+        cc_support.console.log(tab, root.name);
+        for(const ret of root.children) this.tree(ret, tab + ">");
+    }
+}
 
 class CCTween
 {
@@ -122,6 +174,8 @@ class CCSupporter
     tween: Readonly<CCTween> = new CCTween();
     editor: Readonly<CCEditor> = new CCEditor();
     component: Readonly<CCComponent> = new CCComponent();
+    console: Readonly<CCConsole> = new CCConsole();
+    node: Readonly<CCNode> = new CCNode();
 }
 
 export const cc_support = Instance(CCSupporter)

@@ -1,4 +1,6 @@
 import {ByTo, MovingType} from "../Configer/Enum";
+import {GPBezier} from "../Graphics/Elements/GPBezier";
+import {GPOneLine} from "../Graphics/Elements/GPOneLine";
 import {IMovingAction} from "../Interfaces/IMovingAction";
 import {AEasingV3Action} from "./AEasingV3Action";
 
@@ -13,12 +15,66 @@ abstract class EXTMovingHelper
     //    }
     //)
     //reverse: boolean = false;
+
+    @property({type: cc.Enum(ByTo)})
+    _byto_: ByTo = ByTo.BY;
+    set byto(value: ByTo) 
+    {
+        this._byto_ = value;
+        if(value === ByTo.BY) this.__disable_helper();
+    }
+
+    @property()
+    _enable_helper_: boolean = false;
+    @property()
+    get enable_helper() { return this._enable_helper_ }
+    set enable_helper(value: boolean) 
+    {
+        this._enable_helper_ = value;
+        if(value) this.__on_enable_helper();
+        else this.__disable_helper();
+
+    }
+
+    protected abstract __on_enable_helper(): void;
+    protected abstract __disable_helper(): void;
+
     abstract generate(tween: cc.Tween<any>, option: IMovingAction): cc.Tween<any>;
+    abstract e_updater(): void;
 }
 
 @ccclass('EXTLinearMovingHelper')
 class EXTLinearMovingHelper extends EXTMovingHelper
 {
+
+    @property(
+        {
+            type: GPOneLine
+        }
+    )
+    helper: GPOneLine = null;
+
+    protected __on_enable_helper(): void 
+    {
+        const node = new cc.Node('HELPER')
+    
+        this.helper = node.addComponent(GPOneLine)
+        cc.director.getScene().addChild(node)
+    }
+
+    protected __disable_helper(): void 
+    {
+        
+    }
+
+    e_updater(): void 
+    {
+        if(this.enable_helper && this.helper)
+        {
+        }
+    }
+
+
     generate(tween: cc.Tween<any>, option: IMovingAction): cc.Tween<any>
     {
         switch(option.type)
@@ -38,10 +94,26 @@ class EXTLinearMovingHelper extends EXTMovingHelper
 @ccclass('EXTBezierMovingHelper')
 class EXTBezierMovingHelper extends EXTMovingHelper
 {
-    @property()
+
+    protected __on_enable_helper(): void 
+    {
+
+    }
+
+    protected __disable_helper(): void 
+    {
+
+    }
+
+    e_updater(): void 
+    {
+
+    }
+
+    @property({displayName: "START"})
     tempo_1: cc.Vec2 = cc.v2()
 
-    @property()
+    @property({displayName: "MID"})
     tempo_2: cc.Vec2 = cc.v2()
 
     generate(tween: cc.Tween<any>, option: IMovingAction): cc.Tween<any>
@@ -63,6 +135,10 @@ class EXTBezierMovingHelper extends EXTMovingHelper
 @ccclass('EXTMovingAction')
 export default class EXTMovingAction extends AEasingV3Action
 {
+    on_change_type(): void 
+    {
+        this.movement.byto = this._type_;    
+    }
     @property({ type: cc.Enum(MovingType) })
     _moving_type_: MovingType = MovingType.LINEAR;
     @property({ type: cc.Enum(MovingType) })
@@ -104,6 +180,11 @@ export default class EXTMovingAction extends AEasingV3Action
                 target: this.target,
                 easing: this.easing
             })
+    }
+
+    e_updater()
+    {
+
     }
 
 }

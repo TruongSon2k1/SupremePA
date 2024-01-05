@@ -1,4 +1,3 @@
-import {cc_support} from "../../Scripts/CC_pTS/Support/CCSupporter";
 
 const { ccclass, property, playOnFocus, executeInEditMode } = cc._decorator;
 

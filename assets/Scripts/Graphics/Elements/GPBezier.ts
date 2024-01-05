@@ -1,63 +1,36 @@
-import {pTSMath} from "../../pTS/Math/Fraction";
-import {GPCore} from "../Root/GPCore";
+import {cc_support} from "../../CC_pTS/Support/CCSupporter";
+import {BezierCurvesType} from "../../Configer/Enum";
+import {IVec2} from "../../pTS/Math/IMath";
+import {math} from "../../pTS/Math/MathSupport";
+import {GPHelper, PhysicType} from "../Root/GPHelper";
 import {GPCircle} from "./GPCircle";
 
 const {ccclass, property, menu} = cc._decorator;
 
 @ccclass
 @menu('Graphic/Bezier')
-export class GPBezier extends GPCore
+export class GPBezier extends GPHelper 
 {
-    @property()
-    _enable_help_: boolean = false;
-    @property()
-    get enable_help() { return this._enable_help_; }
-    set enable_help(value: boolean) 
+
+    @property(
+        {
+            type: cc.Enum(BezierCurvesType)
+        }
+    )
+    curve_type: BezierCurvesType = BezierCurvesType.BEZIER;
+
+    protected __init_helper()
     {
-        this._enable_help_ = value;
-        if(value) this.__init_helper()
-            else this.__destroy_helper();
+        if(!this._sp_) this._sp_ = this.___gpcircle_creator("START", cc.Color.RED, this.node.convertToWorldSpaceAR(this._start_));
+        if(!this._mp_) this._mp_ = this.___gpcircle_creator("MID", cc.Color.GREEN, this.node.convertToWorldSpaceAR(this._mid_));
+        if(!this._ep_) this._ep_ = this.___gpcircle_creator("END", cc.Color.RED, this.node.convertToWorldSpaceAR(this._end_));
     }
 
-    __init_helper()
-    {
-        if(!this._sp_) this._sp_ = this.___gpcircle_creator("START", cc.Color.RED, this.node.parent.convertToWorldSpaceAR(this._start_));
-        if(!this._mp_) this._mp_ = this.___gpcircle_creator("MID", cc.Color.GREEN, this.node.parent.convertToWorldSpaceAR(this._mid_));
-        if(!this._ep_) this._ep_ = this.___gpcircle_creator("END", cc.Color.RED, this.node.parent.convertToWorldSpaceAR(this._end_));
-    }
-
-    /**
-     * @param {string} name Name of the node.
-     * @param {cc.Color} color Color of the graphic.
-     * @param {cc.Vec2} init_pos The world init position.
-     *
-     * @private
-     */
-    private ___gpcircle_creator(name: string, color: cc.Color, init_pos: cc.Vec2)
-    {
-        let node = new cc.Node(name);
-        const gp = node.addComponent(GPCircle);
-
-        gp.graphic.fillColor = color;
-        gp.rad = 16;
-
-        this.node.parent.addChild(node)
-        node.setPosition(this.node.parent.convertToNodeSpaceAR(init_pos));
-        return gp;
-    }
-
-    __destroy_helper()
+    protected __destroy_helper()
     {
         this._sp_ = this.___gpcircle_destroyer(this._sp_)
         this._mp_ = this.___gpcircle_destroyer(this._mp_)
         this._ep_ = this.___gpcircle_destroyer(this._ep_)
-    }
-
-    private ___gpcircle_destroyer(gp: GPCircle)
-    {
-        gp.node.destroy()
-        gp.destroy();
-        return null;
     }
 
     @property( { type: GPCircle,} )
@@ -67,24 +40,15 @@ export class GPBezier extends GPCore
     @property( { type: GPCircle,} )
     _ep_: GPCircle = null;              //< END
 
-    @property()
-    _add_physic_: boolean = false;
-    @property()
-    get add_physic() { return this._add_physic_ }
-    set add_physic(value: boolean)
+    protected __generate_array_point(): IVec2[] 
     {
-        this._add_physic_ = value;
-        if(value) this.__add_physic();
-        else this.__destroy_physic();
-    }
-
-    private __add_physic()
-    {
-    }
-
-    private __destroy_physic()
-    {
-
+        switch(this.curve_type)
+        {
+            case BezierCurvesType.BEZIER:
+                return math.berize_curve(this.ps, this.pm, this.pe, this.physic_length);
+            case BezierCurvesType.QUAD:
+                return math.quad_curve(this.ps, this.pm, this.pe, this.physic_length);
+        }
     }
 
     @property()
@@ -96,6 +60,7 @@ export class GPBezier extends GPCore
     }
     set ps(value: cc.Vec2)
     {
+        if(this._start_ === value) return;
         this._start_ = value;    
         this.gender();
     }
@@ -109,6 +74,7 @@ export class GPBezier extends GPCore
     }
     set pm(value: cc.Vec2)
     {
+        if(this._mid_ === value) return;
         this._mid_ = value;    
         this.gender();
     }
@@ -122,6 +88,7 @@ export class GPBezier extends GPCore
     }
     set pe(value: cc.Vec2)
     {
+        if(this._mid_ === value) return;
         this._end_ = value;    
         this.gender();
     }
@@ -131,11 +98,20 @@ export class GPBezier extends GPCore
         const gp = this.graphic;
         gp.clear();
         gp.moveTo(this._start_.x,this._start_.y)
-        gp.bezierCurveTo(this._start_.x, this._start_.y, this._mid_.x, this._mid_.y, this._end_.x, this._end_.y);
+        switch(this.curve_type)
+        {
+            case BezierCurvesType.BEZIER:
+                gp.bezierCurveTo(this._start_.x, this._start_.y, this._mid_.x, this._mid_.y, this._end_.x, this._end_.y);
+                break;
+            case BezierCurvesType.QUAD:
+                gp.quadraticCurveTo(this._mid_.x, this._mid_.y, this._end_.x, this._end_.y)
+                break;
+        }
     }
 
     protected e_update(dt: number): void 
     {
+        this.node.setPosition(0, 0)
         if(this._sp_) this.ps = this._sp_.position(this.node) as cc.Vec2;
         if(this._ep_) this.pe = this._ep_.position(this.node) as cc.Vec2;
         if(this._mp_) this.pm = this._mp_.position(this.node) as cc.Vec2;
