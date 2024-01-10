@@ -124,13 +124,13 @@ class PointsPolygonGizmo extends Editor.Gizmo
     this._tool = this._root.group();
     const target = this.target;
 
-    const circles = [];
+    this._tool.circles = [];
     const lines = [];
 
     const getCircle = (i) => {
-      let circle = circles[i];
+      let circle = this._tool.circles[i];
       if (!circle) {
-        circles[i] = circle = this._tool.circle()
+        this._tool.circles[i] = circle = this._tool.circle()
           // 设置 fill 样式
           .fill({ color: 'rgba(0,128,255,0.8)' })
           // 设置点击区域，这里设置的是根据 fill 模式点击
@@ -144,6 +144,7 @@ class PointsPolygonGizmo extends Editor.Gizmo
       circle.type = 'circle';
       return circle;
     }
+
     Editor.log(this._tool)
 
 
@@ -169,7 +170,7 @@ class PointsPolygonGizmo extends Editor.Gizmo
       // 移动到节点位置
       this._tool.move(position.x, position.y);
       // 清除原来的点
-      circles.forEach(v => v.radius(0));
+      this._tool.circles.forEach(v => v.radius(0));
       lines.forEach(v => v.plot(0, 0, 0, 0));
       // 画圆点
       points.map((v, i) => {
@@ -181,6 +182,8 @@ class PointsPolygonGizmo extends Editor.Gizmo
         circle.center(v.x, v.y).radius(8 * this._view.scale);
       })
     };
+
+      Editor.log("ZZ: ", this._tool.circles, lines)
   }
 
   onUpdate() {

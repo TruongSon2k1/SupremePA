@@ -14,7 +14,6 @@ export enum PhysicType
 @ccclass
 export abstract class GPHelper extends GPCore 
 {
-
     @property({type: cc.Integer, min: 1})
     physic_length: number = 10;
 

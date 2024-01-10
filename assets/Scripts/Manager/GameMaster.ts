@@ -1,5 +1,5 @@
 import {AntiDuplicateLevel, BaseMasterComponent} from "../CC_pTS/ExpertComponent/BaseMasterComponent";
-import {UniqueComponent} from "../CC_pTS/ExpertComponent/UniqueComponent";
+import {GPM} from "./PackageManager";
 
 const {ccclass, property, executeInEditMode} = cc._decorator;
 
@@ -370,7 +370,6 @@ export class GameMaster extends BaseMasterComponent
 
     protected start(): void 
     {
-        console.log(cc.game.step)
     }
 
 }

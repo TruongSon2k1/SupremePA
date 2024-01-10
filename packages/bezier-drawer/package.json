@@ -1,0 +1,11 @@
+{
+  "name": "bezier-drawer",
+  "version": "0.0.2",
+  "description": "Draw a bezier on the screen.",
+  "author": "pTSern",
+  "gizmos": {
+    "GPPBezier": "packages://bezier-drawer/main.js"
+  }
+}
+
+

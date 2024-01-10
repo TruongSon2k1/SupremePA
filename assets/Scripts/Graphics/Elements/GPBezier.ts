@@ -1,14 +1,16 @@
-import {cc_support} from "../../CC_pTS/Support/CCSupporter";
 import {BezierCurvesType} from "../../Configer/Enum";
 import {IVec2} from "../../pTS/Math/IMath";
 import {math} from "../../pTS/Math/MathSupport";
-import {GPHelper, PhysicType} from "../Root/GPHelper";
+import {GPHelper} from "../Root/GPHelper";
 import {GPCircle} from "./GPCircle";
 
 const {ccclass, property, menu} = cc._decorator;
 
+/**
+ * @deprecated Using `GPPBezier` for better performance.
+ */
 @ccclass
-@menu('Graphic/Bezier')
+//@menu('Graphic/Bezier')
 export class GPBezier extends GPHelper 
 {
 
@@ -45,9 +47,9 @@ export class GPBezier extends GPHelper
         switch(this.curve_type)
         {
             case BezierCurvesType.BEZIER:
-                return math.berize_curve(this.ps, this.pm, this.pe, this.physic_length);
+                return math.berize_curve({sp: this.ps, mp: this.pm, ep: this.pe}, this.physic_length);
             case BezierCurvesType.QUAD:
-                return math.quad_curve(this.ps, this.pm, this.pe, this.physic_length);
+                return math.berize_curve({sp: this.ps, mp: this.pm, ep: this.pe}, this.physic_length);
         }
     }
 

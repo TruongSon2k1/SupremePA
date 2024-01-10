@@ -36,6 +36,13 @@ export namespace graphic
         STROKE_ONLY,
         BOTH
     }
+
+    export enum ViewMode
+    {
+        EDITOR_ONLY,
+        PREVIEW_ONLY,
+        BOTH
+    }
 }
 
 export enum BezierCurvesType

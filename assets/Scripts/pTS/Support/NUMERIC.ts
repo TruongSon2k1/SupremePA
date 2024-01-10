@@ -29,7 +29,7 @@ class NUMERIC
 
     to_int(number: number)
     {
-        return number;
+        return Math.floor(number);
     }
     
     is_number(target: any): boolean
