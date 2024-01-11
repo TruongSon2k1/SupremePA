@@ -43,6 +43,7 @@ class BezierDrawer extends Editor.Gizmo
     onCreateMoveCallbacks() 
     {
         let click_point = null;
+
         return {
 
             /**
@@ -58,6 +59,11 @@ class BezierDrawer extends Editor.Gizmo
             {
                 y = this._view.offsetHeight - y;
                 click_point = null;
+                let position = cc.v2(x, y);
+                position = Editor.GizmosUtils.snapPixelWihVec2(position);
+                position = this._view.pixelToWorld(position);
+                position = this.node.convertToNodeSpaceAR(position);
+
             },
 
             /**
@@ -71,8 +77,9 @@ class BezierDrawer extends Editor.Gizmo
              */
             update: (dx, dy, event, param) => 
             {
+
                 const id = param.id;
-                const ret = this._tool[id]
+                const ret = this.target[id]
 
                 if(param.type === 'circle')
                 {
@@ -88,13 +95,12 @@ class BezierDrawer extends Editor.Gizmo
                     const dx_new = dx * cos_angle + dy * sin_angle;
                     const dy_new = -dx * sin_angle + dy * cos_angle;
 
-                    if(!click_point) { click_point = ret.ref.clone() }
+                    if(!click_point) { click_point = ret.clone() }
 
-                    ret.ref.x = round(click_point.x + dx_new)
-                    ret.ref.y = round(click_point.y + dy_new)
+                    ret.x = round(click_point.x + dx_new)
+                    ret.y = round(click_point.y + dy_new)
 
-                    this.target[id] = ret.ref;
-
+                    this.target[id] = ret;
                 }
             },
 
@@ -114,11 +120,21 @@ class BezierDrawer extends Editor.Gizmo
 
     onCreateRoot() 
     {
-        this._tool = this._root.group();
+        Editor.log("Created _root")
+        this._tool = this._root.group();                                                //< Making `svg` tool
 
-        const lines = [];
+        const lines = [];                                                               //< Array of lines which draws the bezier curve.
+        this._tool.select_node = this.node;
 
-        const get_circle = (id, ref) =>
+        /**
+         * @description
+         * | A function to create a svg circle.
+         *
+         * @param id {CircleID} The id of the color
+         * 
+         * @return circle
+         */
+        const get_circle = (id) =>
         {
             let color = 'rgba(255, 10, 10, 0.8)'
             if(id === CircleID.MID) color = 'rgba(100, 255, 100, 0.8)';
@@ -128,14 +144,23 @@ class BezierDrawer extends Editor.Gizmo
 
             this.registerMoveSvg(circle, circle, { cursor: 'move' })
             circle.id = id;
-            circle.ref = ref;
             return circle;
         }
 
-        this._tool[CircleID.START] = get_circle(CircleID.START, this.target.sp);
-        this._tool[CircleID.MID] = get_circle(CircleID.MID, this.target.mp);
-        this._tool[CircleID.END] = get_circle(CircleID.END, this.target.ep);
+        const obj = {}
 
+        obj[CircleID.START] = get_circle(CircleID.START);        //< Asign a new variable `sp` to the `this._tool`
+        obj[CircleID.MID] = get_circle(CircleID.MID);            //< Asign a new variable `mp` to the `this._tool`
+        obj[CircleID.END] = get_circle(CircleID.END);            //< Asign a new variable `ep` to the `this._tool`
+
+        /**
+         * @description
+         * | A function to create a svg line. 
+         *
+         * @param i {number} The index of the `lines` array.
+         *
+         * @returns line A svg line filled with color
+         */
         const get_line = (i) =>
         {
             let line = lines[i];
@@ -150,6 +175,10 @@ class BezierDrawer extends Editor.Gizmo
             return line;
         }
 
+        /**
+         * @description
+         * | A function to calculate the given coordinate(Vec2) to the Gizmo world axis.
+         */
         const calculate = (p) =>
         {
             let node = this.node;
@@ -166,17 +195,27 @@ class BezierDrawer extends Editor.Gizmo
             );
         }
 
+        /**
+         * @param id {CircleID} The id of the `this._tool` that need to be center.
+         * @param vec2 {cc.Vec2} The coordinates that need to be transformed to the Gizmo world axis to center the circle
+         */
+        this._tool.quick_pos = (id, vec2) =>
+        {
+            if(vec2 === undefined) return;
+            const p = calculate(vec2);
+            obj[id].center(p.x, p.y).radius(8 * this._view.scale)
+        }
+
         this._tool.plot = (id, pos, vec2) =>
         {
-            let t = this._tool;
-            let arr = array_bezier_curves(t[CircleID.START].ref, t[CircleID.MID].ref, t[CircleID.END].ref, jumper)
+            let target = this.target;
+            let arr = array_bezier_curves(target[CircleID.START], target[CircleID.MID], target[CircleID.END], jumper)
 
             this._tool.move(pos.x, pos.y);
-            this._tool[id].radius(0);
+            obj[id].radius(0);
             lines.forEach(v => v.plot(0, 0, 0, 0))
 
-            const v = calculate(vec2);
-            this._tool[id].center(v.x, v.y).radius(8 * this._view.scale)
+            this._tool.quick_pos(id, vec2);
 
             for(let i = 0; i < arr.length; i++)
             {
@@ -206,6 +245,7 @@ class BezierDrawer extends Editor.Gizmo
         this._tool.plot(CircleID.START, pos, target.sp);
         this._tool.plot(CircleID.MID, pos, target.mp);
         this._tool.plot(CircleID.END, pos, target.ep);
+
     }
 }
 

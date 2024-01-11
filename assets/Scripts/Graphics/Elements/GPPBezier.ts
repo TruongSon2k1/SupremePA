@@ -98,8 +98,7 @@ export class GPPBezier extends GPPCore implements IDrawer3P
         ps.points = []
 
         let arr = math.berize_curve(this, this.physic_jumper);
-        this.log(arr)
-        for(const ret of arr) { ps.points.push(cc.v2(ret.x, ret.y)) }
+        for(const ret of arr) { ps.points.push(cc.v2(ret)) }
     }
 
     protected __destroy_collider(): void 
