@@ -9,8 +9,8 @@ const {ccclass, property, executeInEditMode, menu, inspector, playOnFocus} = cc.
 @ccclass
 @executeInEditMode
 @playOnFocus
-//@menu('ExpertComponent/PackageTweeningComponent')
-@inspector('packages://pts-tween/inspector/tween_spector.js')
+@menu('ExpertComponent/PackageTweeningComponent')
+//@inspector('packages://pts-tween/inspector/tween_spector.js')
 export class PackageTweeningComponent extends BaseMasterComponent implements ITweeningComponent
 {
     @property(TSInformator)
@@ -20,6 +20,18 @@ export class PackageTweeningComponent extends BaseMasterComponent implements ITw
     editor: TSEditorManager = new TSEditorManager();
 
     protected _backend_: TSBackendManager = null;
+
+    @property()
+    get test_this() { return false }
+    set test_this(value: boolean) 
+    {
+        if(value) this.__execute_test()
+    }
+
+    __execute_test()
+    {
+        Editor.log(this.information.details, "<<<<<<<<<<<<")
+    }
 
     init()
     {

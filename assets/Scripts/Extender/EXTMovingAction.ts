@@ -1,6 +1,6 @@
 import {ByTo, MovingType} from "../Configer/Enum";
-import {GPBezier} from "../Graphics/Elements/GPBezier";
 import {GPOneLine} from "../Graphics/Elements/GPOneLine";
+import {GPPBezier} from "../Graphics/Elements/GPPBezier";
 import {IMovingAction} from "../Interfaces/IMovingAction";
 import {AEasingV3Action} from "./AEasingV3Action";
 
@@ -94,15 +94,46 @@ class EXTLinearMovingHelper extends EXTMovingHelper
 @ccclass('EXTBezierMovingHelper')
 class EXTBezierMovingHelper extends EXTMovingHelper
 {
+    
+    @property(
+        {
+            type: GPPBezier
+        }
+    )
+    helper: GPPBezier = null;
+
+    @property()
+    _node_: cc.Node = null;
+    @property(cc.Node)
+    get node() { return this._node_ }
+    set node(v: cc.Node) 
+    {
+        if(!v)
+            {
+                this._node_.removeFromParent(true); 
+                this.helper.destroy();
+                this.helper = null;
+            }
+
+        this._node_ = v 
+        if(CC_EDITOR)Editor.log(cc.director.getScene().childrenCount)
+    }
 
     protected __on_enable_helper(): void 
     {
-
+        this.node = new cc.PrivateNode('EXTBEzierMovingHelper')
+        this.helper = this._node_.addComponent(GPPBezier);
+        cc.director.getScene().addChild(this._node_)
+        const s = cc.view.getCanvasSize();
+        this._node_.setPosition(s.width/2, s.height/2)
+        if(CC_EDITOR)Editor.log(cc.director.getScene().childrenCount)
     }
 
     protected __disable_helper(): void 
     {
-
+        this.helper.destroy();
+        this.helper = null
+        this._node_.destroy();
     }
 
     e_updater(): void 
@@ -184,7 +215,7 @@ export default class EXTMovingAction extends AEasingV3Action
 
     e_updater()
     {
-
+        this.movement.e_updater();
     }
 
 }

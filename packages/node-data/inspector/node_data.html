@@ -1,0 +1,16 @@
+
+<cc-object-prop :target.sync="target.infor"></cc-object-prop>
+
+<div class="layout horizontal center">
+    <ui-button style="margin-bottom:20px;position:relative;top:10px;" class="blue small flex-1" @confirm="save_data" >Save Data</ui-button>
+    <div class="flex-3"></div>
+    <ui-button style="margin-bottom:20px;position:relative;top:10px;" class="blue small flex-1" @confirm="sync_data" v-disable="_ready_to_sync(target._infor_)">Sync Data</ui-button>
+</div>
+
+<div class="layout horizontal center">
+    <ui-input style="width:300px" paceholder="db://assets/..." @change="input_url"></ui-input>
+</div>
+
+<div class="layout horizontal center">
+    <ui-button style="margin-bottom:20px;position:relative;top:10px;" class="blue small flex-1" @confirm="to_json" >To JSon</ui-button>
+</div>

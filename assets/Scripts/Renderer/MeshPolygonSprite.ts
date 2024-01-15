@@ -293,4 +293,9 @@ export default class MeshPolygonSprite extends BaseMasterComponent
             material.setProperty('diffuseTexture', texture);
         }
     }
+
+    onRestore(): void {
+        this._updateMesh()
+        this._applyVertexes();
+    }
 }

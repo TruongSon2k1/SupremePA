@@ -1,0 +1,34 @@
+
+
+<ui-prop foldable="" name="Information" indent="0" tabindex="-1">
+    <div slot="child">
+        <ui-prop indent="1" tabindex="-1" name="Details">
+            <ui-input class="flex-1" tabindex="-1" @change"onChangeDetails" v-value="details"></ui-input>
+        </ui-prop>
+        <ui-prop indent="1" tabindex="-1" style="padding-top: 8px;" name="Main">
+            <ui-node class="flex-1" type="cc.Node" typename="Node" droppable="node,component" tabindex="-1"></ui-node>
+        </ui-prop>
+        <ui-prop indent="1" tabindex="-1" name="Silent Backend">
+            <ui-checkbox class="flex-1" checked="" tabindex="-1"></ui-checkbox>
+        </ui-prop>
+        <ui-prop indent="1" tabindex="-1">
+            <ui-select class="flex-1" tabindex="-1">
+                <option value="0">OR</option>
+                <option value="1">AND</option>
+            </ui-select>
+        </ui-prop>
+        <ui-prop indent="1" tabindex="-1">
+            <ui-select class="flex-1" tabindex="-1">
+                <option value="0">THIS</option>
+                <option value="1">ALL</option>
+            </ui-select>
+        </ui-prop>
+        <ui-prop indent="1" tabindex="-1">
+            <ui-select class="flex-1" tabindex="-1">
+                <option value="0">SEQUENCE</option>
+                <option value="1">QUERYING</option>
+            </ui-select>
+        </ui-prop>
+    </div>
+</ui-prop>
+<ui-button class="green" @confirm="do_test">Test</ui-button>

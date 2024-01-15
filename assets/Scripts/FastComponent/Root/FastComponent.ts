@@ -1,10 +1,11 @@
 import {BaseMasterComponent} from "../../CC_pTS/ExpertComponent/BaseMasterComponent";
 import {StartUpMode} from "../../Configer/Enum";
 
-const {ccclass, property, executeInEditMode} = cc._decorator;
+const {ccclass, property, executeInEditMode, playOnFocus} = cc._decorator;
 
 @ccclass
 @executeInEditMode
+@playOnFocus
 export abstract class FastComponent extends BaseMasterComponent
 {
     @property(

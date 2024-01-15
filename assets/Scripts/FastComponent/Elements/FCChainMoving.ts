@@ -5,6 +5,7 @@ const {ccclass, property, menu} = cc._decorator;
 
 @ccclass
 @menu('FastComponent/Chain/Moving')
+//@inspector('packages://fast-component/inspector/fast_comp.js')
 export default class FCChainMoving extends FCChainAction
 {
     @property(

@@ -1,0 +1,16 @@
+{
+  "name": "test-button",
+  "version": "0.0.1",
+  "description": "The package template for getting started.",
+  "author": "Cocos Creator",
+  "main": "main.js",
+  "main-menu": {
+  },
+  "panel": {
+    "main": "panel/index.js",
+    "type": "dockable",
+    "title": "test-button",
+    "width": 400,
+    "height": 300
+  }
+}

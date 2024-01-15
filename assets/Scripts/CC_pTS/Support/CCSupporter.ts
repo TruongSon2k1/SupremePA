@@ -79,6 +79,7 @@ class CCEditor
      * @description
      * | Refresh the editor's assets direction.
      * | This can talk a long time to refresh if the target direction is kinda big.
+     * | 'db://xx/yy'
      *
      * @param {string} dir The assets direction.
      */

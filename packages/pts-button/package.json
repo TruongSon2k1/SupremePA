@@ -1,0 +1,7 @@
+{
+  "name": "pts-button",
+  "version": "0.0.1",
+  "description": "A custom button.",
+  "author": "pTS",
+  "main": "main.js"
+}

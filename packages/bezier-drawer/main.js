@@ -234,6 +234,12 @@ class BezierDrawer extends Editor.Gizmo
         }
     }
 
+    visible()
+    {
+        if(this.node instanceof cc.PrivateNode) return true;
+        return this.selecting || this.editing;
+    }
+
     onUpdate() 
     {
         let target = this.target;

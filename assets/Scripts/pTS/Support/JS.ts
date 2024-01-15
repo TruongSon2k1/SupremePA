@@ -102,6 +102,11 @@ class JS
 
         return false;
     }
+
+    get_templat_type<T>(ctor: ConstructClass<T>)
+    {
+        return typeof (new ctor())
+    }
 }
 
 export const js: JS = Instance(JS)

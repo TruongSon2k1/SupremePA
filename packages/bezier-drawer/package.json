@@ -5,6 +5,7 @@
   "author": "pTSern",
   "gizmos": {
     "GPPBezier": "packages://bezier-drawer/main.js"
+
   }
 }
 
