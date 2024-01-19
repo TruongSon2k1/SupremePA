@@ -5,12 +5,6 @@
   "author": "Cocos Creator",
   "main": "main.js",
   "main-menu": {
-    "i18n:MAIN_MENU.package.title/test-button/open": {
-      "message": "test-button:open"
-    },
-    "i18n:MAIN_MENU.package.title/test-button/hello": {
-      "message": "test-button:say-hello"
-    }
   },
   "panel": {
     "main": "panel/index.js",

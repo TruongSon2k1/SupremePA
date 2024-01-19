@@ -1,3 +1,5 @@
+import {cc_support} from "../Support/CCSupporter";
+
 const {ccclass, property} = cc._decorator;
 
 export interface INodeInformation
@@ -31,31 +33,84 @@ export class Node2DInformation implements INodeInformation
     @property({ readonly: true, type: cc.Color })
     color: cc.Color = cc.Color.WHITE
 
-    @property({ readonly: true })
-    get opacity() { return this.color.a }
-    set opacity(value: number) { this.color.a = value }
+    @property({ readonly: true, visible: false })
+    _opacity_: number = 255;
+    @property()
+    get opacity() { this.color.a = this._opacity_; return this._opacity_ }
     
-    static create(node: cc.Node)
+    static create(node: cc.Node | INodeInformation)
     {
         const ret = new Node2DInformation()
-        ret.position = cc.v2(node.position);
-        ret.color = node.color;
-        ret.rotation = node.angle;
-        ret.scale = cc.v2(node.scaleX, node.scaleY)
-        ret.size = node.getContentSize();
-        ret.is3d = false;
 
+        ret.set(node);
         return ret;
     }
 
-    sync(node: cc.Node)
+    json_replacer: JSonReplacer = (key: string, value: any) => 
     {
+        if(key === 'color')
+        {
+            return { r: value.r, g: value.g, b: value.b, a: value.a  }
+        }
+        return value;
+    }
+
+    static json_reviver: JSonReviver = (key: string, value: any) =>
+    {
+        if(key === 'position') return cc.v2(value.x, value.y);
+        if(key === 'scale') return cc.v2(value.x, value.y)
+        if(key === 'color') return cc.color(value.r, value.g, value.b)
+        if(key === 'size') return cc.size(value.width, value.height);
+
+        return value;
+    }
+
+    set(node: cc.Node | INodeInformation)
+    {
+        this.position = cc.v2(node.position);
+        this.is3d = false;
+
+        this._opacity_ = node.opacity;
+        if(node instanceof cc.Node)
+        {
+            this.rotation = node.angle;
+            this.scale = cc.v2(node.scaleX, node.scaleY)
+            this.size = node.getContentSize();
+            this.color = node.color;
+            this.color.a = this._opacity_;
+            return;
+        }
+
+        this.rotation = node.rotation;
+        this.scale = cc.v2(node.scale.x, node.scale.y);
+        //@ts-ignore
+        const nc = node.color;
+        this.color = new cc.Color(nc.r, nc.g, nc.b);
+        Editor.log(this.color)
+        this.color.a = this._opacity_;
+        this.size = cc.size(node.size.width, node.size.height);
+    }
+
+    from_json(object: any)
+    {
+        this.set(object as INodeInformation);
+    }
+
+    sync(node: cc.Node, force: boolean = false)
+    {
+        if (force) {
+            if(this.is3d != node.is3DNode){
+                node.is3DNode = false
+                this.is3d = false
+            }
+        }
         node.position = cc.v3(this.position);
         node.angle = this.rotation;
         node.setContentSize(this.size);
         node.scaleX = this.scale.x;
         node.scaleY = this.scale.y
         node.color = this.color;
+        node.opacity = this._opacity_;
     }
 
 }
@@ -72,21 +127,62 @@ export class Node3DInformation extends Node2DInformation
     @property({ readonly: true, override: true, type: cc.Vec3 })
     scale: cc.Vec3 = cc.v3()
 
-    static create(node: cc.Node)
+    static create(node: cc.Node | INodeInformation)
     {
         const ret = new Node3DInformation()
-        ret.position = node.position;
-        ret.color = node.color;
-        ret.rotation = node.eulerAngles;
-        ret.scale = cc.v3(node.scaleX, node.scaleY, node.scaleZ)
-        ret.size = node.getContentSize();
-        ret.is3d = true;
+        ret.set(node);
 
         return ret;
     }
 
-    sync(node: cc.Node)
+    set(node: cc.Node | INodeInformation)
     {
+
+        this.position = cc.v3(node.position);
+        this.is3d = true;
+        this._opacity_ = node.opacity;
+
+        if(node instanceof cc.Node)
+        {
+            this.rotation = node.eulerAngles;
+            this.scale = cc.v3(node.scaleX, node.scaleY)
+            this.size = node.getContentSize();
+            this.color = node.color;
+            this.color.a = this._opacity_;
+            return;
+        }
+
+        this.rotation = cc.v3(node.rotation);
+
+        //@ts-ignore
+        this.scale = cc.v3(node.scale.x, node.scale.y, node.scale.z);
+
+        //@ts-ignore
+        this.color = cc.color(nc.r, nc.g, nc.b);
+        this.color.a = this._opacity_;
+        this.size = cc.size(node.size.width, node.size.height);
+    }
+
+    static json_reviver: JSonReviver = (key: string, value: any) =>
+    {
+        if(key === 'position') return cc.v3(value.x, value.y, value.z);
+        if(key === 'scale') return cc.v3(value.x, value.y, value.z)
+        if(key === 'color') return cc.color(value.r, value.g, value.b)
+        if(key === 'size') return cc.size(value.width, value.height);
+        if(key === 'rotation') return cc.v3(value.x, value.y, value.z)
+
+        return value;
+    }
+
+    sync(node: cc.Node, force: boolean = false)
+    {
+        if(force){
+            if(this.is3d != node.is3DNode){
+                this.is3d = true
+                node.is3DNode = true
+            }
+        }
+
         node.position = this.position;
         node.eulerAngles = this.rotation;
         node.setContentSize(this.size);
@@ -96,5 +192,6 @@ export class Node3DInformation extends Node2DInformation
         node.scaleZ = this.scale.z
 
         node.color = this.color;
+
     }
 }

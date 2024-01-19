@@ -114,6 +114,8 @@ export class GPPBezier extends GPPCore implements IDrawer3P
         g.moveTo(this.sp.x, this.sp.y);
 
         g.bezierCurveTo(this.sp.x, this.sp.y, this.mp.x, this.mp.y, this.ep.x, this.ep.y);
+
+
     }
 
 

@@ -1,0 +1,19 @@
+{
+  "name": "node-data-html",
+  "version": "0.0.1",
+  "description": "A Panel that help to control the Node data.",
+  "author": "pTS",
+  "main-menu": {
+      "i18n:MAIN_MENU.package.title/ENodeData-v2": {
+          "message": "node-data:open"
+      }
+  },
+  "panel": {
+      "main": "panel/index.html",
+      "title": "ENodeData",
+      "type": "simple", 
+      "width": 480,
+      "height": 720
+  }
+  
+}

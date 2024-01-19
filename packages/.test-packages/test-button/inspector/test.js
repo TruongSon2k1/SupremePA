@@ -12,14 +12,14 @@ Vue.component('test-button', {
     methods: {
         on_button_click()
         {
+            let time = new Date().getTime();
             Editor.Ipc.sendToPanel('scene', 'scene:set-property',
                 {
                     id: this.target.uuid.value,
-                    path: "num",
-                    type: "Float",
-                    value: parseFloat(this.target.num.value+=1) 
+                    path: "but",
+                    type: "Boolean",
+                    value: true
                 })
-            Editor.log("New num  : " + this.target.num.value)
         }
     }
 });

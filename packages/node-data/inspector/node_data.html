@@ -1,16 +1,18 @@
-
 <cc-object-prop :target.sync="target.infor"></cc-object-prop>
 
-<div class="layout horizontal center">
-    <ui-button style="margin-bottom:20px;position:relative;top:10px;" class="blue small flex-1" @confirm="save_data" >Save Data</ui-button>
-    <div class="flex-3"></div>
-    <ui-button style="margin-bottom:20px;position:relative;top:10px;" class="blue small flex-1" @confirm="sync_data" v-disable="_ready_to_sync(target._infor_)">Sync Data</ui-button>
-</div>
+<div style="margin-bottom: 20px;"></div>
 
 <div class="layout horizontal center">
-    <ui-input style="width:300px" paceholder="db://assets/..." @change="input_url"></ui-input>
+    <ui-button style="margin-bottom:20px;position:relative;top:10px;" class="red small flex-1" @confirm="save_data" >Save Data</ui-button>
+    <ui-asset class="flex-1" style="with:100px;" type="cc.Asset" droppable="asset" @change="get_url" v-value="data"></ui-asset>
+    <ui-input class="flex-2" style="width:200px;" placeholder="db://assets/..." @change="input_url" v-value="data_url"></ui-input>
+    <ui-button style="margin-bottom:20px;position:relative;top:10px;width:100px" class="blue small flex-1" @confirm="to_json" >To JSon</ui-button>
 </div>
 
+<div style="margin-bottom: 20px;"></div>
+
 <div class="layout horizontal center">
-    <ui-button style="margin-bottom:20px;position:relative;top:10px;" class="blue small flex-1" @confirm="to_json" >To JSon</ui-button>
+    <ui-button style="margin-bottom:20px;position:relative;top:10px;" class="white small flex-1" @confirm="sync_data" v-disable="_ready_to_sync(target._infor_)">Sync Data</ui-button>
+    <ui-asset class="flex-1" type="cc.JsonAsset" droppable="asset" @change="change_asset" v-value="asset_data"></ui-asset>
+    <ui-button style="margin-bottom:20px;position:relative;top:10px;width:100px" class="green small flex-1" @confirm="uuid_2_json" >From JSon</ui-button>
 </div>

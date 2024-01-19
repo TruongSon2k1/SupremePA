@@ -1,6 +1,9 @@
 import {mark_singleton} from "../../pTS/Support/Decorators";
 import {Instance} from "../../pTS/Support/Functions";
 import {DefaultAssertOption, IAssertOption} from "../../pTS/Support/ISupport";
+import {js} from "../../pTS/Support/JS";
+import {str} from "../../pTS/Support/STRING";
+import {IJSonData} from "../Interface/IJSONData";
 
 class CCConsole
 {
@@ -43,6 +46,27 @@ class CCConsole
             }
         }
     }
+}
+
+class CCColor
+{
+    //parse_color(val: number): cc.Color
+    //{
+    //    const color = new cc.Color();
+    //    //color.setR(val & 0x000000ff);
+    //    //color.setG(val & 0x0000ff00 >> 8);
+    //    //color.setB(val & 0x00ff0000 >> 16);
+    //    //color.setA(val & 0xff000000 >>> 24);
+
+
+    //    const r = (val | 0x000000ff);
+    //    const g=(val & 0x0000ff00 >> 8);
+    //    const b=(val & 0x00ff0000 >> 16);
+    //    const a=(val & 0xff000000 >>> 24);
+    //    Editor.log(r, g, b, a)
+    //    return color;
+    //}
+    
 }
 
 class CCNode
@@ -169,6 +193,119 @@ class CCComponent
     }
 }
 
+class CCJSON
+{
+    stringify(object: object, replacer?: JSonReplacer)
+    {
+        const data: IJSonData =
+        {
+            type: cc.js.getClassName(object),
+            data: object
+        }
+
+        return JSON.stringify(data, replacer)
+    }
+
+    /**
+     * @description
+     * | Save the raw string data to a raw path.
+     * | Run only at edtior.
+     *
+     * @CC_EDITOR
+     */
+    save(data: string, path: string)
+    {
+        Editor.log(data, path, "")
+        Editor.assetdb.createOrSave(path, data)
+    }
+
+    /**
+     * @description
+     * | The final path will be: `db://assets/ + path`
+     * | Save data to a json path.
+     * | Auto add '.json' for the path if missing is dected.
+     *
+     * @param {string | any}
+     * @param {string} path The target path. Should not be a raw input.
+     *
+     */
+    json_saver(data: object, path: string, replacer?: JSonReplacer )
+    {
+        let link = this.path(path);
+        if (!path.includes('.json')) link += ".json"
+
+        let js_data = "";
+
+        js_data = this.stringify(data, replacer)
+
+        this.save(js_data, link)
+    }
+
+    path(path: string)
+    {
+        return "db://assets/" + path;
+    }
+
+    raw_object(json: string, reviver?: JSonReviver): IJSonData
+    {
+        return JSON.parse(json, reviver) as IJSonData;
+    }
+
+    constructor_from_json<T>(json: string): ConstructClass<T>
+    {
+        const object = this.raw_object(json);
+
+        //@ts-ignore
+        return cc.js.getClassByName(object.type);
+    }
+
+    string_parser<T>(json: string, reviver?: JSonReviver): T
+    {
+        const object = this.raw_object(json, reviver);
+        return this.parser(object, reviver);
+    }
+
+    uuid_parser(uuid: string, callback?: (data: IJSonData) => any): void 
+    {
+        cc.assetManager.loadAny([{uuid: uuid}], (err, asset) => {
+            if (err) {
+                cc_support.console.warn("Loading JSON Error: ", err)
+                return null;
+            }
+            if (callback) callback(asset.json);
+        })
+    }
+
+
+    parser<T>(object: IJSonData, reviver?: JSonReviver): T
+    {
+        //@ts-ignore
+        const constructor = cc.js.getClassByName(object.type) as ConstructClass<T>;
+
+        const data = new constructor();
+
+        if(reviver)
+        {
+            for(const ret of Object.keys(object.data))
+            {
+                data[ret] = reviver(ret, object.data[ret])
+            }
+            return data;
+        }
+
+        if(data['from_json'])
+        {
+            data['from_json'](object.data);
+            return data;
+        }
+
+        Object.assign(data, object.data);
+
+        return data;
+    }
+
+}
+
 @mark_singleton
 class CCSupporter 
 {
@@ -177,6 +314,8 @@ class CCSupporter
     component: Readonly<CCComponent> = new CCComponent();
     console: Readonly<CCConsole> = new CCConsole();
     node: Readonly<CCNode> = new CCNode();
+    color: Readonly<CCColor> = new CCColor();
+    json: Readonly<CCJSON> = new CCJSON();
 }
 
 export const cc_support = Instance(CCSupporter)

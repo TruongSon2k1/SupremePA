@@ -107,6 +107,7 @@ class JS
     {
         return typeof (new ctor())
     }
+
 }
 
 export const js: JS = Instance(JS)

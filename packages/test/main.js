@@ -13,12 +13,12 @@ module.exports = {
   messages: {
     'open' () {
       // open entry panel registered in package.json
-      Editor.Panel.open('test-button');
+      Editor.Panel.open('test');
     },
     'say-hello' () {
       Editor.log('Hello World!');
       // send ipc message to panel
-      Editor.Ipc.sendToPanel('test-button', 'test-button:hello');
+      Editor.Ipc.sendToPanel('test', 'test:hello');
     },
     'clicked' () {
       Editor.log('Button clicked!');
