@@ -1,9 +1,11 @@
 import {IBaseMasterClass} from "../../pTS/Root/Interface/IBaseMasterClass";
 import {DefaultAssertOption, IAssertOption} from "../../pTS/Support/ISupport";
-import {js} from "../../pTS/Support/JS";
+import {pTS} from "../../pTS/Support/pTSupport";
 import {cc_support} from "../Support/CCSupporter";
 
 const {ccclass, property} = cc._decorator;
+
+const js = pTS.js
 
 export enum CleanerMode
 {

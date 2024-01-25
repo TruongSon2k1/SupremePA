@@ -14,7 +14,7 @@ export default class FCChainMoving extends FCChainAction
             override: true
         }
     )
-    actions: EXTMovingAction[] = []
+    actions: Array<EXTMovingAction> = new Array<EXTMovingAction>(); 
 
     protected get time_cost(): number 
     {

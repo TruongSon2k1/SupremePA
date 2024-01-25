@@ -1,8 +1,6 @@
 import {mark_singleton} from "../../pTS/Support/Decorators";
 import {Instance} from "../../pTS/Support/Functions";
 import {DefaultAssertOption, IAssertOption} from "../../pTS/Support/ISupport";
-import {js} from "../../pTS/Support/JS";
-import {str} from "../../pTS/Support/STRING";
 import {IJSonData} from "../Interface/IJSONData";
 
 class CCConsole

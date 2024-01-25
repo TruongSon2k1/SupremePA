@@ -11,8 +11,6 @@ export interface IBaseSignal
 
 export class BaseSignal extends RuntimeClass implements IBaseSignal
 {
-
-
     static create(option: IBaseSignal): BaseSignal
     {
         let ret = new BaseSignal();
@@ -48,3 +46,4 @@ export class BaseSignal extends RuntimeClass implements IBaseSignal
     protected _binder_: any = null;
     protected _order_: number = 0;
 }
+

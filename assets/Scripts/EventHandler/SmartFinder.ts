@@ -1,7 +1,7 @@
 import {BaseMasterComponent} from "../CC_pTS/ExpertComponent/BaseMasterComponent";
 import {cc_support} from "../CC_pTS/Support/CCSupporter";
 
-const {ccclass, property, inspector} = cc._decorator;
+const {ccclass, property} = cc._decorator;
 
 @ccclass
 export class SmartFinder extends BaseMasterComponent

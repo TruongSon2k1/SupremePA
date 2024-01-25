@@ -1,5 +1,19 @@
 "use strict"
 
+function RGBAToHexA(r,g,b,a) 
+{
+  r = r.toString(16);
+  g = g.toString(16);
+  b = b.toString(16);
+  a = Math.round(a * 255).toString(16);
+
+  if (r.length == 1) r = "0" + r;
+  if (g.length == 1) g = "0" + g;
+  if (b.length == 1) b = "0" + b;
+  if (a.length == 1) a = "0" + a;
+
+  return "#" + r + g + b + a;
+}
 
 function create_infor(node)
 {
@@ -18,7 +32,7 @@ function create_infor(node)
         }
     }
 
-    if(node.is3d) return create_node3d_infor(node, ret);
+    if(node.is3DNode) return create_node3d_infor(node, ret);
     return create_node2d_infor(node, ret);
 }
 
@@ -42,6 +56,10 @@ function create_node3d_infor(node, ret)
     return ret;
 }
 
+function rgba2hex(orig) 
+{
+}
+
 Editor.Panel.extend(
     {
         node_infor: {
@@ -58,10 +76,13 @@ Editor.Panel.extend(
                 a: 255,
             }
         },
-        data: new cc.Node(),
         style: `
             :host { margin: 5px; }
-            h2 { color: #f90; }
+            .text {
+            background: #ffffff; 
+            margin-right: auto;
+            }
+
         `,
 
         template: `
@@ -76,11 +97,14 @@ Editor.Panel.extend(
 
             <ui-section>
                 <div slot="header">Infor</div>
-                <div v-if=
                 <ui-prop id="is3d" name="Is3d" value="false" type="boolean" indent="1" readonly></ui-prop>
                 <ui-prop id="position" name="Position" type="vec2" value="[0, 0]" readonly></ui-prop>
+                <ui-prop id="rotation" name="Rotation" type="number" value="0" readonly></ui-prop>
+                <ui-prop id="scale" name="Scale" type="vec2" value="[1, 1]" readonly></ui-prop>
+                <ui-prop id="size" name="Size" type="vec2" value="[0, 0]" readonly></ui-prop>
+                <ui-prop id="color" name="Color" type="color" value="#ffffff" readonly></ui-prop>
+                <ui-prop id="opacity" name="Opacity" type="number" value="255" readonly></ui-prop>
             </ui-section>
-
 
             <div style="margin-bottom: 20px;"></div>
             <div class="layout horizontal center">
@@ -94,6 +118,11 @@ Editor.Panel.extend(
         $: {
             is3d: '#is3d',
             position: '#position',
+            rotation: '#rotation',
+            scale: "#scale",
+            size: "#size",
+            color: '#color',
+            opacity: "#opacity",
             
             node_data: '#node_data',
             json_data_holder: '#json_data_holder',
@@ -108,6 +137,9 @@ Editor.Panel.extend(
         },
 
         ready() {
+
+            this.$size.$propX.setAttribute("name", "W"),
+            this.$size.$propY.setAttribute("name", "H"),
             this.$json_sync_button.addEventListener('confirm', () => 
             {
                 if(!this.$node_data._value) return;
@@ -126,32 +158,85 @@ Editor.Panel.extend(
                 const node = cc.engine.getInstanceById(this.$node_data._value);             //< Get node from uuid
                 this.node_infor = create_infor(node);
 
-                Editor.log(this.$position, "")
-                this.sync_3d_infor();
+                this.sync_html_element(this.node_infor);
 
             })
         },
 
         sync_html_element(infor)
         {
-            if(infor.is3d) this.sync_3d_info();
-            else this.sync_2d_infor();
+            const opt = {};
+            //| Size Attribute
+                const sz = infor.size;
+                this.$size.valueChanged(opt, [sz.width, sz.height]);
+
+            //| Color Attribute
+                const cl = infor.color;                                                 //< Shorter instance.
+                this.$color.valueChanged(opt, [cl.r, cl.g ,cl.b, cl.a/255]);             //< cl.a/255 cause it range is 0->1, Maybe because the `$alpha` is progress tag.
+
+            //| Opacity Attribute
+                this.$opacity.valueChanged(opt, infor.opacity)
+
+            if(infor.is3d) this.sync_3d_infor(infor);
+            else this.sync_2d_infor(infor);
         },
 
         sync_2d_infor(infor)
         {
-            this.$position.$inputX.$input.value = infor.position.x
+            const opt = {};
+
+            //| Is 3d Attribute
+                this.$is3d.valueChanged(opt, infor.is3d);
+            //| Position Attribute
+                this.$position.setAttribute("type", "vec2");                            //< Cast the attribute type to be Vec2. Needed if its current type is Vec3.
+                //this.$position.$inputX.$input.value = infor.position.x                //< Old way to set X.
+                //this.$position.$inputY.$input.value = infor.position.y                //< Old way to set Y.
+                const pos = infor.position;                                             //< Shorter instance.
+                this.$position.valueChanged(opt, [pos.x, pos.y]);                        //< Model way to set value.
+
+            //| Rotation Attribute
+                this.$rotation.setAttribute("type", "number");                          //< Cast the attribute type to be Number. Needed if its current type is Vec3.
+                this.$rotation.valueChanged(opt, infor.rotation);                        //<<
+            
+            //| Scale Attribute
+                this.$scale.setAttribute("type", "vec2");
+                const scl = infor.scale;
+                this.$scale.valueChanged(opt, [scl.x, scl.y]);
         },
 
         sync_3d_infor(infor)
         {
-            const c = { ...this.$position.$propX }
-            this.$position.$propZ = c;
+            const opt = {};
+
+            //| Is 3d Attribute
+                this.$is3d.valueChanged(opt, infor.is3d);
+            //| Position Attribute
+                this.$position.setAttribute("type", "vec3");                            //< Cast the attribute type to be Vec2. Needed if its current type is Vec3.
+                //this.$position.$inputX.$input.value = infor.position.x                //< Old way to set X.
+                //this.$position.$inputY.$input.value = infor.position.y                //< Old way to set Y.
+                const pos = infor.position;                                             //< Shorter instance.
+                this.$position.valueChanged(opt, [pos.x, pos.y, pos.z]);                        //< Model way to set value.
+
+            //| Rotation Attribute
+                this.$rotation.setAttribute("type", "vec3");                          //< Cast the attribute type to be Number. Needed if its current type is Vec3.
+                const rot = infor.rotation;
+                this.$rotation.valueChanged(opt, [rot.x, rot.y, rot.z]);                        //<<
+            
+            //| Scale Attribute
+                this.$scale.setAttribute("type", "vec3");
+                const scl = infor.scale;
+                this.$scale.valueChanged(opt, [scl.x, scl.y, scl.z]);
+        },
+
+        no_color(html)
+        {
+            html.setAttribute('class', "fixed-label flex-1")
         },
 
         messages: {
             'node-data:open'(event) {
             }
         }
+
     }
 )

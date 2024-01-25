@@ -6,7 +6,7 @@ const {ccclass, property} = cc._decorator;
 export class EasingAction
 {
     @property()
-    easing: string = 'linear';
+    easing: string = "linear";
 
     @property()
     show_less: boolean = false;

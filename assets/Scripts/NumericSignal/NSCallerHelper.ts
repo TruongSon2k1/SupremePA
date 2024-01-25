@@ -1,5 +1,5 @@
 import {GS} from "../pTS/Signal/GlobalSignal";
-import {str} from "../pTS/Support/STRING";
+import {pTS} from "../pTS/Support/pTSupport";
 import {NSPooling} from "./NSPooling";
 
 const {ccclass, property} = cc._decorator;
@@ -81,7 +81,7 @@ export class NSCallerHelper
 
     _auto_id()
     {
-        this.id = str.uuid('NS', 'CH');
+        this.id = pTS.str.uuid('NS', 'CH');
         return this.id;
     }
 

@@ -1,8 +1,10 @@
 import {BaseCCClass} from "../CC_pTS/ExpertComponent/BaseCCClass";
-import {str} from "../pTS/Support/STRING";
+import {pTS} from "../pTS/Support/pTSupport";
 import {IAudioInformation} from "./IAudioInformation";
 
 const {ccclass, property} = cc._decorator;
+
+const str = pTS.str;
 
 @ccclass('AudioInformation')
 export class AudioInformation extends BaseCCClass implements IAudioInformation

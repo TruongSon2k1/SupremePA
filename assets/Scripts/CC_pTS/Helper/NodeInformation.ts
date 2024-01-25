@@ -17,20 +17,20 @@ export interface INodeInformation
 export class Node2DInformation implements INodeInformation
 {
     @property({ readonly: true })
-    is3d: boolean;
-    @property({ readonly: true , type: cc.Vec2})
+    is3d: boolean = false;
+    @property({ readonly: true })
     position: any = cc.v2()
 
     @property({ readonly: true })
     rotation: any = 0;
 
-    @property({ readonly: true, type: cc.Vec2 })
+    @property({ readonly: true,})
     scale: any = cc.v2()
 
     @property({ readonly: true })
     size: cc.Size = cc.size(0, 0)
 
-    @property({ readonly: true, type: cc.Color })
+    @property({ readonly: true,})
     color: cc.Color = cc.Color.WHITE
 
     @property({ readonly: true, visible: false })
@@ -118,13 +118,13 @@ export class Node2DInformation implements INodeInformation
 @ccclass('Node3DInformation')
 export class Node3DInformation extends Node2DInformation
 {
-    @property({ readonly: true, override: true, type: cc.Vec3 })
+    @property({ readonly: true, override: true})
     position: cc.Vec3 = cc.v3();
 
-    @property({ readonly: true, override: true, type: cc.Vec3 })
+    @property({ readonly: true, override: true})
     rotation: cc.Vec3 = cc.v3();
 
-    @property({ readonly: true, override: true, type: cc.Vec3 })
+    @property({ readonly: true, override: true})
     scale: cc.Vec3 = cc.v3()
 
     static create(node: cc.Node | INodeInformation)

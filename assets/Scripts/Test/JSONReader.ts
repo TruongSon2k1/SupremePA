@@ -1,6 +1,5 @@
 import {Node2DInformation} from "../CC_pTS/Helper/NodeInformation";
 import {cc_support} from "../CC_pTS/Support/CCSupporter";
-import {ENodeJS} from "./ENodeJS";
 
 const {ccclass, property} = cc._decorator;
 @ccclass

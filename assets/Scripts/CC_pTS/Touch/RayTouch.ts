@@ -10,7 +10,7 @@ export abstract class RayTouch extends ClickEventHelper
             type: cc.Camera
         }
     )
-    readonly camera!: cc.Camera;
+    readonly camera: cc.Camera = null;
 
     _ray_: cc.geomUtils.Ray = new cc.geomUtils.Ray();
 

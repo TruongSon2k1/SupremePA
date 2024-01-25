@@ -8,8 +8,7 @@ const {ccclass, property, menu} = cc._decorator;
 @menu('Graphic/One Line')
 export class GPOneLine extends GPHelper
 {
-
-    @property({type: cc.Integer, min: 1, visible: false})
+    @property({type: cc.Integer, min: 1, visible: false, override: true})
     physic_length: number = 10;
 
     @property()

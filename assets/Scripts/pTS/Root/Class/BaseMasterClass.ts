@@ -1,5 +1,5 @@
 import {DefaultAssertOption, IAssertOption} from "../../Support/ISupport";
-import {js} from "../../Support/JS";
+import {pTS} from "../../Support/pTSupport";
 import {IBaseMasterClass} from "../Interface/IBaseMasterClass";
 
 export class BaseMasterClass implements IBaseMasterClass 
@@ -46,7 +46,7 @@ export class BaseMasterClass implements IBaseMasterClass
     constructor()
     {
         this.__pre_init();
-        this._name_ = js.get_class_name(this);
+        this._name_ = pTS.js.get_class_name(this);
         this.init();
     }
 

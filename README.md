@@ -11,6 +11,9 @@
 
 ```bash
 ├── Scripts
+│   ├── Animation
+│   │   ├── Vikingsc2007StateMachine
+│   ├── Audios
 │   ├── Configer
 │   ├── ExpertComponent
 │   ├── Extender

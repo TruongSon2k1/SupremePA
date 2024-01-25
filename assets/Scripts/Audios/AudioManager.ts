@@ -1,6 +1,5 @@
 import {AntiDuplicateLevel, BaseMasterComponent} from "../CC_pTS/ExpertComponent/BaseMasterComponent";
 import {AudioInformation} from "./AudioInformation";
-import {AudioPlayer} from "./AudioPlayer";
 
 const {ccclass, property, executeInEditMode, playOnFocus} = cc._decorator;
 
@@ -12,7 +11,7 @@ export class AudioFinder
     _valid_: boolean = false;
     @property(
         {
-            type: [String],
+            type: [cc.String],
             visible(){ return !this._valid_; },
         }
     )

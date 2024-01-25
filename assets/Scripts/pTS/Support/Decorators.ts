@@ -1,6 +1,7 @@
 import {FactoryManager} from "../Factory/FactoryManager"
 import {Instance} from "./Functions"
-import {js} from "./JS"
+import {pTS} from "./pTSupport"
+
 
 /**
  * @description
@@ -12,8 +13,8 @@ export function fm_quick_reg(class_type: boolean = false) : ClassDecorator
 {
     return function (target: any)
     {
-        if(class_type) Instance(FactoryManager).register<ClassType<typeof target>>(js.get_class_name(target))
-        else Instance(FactoryManager).register<typeof target>(js.get_class_name(target))
+        if(class_type) Instance(FactoryManager).register<ClassType<typeof target>>(pTS.js.get_class_name(target))
+        else Instance(FactoryManager).register<typeof target>(pTS.js.get_class_name(target))
     }
 }
 
@@ -29,7 +30,7 @@ export function fm_quick_reg_to(abstract_parent: string): ClassDecorator
 {
     return function (target: any)
     {
-        Instance(FactoryManager).get(abstract_parent).register(js.get_class_name(target), target)
+        Instance(FactoryManager).get(abstract_parent).register(pTS.js.get_class_name(target), target)
     }
 }
 

@@ -1,4 +1,4 @@
-import {numeric} from "../../Support/NUMERIC";
+import {pTS} from "../../Support/pTSupport";
 import {BaseMasterClass} from "./BaseMasterClass";
 
 
@@ -31,7 +31,7 @@ export abstract class RuntimeClass extends BaseMasterClass
     public get max_run_time(): number { return this._max_run_time_ }
     public get is_active(): boolean { return this._active_ }
 
-    public set max_run_time(value: number) { this._max_run_time_ = numeric.to_int(value); }
+    public set max_run_time(value: number) { this._max_run_time_ = pTS.numeric.to_int(value); }
     public set enable(value: boolean) { this._active_ = value; }
 
     protected _run_time_: number = 0;

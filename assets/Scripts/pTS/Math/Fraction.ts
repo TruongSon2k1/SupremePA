@@ -1,10 +1,7 @@
 /// <reference path="IMath.ts" />
 
-import {common} from "../Support/COMMON";
-import {js} from "../Support/JS";
-import {numeric} from "../Support/NUMERIC";
+import {pTS} from "../Support/pTSupport";
 import * as IM from "./IMath";
-import {math} from "./MathSupport";
 
 ////@ts-ignore
 //export namespace pTSMath 
@@ -12,8 +9,8 @@ import {math} from "./MathSupport";
     export function is_fraction_like(target: any): target is IM.IFractionLike
     {
         return  (typeof target === 'object') &&
-                ('numerator' in target && numeric.is_number(target.numerator)) &&
-                ('denominator' in target && numeric.is_number(target.denominator)) ;
+                ('numerator' in target && pTS.numeric.is_number(target.numerator)) &&
+                ('denominator' in target && pTS.numeric.is_number(target.denominator)) ;
     }
     
     /**
@@ -65,9 +62,9 @@ import {math} from "./MathSupport";
          */
         private constructor(numerator: IM.IFractionLike | number , denominator?: number) 
         {
-            this._log_ = "[" + js.get_class_name(this) + "]";
+            this._log_ = "[" + pTS.js.get_class_name(this) + "]";
             
-            if(numeric.is_number(numerator))
+            if(pTS.numeric.is_number(numerator))
             {
                 if(Number.isSafeInteger(numerator))
                 {
@@ -193,7 +190,7 @@ import {math} from "./MathSupport";
             let numerator = decimal * this._max_decimal_length;
             const denominator = this._max_decimal_length;
     
-            const common_factor = math.gcd(numerator, denominator);
+            const common_factor = pTS.math.gcd(numerator, denominator);
     
             numerator /= common_factor;
     
@@ -386,7 +383,7 @@ import {math} from "./MathSupport";
                 target.short_cut();
             }
     
-            let lcm = math.lcm(this.denominator, target.denominator);
+            let lcm = pTS.math.lcm(this.denominator, target.denominator);
     
             this._numerator_ = (lcm / this.denominator) * this.numerator;
             this._denominator_ = lcm;

@@ -218,6 +218,7 @@ export class DualBlur extends cc.Component
         this.option.scale = scale;
         cc.log(`scale: ${this.option.scale}`);
         this.blur(this.option);
+
     }
 
 }

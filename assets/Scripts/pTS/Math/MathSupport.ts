@@ -29,4 +29,4 @@ class MathSupport
 
 }
 
-export const math = Instance(MathSupport);
+export const math = MathSupport;
