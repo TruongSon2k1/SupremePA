@@ -1,5 +1,6 @@
 "use strict"
 
+
 function RGBAToHexA(r,g,b,a) 
 {
   r = r.toString(16);
@@ -13,6 +14,15 @@ function RGBAToHexA(r,g,b,a)
   if (a.length == 1) a = "0" + a;
 
   return "#" + r + g + b + a;
+}
+
+function infor_json_paser(key, value)
+{
+    if(key === 'color')
+    {
+        return { r: value.r, g: value.g, b: value.b, a: value.a  }
+    }
+    return value;
 }
 
 function create_infor(node)
@@ -36,6 +46,19 @@ function create_infor(node)
     return create_node2d_infor(node, ret);
 }
 
+/**
+ * @param {string} data 
+ * @param {string} path 
+ * @param {(key, value) => any} paser 
+ *
+ */
+function save_json(data, path, paser)
+{
+    let json = JSON.stringify(data, paser)
+    Editor.assetdb.createOrSave(path, json)
+    Editor.log(`Success saving data to ${path}`)
+}
+
 function create_node2d_infor(node, ret)
 {
     ret.position = cc.v2(node.position);
@@ -56,17 +79,48 @@ function create_node3d_infor(node, ret)
     return ret;
 }
 
-function rgba2hex(orig) 
+/**
+ * @param {cc.Node} node
+ * @param {object} infor
+ * @returns {boolean}
+ */
+function sync_node_data(node, infor)
 {
+    if(!is_valid(node)) {
+        Editor.error("The target Node can not be null!!")
+        return false;
+    }
+
+    node.position = cc.v3(infor.position)
+    node.scale = infor.scale;
+    node.is3D = infor.is3d;
+    node.setContentSize(infor.size);
+
+    node.color = (cc.color(infor.color.r, infor.color.g, infor.color.b, infor.opacity))
+    node.opacity = (infor.opacity)
+
+    if(infor.is3d)
+    {
+        node.eulerAngles = infor.rotation;
+    }
+    else
+    {
+        node.angle = infor.rotation; 
+    }
+
+    return true;
 }
 
-Editor.Panel.extend(
-    {
-        node_infor: {
+function is_valid(object)
+{
+    return object != null && object != undefined;
+}
+
+const default_infor = {
             position: cc.v2(0,0),
             is3d: false,
             rotation: 0,
-            scale: cc.v2(0,0),
+            scale: cc.v2(1,1),
             size: cc.size(0, 0),
             opacity: 255,
             color: {
@@ -75,7 +129,15 @@ Editor.Panel.extend(
                 b: 255,
                 a: 255,
             }
-        },
+}
+
+Editor.Panel.extend(
+    {
+        /**
+         * 
+         */
+        node_infor: default_infor,
+        ref_node: null,
         style: `
             :host { margin: 5px; }
             .text {
@@ -84,83 +146,208 @@ Editor.Panel.extend(
             }
 
         `,
+        save_url: "",
 
         template: `
-            <div style="margin-bottom: 50px;"></div>
+            <div style="margin-bottom: 15px;"></div>
+
             <div class="layout horizontal center">
                 <div class="flex-1"></div>
-                <ui-node class="flex-2" style="width: 300px;height: 50px;" id="node_data" type="cc.Node" typename="Node" droppable='node'></ui-node>
+                <ui-node class="flex-2" style="width:300px;height:50px;" id="node_target" type="cc.Node" typename="Node" droppable='node' name='Target'></ui-node>
                 <div class="flex-1"></div>
             </div>
 
-            <cc-object-prop :this.sync="this.data"></cc-object-prop>
-
-            <ui-section>
-                <div slot="header">Infor</div>
-                <ui-prop id="is3d" name="Is3d" value="false" type="boolean" indent="1" readonly></ui-prop>
+            <ui-section style="margin-top: -30px">
+                <div slot="header" >Infor</div>
+                <ui-prop id="is3d" name="Is 3d" value="false" type="boolean" indent="1" readonly></ui-prop>
                 <ui-prop id="position" name="Position" type="vec2" value="[0, 0]" readonly></ui-prop>
                 <ui-prop id="rotation" name="Rotation" type="number" value="0" readonly></ui-prop>
                 <ui-prop id="scale" name="Scale" type="vec2" value="[1, 1]" readonly></ui-prop>
                 <ui-prop id="size" name="Size" type="vec2" value="[0, 0]" readonly></ui-prop>
                 <ui-prop id="color" name="Color" type="color" value="#ffffff" readonly></ui-prop>
                 <ui-prop id="opacity" name="Opacity" type="number" value="255" readonly></ui-prop>
+                <ui-button class="red tiny" id="reset" >Reset</ui-button>
             </ui-section>
+
+            <hr></hr>
 
             <div style="margin-bottom: 20px;"></div>
             <div class="layout horizontal center">
-                <ui-button style="margin-bottom:20px;position:relative;top:10px;" class="red small flex-1" id="json_sync_button" >Save Data</ui-button>
-                <ui-asset class="flex-1" style="with:100px;" type="cc.Asset" droppable="asset" id="json_data_holder"></ui-asset>
-                <ui-input class="flex-2" style="width:200px;" placeholder="db://assets/..." @change="input_url" v-value="data_url"></ui-input>
-                <ui-button style="margin-bottom:20px;position:relative;top:10px;width:100px" class="blue small flex-1" @confirm="to_json" >To JSon</ui-button>
+                <ui-node class="flex-3" style="width:300px;" id="node_data" type="cc.Node" typename="Node" droppable='node' name='target'></ui-node>
+                <div class="flex-1"></div>
+                <ui-asset class="flex-3" style="with:100px;" type="cc.JsonAsset" droppable="asset" id="json_data_holder"></ui-asset>
+                <ui-button style="margin-bottom:20px;position:relative;top:10px;width:200px;" class="red small flex-2" id="save_data" >Save Data</ui-button>
+            </div>
+
+            <div style="margin-bottom: 5px;"></div>
+            <div class="layout horizontal center">
+                <ui-asset class="flex-2" style="with:100px;" type="cc.JsonAsset" droppable="asset" id="json_data_file"></ui-asset>
+                <ui-input class="flex-3" style="width:200px;" placeholder="db://assets/..." id="json_data_input"></ui-input>
+                <ui-button style="margin-bottom:20px;position:relative;top:10px;width:200px;" class="blue small flex-2" id="to_json" >To JSon</ui-button>
             </div>
         `,
 
+            /**
+             *
+             *                         ______________________________________
+             *                         |NODE[TARGET]                        |
+             *                         |------------------------------------|
+             *                         |INFOR                               |   
+             *                         |  Is3d                              |   
+             *                         |  Position                          |   
+             *                         |  Rotation                          |   
+             *                         |  Scale                             |   
+             *                         |  Size                              |   
+             *                         |  Color                             |   
+             *                         |  Opacity                           |   
+             *                         |------------------------------------|
+             *  GET INFOR DATA />      |NODE       JSON-ASSET      SAVE_DATA|     </ SAVE CURRENT INFOR TO TARGET NODE
+             *                         |                                    |   
+             *  GET TARGET DIR />      |JSON-ASSET       INPUT     TO_JSON  |     </ SAVE CURRENT INFOR TO JSON FILE
+             *                         |____________________________________|
+             */
+
         $: {
-            is3d: '#is3d',
-            position: '#position',
-            rotation: '#rotation',
-            scale: "#scale",
-            size: "#size",
-            color: '#color',
-            opacity: "#opacity",
+
             
-            node_data: '#node_data',
-            json_data_holder: '#json_data_holder',
+            is3d:                       '#is3d',
+            position:                   '#position',
+            rotation:                   '#rotation',
+            scale:                      "#scale",
+            size:                       "#size",
+            color:                      '#color',
+            opacity:                    "#opacity",
+            
+            node_target:                "#node_target",                 
+                                                                        
+            node_data:                  '#node_data',                   
+            json_data_holder:           '#json_data_holder',
+            save_data:                  "#save_data",
 
-            sync_data_url: '#sync_data_url',
-            json_sync_button: "#json_sync_button",
-            local_sync_button: '#local_sync_button',
+            to_json:                    "#to_json",
+            json_data_file:             "#json_data_file",
+            json_data_input:            '#json_data_input',
 
-            save_data_url: '#save_data_url',
-            json_save_button: "#json_save_button",
-            local_save_button: "#local_save_button"
+            reset:                      '#reset'
         },
 
         ready() {
 
-            this.$size.$propX.setAttribute("name", "W"),
-            this.$size.$propY.setAttribute("name", "H"),
-            this.$json_sync_button.addEventListener('confirm', () => 
-            {
-                if(!this.$node_data._value) return;
-                const node = cc.engine.getInstanceById(this.$node_data._value);             //< Get node from uuid
-                this.node_infor = create_infor(node);
+            this.$size.$propX.setAttribute("name", "W");
+            this.$size.$propY.setAttribute("name", "H");
+                
+////////////////////////////////////////////////////////////////////////////////
+                
+            /**
+             * @description
+             * | Get the node data after dragging it on.
+             *
+             */
+            this.$node_target.addEventListener('change', () => 
+                {
+                    if(!this.$node_target._value) { this.ref_node = null; return; }
 
+                this.ref_node = cc.engine.getInstanceById(this.$node_target._value);
             });
 
+
+////////////////////////////////////////////////////////////////////////////////
+                
+            /**
+             * @description
+             * | Save data button
+             *
+             */
+            this.$save_data.addEventListener('confirm', () => 
+            {
+                sync_node_data(this.ref_node, this.node_infor)
+            });
+
+            /**
+             * @description
+             * | Get the Infor data after dragging `JSON` file on.
+             */
             this.$json_data_holder.addEventListener('change', () => 
             {
+                cc.assetManager.loadAny([{uuid: this.$json_data_holder._value}], (err, asset) => {
+                    if (err) {
+                        Editor.log("Loading JSON Error: ", err)
+                        return null;
+                    }
+                    this.node_infor = asset.json.data;
 
-            })
+                    this.sync_html_element(this.node_infor);
+                })
+            });
 
+            /**
+             * @description
+             * | Get the Infor data after dragging `Node` on.
+             *
+             */
             this.$node_data.addEventListener('change', () => 
             {
+                if(!this.$node_data._value) return;
+
                 const node = cc.engine.getInstanceById(this.$node_data._value);             //< Get node from uuid
                 this.node_infor = create_infor(node);
 
                 this.sync_html_element(this.node_infor);
 
+            });
+
+////////////////////////////////////////////////////////////////////////////////
+            
+            this.$json_data_input.addEventListener('confirm', () => 
+            {
+
+                this.save_url = this.quick_db_url(this.$json_data_input._value)
             })
+
+            this.$json_data_file.addEventListener('change', () =>
+            {
+                this.save_url = Editor.remote.assetdb.uuidToUrl(this.$json_data_file._value);
+
+            })
+
+            this.$to_json.addEventListener('confirm', () => 
+            {
+                if(this.save_url.indexOf('.json') < 0)
+                {
+                    this.save_url += '.json'
+                }
+
+                const data = {
+                    type: typeof this.node_infor,
+                    data: this.node_infor
+                }
+
+                save_json(data, this.save_url, infor_json_paser)
+            })
+
+////////////////////////////////////////////////////////////////////////////////
+    
+            this.$reset.addEventListener('confirm', () =>
+            {
+                this.sync_html_element(default_infor)
+            })
+
+        },
+
+        quick_db_url(url)
+        {
+            if(url.indexOf(`db://assets/`) < 0)
+            {
+                url = 'db://assets/' + url;
+            }
+            return url;
+        },
+
+        quick_url(url)
+        {
+            url = this.quick_db_url(url)
+
+            return Editor.url(url);
         },
 
         sync_html_element(infor)
@@ -215,12 +402,12 @@ Editor.Panel.extend(
                 //this.$position.$inputX.$input.value = infor.position.x                //< Old way to set X.
                 //this.$position.$inputY.$input.value = infor.position.y                //< Old way to set Y.
                 const pos = infor.position;                                             //< Shorter instance.
-                this.$position.valueChanged(opt, [pos.x, pos.y, pos.z]);                        //< Model way to set value.
+                this.$position.valueChanged(opt, [pos.x, pos.y, pos.z]);                //< Model way to set value.
 
             //| Rotation Attribute
-                this.$rotation.setAttribute("type", "vec3");                          //< Cast the attribute type to be Number. Needed if its current type is Vec3.
-                const rot = infor.rotation;
-                this.$rotation.valueChanged(opt, [rot.x, rot.y, rot.z]);                        //<<
+                this.$rotation.setAttribute("type", "vec3");                            //< Cast the attribute type to be Number. Needed if its current type is Vec3.
+                const rot = infor.rotation;                                             
+                this.$rotation.valueChanged(opt, [rot.x, rot.y, rot.z]);                //<<
             
             //| Scale Attribute
                 this.$scale.setAttribute("type", "vec3");
@@ -240,3 +427,4 @@ Editor.Panel.extend(
 
     }
 )
+

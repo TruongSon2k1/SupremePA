@@ -1,0 +1,19 @@
+{
+  "name": "ts-data",
+  "version": "0.0.1",
+  "description": "Save the data of the target tweening system component to a json file or opposite.",
+  "author": "pTS",
+  "main": "main.js",
+  "main-menu": {
+      "i18n:MAIN_MENU.package.title/TSData": {
+          "message": "ts-data:open"
+      }
+  },
+  "panel": {
+      "main": "panel/index.js",
+      "title": "TSData",
+      "width": 480,
+      "height": 720
+  }
+  
+}

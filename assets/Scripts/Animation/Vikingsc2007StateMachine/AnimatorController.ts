@@ -3,6 +3,45 @@ import {Animator} from "./Animator";
 import {AnimatorParams} from "./AnimatorParams";
 import {AnimatorState} from "./AnimatorState";
 
+export interface IAnimatorJSParam
+{
+    id: string;
+    type: number;
+}
+
+export interface IAnimatorJSCondition
+{
+    id: string;
+    logic: number;
+    type: number;
+    value: number;
+}
+
+export interface IAnimatorJSTransition
+{
+    condition: IAnimatorJSCondition[];
+    nextState: string;
+}
+
+export interface IAnimatorJSState
+{
+    animation: string;
+    default: boolean;
+    loop: boolean;
+    multi: string;
+    speed: number;
+    state: string;
+    transition: IAnimatorJSTransition[];
+    x: number;
+    y: number;
+}
+export interface IAnimatorJSon
+{
+    armatureInfor: {},
+    parameter: IAnimatorJSParam[]
+    state: IAnimatorJSState[]
+}
+
 export interface IAnimationPlayer extends IAnimatorStateLogicEvent
 {
     play(id: string, loop?: boolean): void;
@@ -28,24 +67,37 @@ export class AnimatorController
     get params(): AnimatorParams { return this._param_ }
     get current_state_name(): string { return this._current_state_.name }
 
-    constructor(player: IAnimationPlayer, res_url: string)
+
+    constructor(player: IAnimationPlayer, res_url: string | any)
     {
         this._player_ = player;
 
         this._states_ = Dictionary.create<AnimatorState>();
+        this._param_ = new AnimatorParams();
         
-        cc.assetManager.loadAny(res_url, (err: Error, data: any) => {
-            if (err) {console.warn(err); return;}
+        if(typeof res_url === 'string' )
+        {
+            cc.assetManager.loadAny(res_url, (err: Error, data: any) => {
+                if (err) {console.warn(err); return;}
 
-            this._state_data_ = data;
+                this._state_data_ = data;
+                this._loaded_ = true;
+                this.init(data);
+            })
+        }
+        else 
+        {
+            console.log(res_url)
+            this._state_data_ = res_url;
             this._loaded_ = true;
-            this.init(data);
-        }) 
+            this.init(res_url)
+        }
     }
 
-    private init(data: any)
+    private init(data: IAnimatorJSon)
     {
-        if(data.state == 0) return;
+        if(data.state.length <= 0) return;
+        console.log(data.state)
 
         let default_state: string = "";
 
@@ -87,6 +139,9 @@ export class AnimatorController
     {
         if(this._states_.is_contain(state_name) && ( this._current_state_ == null || this._current_state_.name != state_name ))
         {
+            if(this._current_state_) console.log(`From ${this._current_state_.name} to ${state_name}`)
+            else console.log(`From Empty to ${state_name}`)
+
             let old = this._current_state_;
 
             this._current_state_ = this._states_[state_name]

@@ -1,5 +1,5 @@
 import {AnimatorCondition} from "./AnimatorCondition";
-import {AnimatorController} from "./AnimatorController";
+import {AnimatorController, IAnimatorJSTransition} from "./AnimatorController";
 
 export class AnimatorTransition
 {
@@ -7,7 +7,7 @@ export class AnimatorTransition
     conditions: AnimatorCondition[] = [];
     controller: AnimatorController = null;
 
-    constructor(data: any, controller: AnimatorController)
+    constructor(data: IAnimatorJSTransition, controller: AnimatorController)
     {
         this.to_state_name = data.nextState;
         this.controller = controller;
@@ -33,5 +33,6 @@ export class AnimatorTransition
     trans(): void
     {
         this.controller.change_state(this.to_state_name)
+        console.log(this.controller)
     }
 }

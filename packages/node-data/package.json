@@ -1,7 +1,7 @@
 {
   "name": "node-data",
   "version": "0.0.1",
-  "description": "A custom button.",
+  "description": "Save the current node's data to json file or opposite.",
   "author": "pTS",
   "main": "main.js",
   "main-menu": {

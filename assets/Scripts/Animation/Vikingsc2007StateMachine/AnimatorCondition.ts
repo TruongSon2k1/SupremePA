@@ -1,4 +1,4 @@
-import {AnimatorController} from "./AnimatorController";
+import {AnimatorController, IAnimatorJSCondition} from "./AnimatorController";
 
 
 export class AnimatorCondition
@@ -24,7 +24,7 @@ export class AnimatorCondition
     id: string = "";
     type: number = 3;
 
-    constructor(data: any, controller: AnimatorController)
+    constructor(data: IAnimatorJSCondition, controller: AnimatorController)
     {
         this.controller = controller;
         this.value = data.value;
@@ -36,6 +36,7 @@ export class AnimatorCondition
     check(check_type: number, trigger_name: string): boolean
     {
         let value: number = this.controller.params.get_property_value(this.id) as number;
+
         if(this.type === AnimatorCondition.TYPE_BOOL) return value == this.value;
 
         if(this.type == AnimatorCondition.TYPE_NUMBER)

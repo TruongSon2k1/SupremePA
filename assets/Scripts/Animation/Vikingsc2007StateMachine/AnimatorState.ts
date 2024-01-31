@@ -1,6 +1,6 @@
 import {Dictionary} from "../../pTS/Collection/Dictionary";
 import {AnimatorCondition} from "./AnimatorCondition";
-import {AnimatorController} from "./AnimatorController";
+import {AnimatorController, IAnimatorJSState} from "./AnimatorController";
 import {AnimatorTransition} from "./AnimatorTransition";
 
 
@@ -17,7 +17,7 @@ export class AnimatorState
 
     controller: AnimatorController;
 
-    constructor(data: any, controller: AnimatorController)
+    constructor(data: IAnimatorJSState, controller: AnimatorController)
     {
         this.name = data.state;
         this.animation = data.animation;
@@ -31,9 +31,9 @@ export class AnimatorState
 
         this.multi = data.multi ? data.multi : "None";
 
-        for(let i = 0; i < data.transitions.length; i ++) 
+        for(let i = 0; i < data.transition.length; i ++) 
         {
-            let transition: AnimatorTransition = new AnimatorTransition(data.transitions[i], controller);
+            let transition: AnimatorTransition = new AnimatorTransition(data.transition[i], controller);
             this.transitions.add(transition.to_state_name, transition);
         }
 
