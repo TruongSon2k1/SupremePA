@@ -1,3 +1,4 @@
+import {cc_json_convertor} from "../CC_pTS/JSon/CCConvertor";
 import {ByTo} from "../Configer/Enum";
 import {AEasingV3Action} from "./AEasingV3Action";
 
@@ -18,5 +19,17 @@ export default class EXTScalingAction extends AEasingV3Action
                 break;
         }
         return action;
+    }
+
+    protected __to_json?: () => string = () =>
+    {
+        return `
+        {
+            "target": ${cc_json_convertor.vec3_to_json(this.target)},
+            "type": ${JSON.stringify(this.type)},
+            "duration": ${this.duration},
+            "easing": "${this.easing}"
+        }
+        `
     }
 }

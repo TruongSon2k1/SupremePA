@@ -1,5 +1,8 @@
 "use strict"
 
+const NODE_3D_TYPE = 'Node3DInformation'
+const NODE_2D_TYPE = 'Node2DInformation'
+const JSON_TYPE = '.json'
 
 function RGBAToHexA(r,g,b,a) 
 {
@@ -94,17 +97,16 @@ function sync_node_data(node, infor)
     node.position = cc.v3(infor.position)
     node.scale = infor.scale;
     node.is3D = infor.is3d;
+    node.opacity = (infor.opacity)
     node.setContentSize(infor.size);
 
-    node.color = (cc.color(infor.color.r, infor.color.g, infor.color.b, infor.opacity))
-    node.opacity = (infor.opacity)
+    node.color = cc.color(infor.color.r, infor.color.g, infor.color.b);
+    node.color.a = infor.opacity;
 
-    if(infor.is3d)
-    {
+    if(infor.is3d) {
         node.eulerAngles = infor.rotation;
     }
-    else
-    {
+    else {
         node.angle = infor.rotation; 
     }
 
@@ -147,6 +149,7 @@ Editor.Panel.extend(
 
         `,
         save_url: "",
+        json_save_url: "",
 
         template: `
             <div style="margin-bottom: 15px;"></div>
@@ -244,7 +247,7 @@ Editor.Panel.extend(
              *
              */
             this.$node_target.addEventListener('change', () => 
-                {
+            {
                     if(!this.$node_target._value) { this.ref_node = null; return; }
 
                 this.ref_node = cc.engine.getInstanceById(this.$node_target._value);
@@ -301,7 +304,7 @@ Editor.Panel.extend(
             this.$json_data_input.addEventListener('confirm', () => 
             {
 
-                this.save_url = this.quick_db_url(this.$json_data_input._value)
+                this.json_save_url = this.quick_db_url(this.$json_data_input._value)
             })
 
             this.$json_data_file.addEventListener('change', () =>
@@ -312,17 +315,8 @@ Editor.Panel.extend(
 
             this.$to_json.addEventListener('confirm', () => 
             {
-                if(this.save_url.indexOf('.json') < 0)
-                {
-                    this.save_url += '.json'
-                }
-
-                const data = {
-                    type: typeof this.node_infor,
-                    data: this.node_infor
-                }
-
-                save_json(data, this.save_url, infor_json_paser)
+                this.to_json_helper(this.save_url);
+                this.to_json_helper(this.json_save_url);
             })
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -332,6 +326,25 @@ Editor.Panel.extend(
                 this.sync_html_element(default_infor)
             })
 
+        },
+
+        to_json_helper(url)
+        {
+            const L = JSON_TYPE.length;
+            if(url.length < 0) return;
+            if(url.length <= L && url.indexOf(JSON_TYPE) < 0) return;
+
+            if (url.indexOf(JSON_TYPE) < 0) url += JSON_TYPE;
+
+            if(this.node_infor.is3d) var type = NODE_3D_TYPE
+            else type = NODE_2D_TYPE;
+
+            const data = {
+                type: type,
+                data: this.node_infor
+            }
+
+            save_json(data, url, infor_json_paser)
         },
 
         quick_db_url(url)

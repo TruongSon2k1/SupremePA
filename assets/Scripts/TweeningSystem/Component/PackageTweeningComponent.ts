@@ -1,4 +1,5 @@
 import {BaseMasterComponent} from "../../CC_pTS/ExpertComponent/BaseMasterComponent";
+import {cc_support} from "../../CC_pTS/Support/CCSupporter";
 import {TSBackendManager} from "../Core/Root/TSBackendManager";
 import {TSEditorManager} from "../Editor/Root/TSEditorManager";
 import {TSInformator} from "../Helper/TSInformator";
@@ -31,6 +32,24 @@ export class PackageTweeningComponent extends BaseMasterComponent implements ITw
     __execute_test()
     {
         Editor.log(this.information.details, "<<<<<<<<<<<<")
+    }
+
+    @property()
+    get to_json() { return false }
+    set to_json(value: boolean)
+    {
+        if(value) 
+        {
+            this.__to_json()
+
+        }
+    }
+
+    __to_json()
+    {
+            const js = JSON.stringify(this);
+            //cc_support.json.save(JSON.stringify(this), 'C:/XCocos/SupremeCorePA/assets/test.json')
+            Editor.log(js, "")
     }
 
     init()

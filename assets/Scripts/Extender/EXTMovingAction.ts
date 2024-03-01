@@ -1,3 +1,5 @@
+import {IJSonData} from "../CC_pTS/Interface/IJSONData";
+import {cc_json_convertor, cc_json_importor} from "../CC_pTS/JSon/CCConvertor";
 import {ByTo, MovingType} from "../Configer/Enum";
 import {GPOneLine} from "../Graphics/Elements/GPOneLine";
 import {GPPBezier} from "../Graphics/Elements/GPPBezier";
@@ -164,7 +166,7 @@ class EXTBezierMovingHelper extends EXTMovingHelper
 }
 
 @ccclass('EXTMovingAction')
-export default class EXTMovingAction extends AEasingV3Action
+export class EXTMovingAction extends AEasingV3Action
 {
     on_change_type(): void 
     {
@@ -173,7 +175,7 @@ export default class EXTMovingAction extends AEasingV3Action
     @property({ type: cc.Enum(MovingType) })
     _moving_type_: MovingType = MovingType.LINEAR;
     @property({ type: cc.Enum(MovingType) })
-    get moving_type() { return this._moving_type_ }
+    get moving_type() { if(!this.movement) this.movement = this.movement_creator(); return this._moving_type_ }
     set moving_type(value: MovingType)
     {
         this._moving_type_ = value;
@@ -190,7 +192,7 @@ export default class EXTMovingAction extends AEasingV3Action
             tooltip: "Determines how this action should be handled."
         }
     )
-    movement: EXTMovingHelper = this.movement_creator() 
+    movement: EXTMovingHelper = null;
 
     movement_creator()
     {
@@ -217,5 +219,32 @@ export default class EXTMovingAction extends AEasingV3Action
     {
         this.movement.e_updater();
     }
+
+    protected __to_json: () => string = () =>
+    {
+        return `
+        {
+            "target": ${cc_json_convertor.vec3_to_json(this.target)},
+            "type": ${JSON.stringify(this.type)},
+            "duration": ${this.duration},
+            "moving_type": ${JSON.stringify(this._moving_type_)},
+            "easing": "${this.easing}"
+        }
+        `
+    }
+
+    protected __init_from_json: (data: IJSonData) => void = (data: IJSonData) =>
+    {
+        const ret = data.data
+        this.target = cc_json_importor.json_to_vec3(ret.target)
+        this._type_ = ret.type;
+        this.duration = ret.duration;
+        this._moving_type_ = ret.moving_type;
+        this.easing = ret.easing;
+
+        //this.on_change_type();
+        this.movement_creator();
+    };
+
 
 }

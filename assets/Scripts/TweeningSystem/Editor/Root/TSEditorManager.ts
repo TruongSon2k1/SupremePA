@@ -1,13 +1,17 @@
+import {IJSonData} from "../../../CC_pTS/Interface/IJSONData";
 import {BaseMasterClass} from "../../../pTS/Root/Class/BaseMasterClass";
+import {ITSEditorManager} from "../../Component/ITweeningComponent";
 import {EditorMode} from "../../Helper/TSEnum";
+import {editor_from_json, editor_json} from "../../Helper/TSJson";
 import {TSConditionEditor} from "../Condition/TSConditionEditor";
 import {TSMechanicEditor} from "../Mechanic/TSMechanicEditor";
 
 const {ccclass, property} = cc._decorator;
 
 @ccclass('TSEditorManager')
-export class TSEditorManager extends BaseMasterClass 
+export class TSEditorManager extends BaseMasterClass implements ITSEditorManager
 {
+
     @property(
         {
             type: cc.Enum(EditorMode)
@@ -62,5 +66,26 @@ export class TSEditorManager extends BaseMasterClass
     {
         this.condition.destroy();
         this.mechanic.destroy();
+    }
+
+    to_json(): string {
+        return editor_json(this)
+    }
+
+    to_js_data(): IJSonData {
+        return {
+            type: cc.js.getClassName(this),
+            data: this
+        }
+    }
+
+    init_from_data(data: IJSonData): void 
+    {
+        const ret = editor_from_json(data);
+
+        this.editor_mode = ret.editor_mode;
+        
+        this.condition.init_with_data(ret.condition)
+        this.mechanic.init_with_data(ret.mechanic)
     }
 }

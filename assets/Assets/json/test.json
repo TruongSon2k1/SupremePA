@@ -1,0 +1,157 @@
+{
+    "information": {
+        "_name_": "TSInformator",
+        "details": "A NEW TWEENING COMPONENT",
+        "main": "18NAgLy7dPnYksrHyG7zGN",
+        "silent_backend": true,
+        "conditon_type": 0,
+        "reset_type": 0,
+        "mechanic_execution_mode": 0
+    },
+    "editor": {
+        "_name_": "TSEditorManager",
+        "editor_mode": 1,
+        "condition": {
+            "_name_": "TSConditionEditor",
+            "_view_mode_": 2,
+            "_search_": "",
+            "_content_list_": [
+                {
+                    "_description_": "Invoke after a certain duration delay.",
+                    "_name_": "TSCAwait",
+                    "add_me": false,
+                    "add_confirm": false
+                },
+                {
+                    "_description_": "Invoked after reaching the certain amount of the target caller number.",
+                    "_name_": "TSCNumericCaller",
+                    "add_me": false,
+                    "add_confirm": false
+                }
+            ],
+            "list": [
+                {
+                    "action": {
+                        "_name_": "TSCAwait",
+                        "_runtime_type_": 0,
+                        "_execution_type_": 0,
+                        "runtimer": {
+                            "_is_passed_": false,
+                            "max_run_time": 1,
+                            "_passed_time_": 0
+                        },
+                        "executor": {},
+                        "duration": 32.4,
+                        "_timer_": 0,
+                        "_description_": "Invoke after a certain duration delay."
+                    },
+                    "remove": false,
+                    "remove_confirm": false,
+                    "index": 0
+                }
+            ]
+        },
+        "mechanic": {
+            "_name_": "TSMechanicEditor",
+            "_view_mode_": 2,
+            "_search_": "",
+            "_content_list_": [
+                {
+                    "_description_": "Delay amount of time.",
+                    "_name_": "TSMDelay",
+                    "add_me": false,
+                    "add_confirm": false
+                },
+                {
+                    "_description_": "Apply a moving action.",
+                    "_name_": "TSMoving",
+                    "add_me": false,
+                    "add_confirm": false
+                },
+                {
+                    "_description_": "Increase amount of a 'NSCallerHelper' registered with the given id.",
+                    "_name_": "TSMNumericCaller",
+                    "add_me": false,
+                    "add_confirm": false
+                },
+                {
+                    "_description_": "Apply a scaling action.",
+                    "_name_": "TSMScaling",
+                    "add_me": false,
+                    "add_confirm": false
+                },
+                {
+                    "_description_": "Invoke a custom log message to the console.",
+                    "_name_": "TSMSelfLog",
+                    "add_me": false,
+                    "add_confirm": false
+                }
+            ],
+            "list": [
+                {
+                    "action": {
+                        "_name_": "TSMoving",
+                        "active": true,
+                        "bounding_targets": [],
+                        "action": {
+                            "target": {
+                                "x": 29.799999999999997,
+                                "y": 28.5,
+                                "z": 0
+                            },
+                            "duration": 33.7,
+                            "_type_": 1,
+                            "easing": "linear",
+                            "show_less": false,
+                            "_list_": [
+                                "linear",
+                                "quadIn",
+                                "quadOut",
+                                "quadInOut",
+                                "cubicIn",
+                                "cubicOut",
+                                "cubicInOut",
+                                "quartIn",
+                                "quartOut",
+                                "quartInOut",
+                                "quintIn",
+                                "quintOut",
+                                "quintInOut",
+                                "sineIn",
+                                "sineOut",
+                                "sineInOut",
+                                "expoIn",
+                                "expoOut",
+                                "expoInOut",
+                                "circIn",
+                                "circOut",
+                                "circInOut",
+                                "elasticIn",
+                                "elasticOut",
+                                "elasticInOut",
+                                "backIn",
+                                "backOut",
+                                "backInOut",
+                                "bounceIn",
+                                "bounceOut",
+                                "bounceInOut",
+                                "smooth",
+                                "fade"
+                            ],
+                            "_moving_type_": 0,
+                            "movement": {
+                                "_byto_": 1,
+                                "_enable_helper_": false,
+                                "helper": null
+                            }
+                        },
+                        "_description_": "Apply a moving action."
+                    },
+                    "remove": false,
+                    "remove_confirm": false,
+                    "index": 0
+                }
+            ]
+        }
+    }
+}

@@ -1,3 +1,4 @@
+import {ITSMechanicEditor} from "../../Component/ITweeningComponent";
 import {_TSQMecha_} from "../../Core/Mechanic/TSAMechanic";
 import TSMechanicManager from "../../Core/Mechanic/TSMechanicManager";
 import {ViewMode} from "../../Helper/TSEnum";
@@ -8,8 +9,9 @@ import {TSMechanicPreviewObject} from "./TSMechanicPreviewObject";
 const {ccclass, property} = cc._decorator;
 
 @ccclass('TSMechanicEditor')
-export class TSMechanicEditor extends TSAEditorObject 
+export class TSMechanicEditor extends TSAEditorObject implements ITSMechanicEditor
 {
+
     @property(
         {
             override: true,
@@ -64,5 +66,18 @@ export class TSMechanicEditor extends TSAEditorObject
     to_manager()
     {
         return TSMechanicManager.create(this.list)
+    }
+
+    init_with_data(data: ITSMechanicEditor): void 
+    {
+        this.view_mode = data.view_mode;
+        const ret = data.list
+        for(let i = 0; i < ret.length; i++)
+        {
+            const ref = TSMechanicPreviewObject.create(ret[i].action.name, ret[i].index)
+            const ar = ref.action;
+            ar.init_from_data( { type: ar.name, data: ret[i].action } )
+            this.list.push(ref)
+        }
     }
 }

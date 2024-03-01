@@ -1,8 +1,10 @@
+import {JSonObject} from "../CC_pTS/JSon/JSonObject";
 import {ByTo} from "../Configer/Enum";
 
-const {property} = cc._decorator;
+const {ccclass, property} = cc._decorator;
 
-export abstract class AVec3Action 
+@ccclass("AVec3Action")
+export abstract class AVec3Action extends JSonObject
 {
     @property()
     target: cc.Vec3 = cc.v3();
@@ -33,7 +35,6 @@ export abstract class AVec3Action
     }
         
     on_change_type() {}
-
 
     public abstract generate(action: cc.Tween<any>): cc.Tween<any>
 }

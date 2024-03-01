@@ -1,7 +1,10 @@
 import {BaseMasterComponent} from "../../CC_pTS/ExpertComponent/BaseMasterComponent";
+import {IJSonData} from "../../CC_pTS/Interface/IJSONData";
+import {cc_support} from "../../CC_pTS/Support/CCSupporter";
 import {TSBackendManager} from "../Core/Root/TSBackendManager";
 import {TSEditorManager} from "../Editor/Root/TSEditorManager";
 import {TSInformator} from "../Helper/TSInformator";
+import {ts_to_json} from "../Helper/TSJson";
 import {ITweeningComponent} from "./ITweeningComponent";
 
 const {ccclass, property, executeInEditMode, menu, playOnFocus, help} = cc._decorator;
@@ -25,6 +28,13 @@ export class TweeningComponent extends BaseMasterComponent implements ITweeningC
         this._is_testing_ = value;
         if(value) this._execute_test()
         this._is_testing_ = false;
+    }
+
+    @property()
+    get tj() { return false }
+    set tj(value: boolean) 
+    {
+        if(value)  cc_support.json.save(this.to_json(), "db://assets/Assets/json/g.json")
     }
 
     @property(TSEditorManager)
@@ -69,6 +79,7 @@ export class TweeningComponent extends BaseMasterComponent implements ITweeningC
         else
         {
             this._backend_ = TSBackendManager.create(this)
+
         }
     }
 
@@ -94,6 +105,21 @@ export class TweeningComponent extends BaseMasterComponent implements ITweeningC
         {
             this.editor.destroy();
         }
+    }
+
+    to_js_data(): IJSonData {
+        return {type: cc.js.getClassName(this), data: this}
+    }
+
+    to_json(): string {
+        return ts_to_json(this);
+    }
+
+    init_from_data(data: IJSonData): void 
+    {
+        const ret = data.data;
+        this.information.init_from_data(ret.information)
+        this.editor.init_from_data(ret.editor)
     }
 }
 

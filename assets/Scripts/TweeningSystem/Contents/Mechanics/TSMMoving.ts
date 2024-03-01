@@ -1,4 +1,4 @@
-import EXTMovingAction from "../../../Extender/EXTMovingAction";
+import {EXTMovingAction} from "../../../Extender/EXTMovingAction";
 import {fm_quick_reg_to} from "../../../pTS/Support/Decorators";
 import {TSAMechanic, _TSQMecha_} from "../../Core/Mechanic/TSAMechanic";
 
@@ -8,22 +8,18 @@ const {ccclass, property} = cc._decorator;
 @ccclass("TSMoving")
 export class TSMoving extends TSAMechanic
 {
-    @property(
-        {
-            type: EXTMovingAction
-        }
-    )
-    action: EXTMovingAction = new EXTMovingAction();
+    @property({ override: true, type: EXTMovingAction })
+    optional: EXTMovingAction = new EXTMovingAction();
 
     _description_: string = "Apply a moving action.";
 
     get duration(): number 
     {
-        return this.action.duration;
+        return this.optional.duration;
     }
 
     protected generator(action: cc.Tween<any>): cc.Tween<any> 
     {
-        return this.action.generate(action);
+        return this.optional.generate(action);
     }
 }

@@ -1,9 +1,10 @@
+import {JSonObject} from "../../../CC_pTS/JSon/JSonObject";
 import {GameMaster} from "../../../Manager/GameMaster";
 
 const {ccclass, property} = cc._decorator;
 
 @ccclass('TSAConditionExecutor')
-export abstract class TSAConditionExecutor
+export abstract class TSAConditionExecutor extends JSonObject
 {
     public abstract ready(): boolean;
 }
@@ -52,5 +53,14 @@ export class TSAOverloadingExecutor extends TSAConditionExecutor
             return true;
         }
         return false;
+    }
+
+    protected __to_json?: () => string = () =>
+    {
+        return `
+        {
+            "await_clock": ${this.await_clock}
+        }
+        `
     }
 }

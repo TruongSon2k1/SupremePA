@@ -8,22 +8,18 @@ const {ccclass, property} = cc._decorator;
 @ccclass("TSMScaling")
 export class TSMScaling extends TSAMechanic
 {
-    @property(
-        {
-            type: EXTScalingAction
-        }
-    )
-    action: EXTScalingAction = new EXTScalingAction();
+    @property({ type: EXTScalingAction, override: true })
+    optional: EXTScalingAction = new EXTScalingAction();
 
     _description_: string = "Apply a scaling action.";
 
     get duration(): number 
     {
-        return this.action.duration;
+        return this.optional.duration;
     }
 
     protected generator(action: cc.Tween<any>): cc.Tween<any> 
     {
-        return this.action.generate(action);
+        return this.optional.generate(action);
     }
 }

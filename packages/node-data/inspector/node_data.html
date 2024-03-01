@@ -1,18 +1,21 @@
 <cc-object-prop :target.sync="target.infor"></cc-object-prop>
+<div style="margin-bottom: 5px;"></div>
+<ui-button      class="red tiny" id="reset" >Reset</ui-button>
 
-<div style="margin-bottom: 20px;"></div>
+<div style="margin-bottom: 25px;"></div>
 
 <div class="layout horizontal center">
-    <ui-button style="margin-bottom:20px;position:relative;top:10px;" class="red small flex-1" @confirm="save_data" >Save Data</ui-button>
-    <ui-asset class="flex-1" style="with:100px;" type="cc.Asset" droppable="asset" @change="get_url" v-value="data"></ui-asset>
-    <ui-input class="flex-2" style="width:200px;" placeholder="db://assets/..." @change="input_url" v-value="data_url"></ui-input>
-    <ui-button style="margin-bottom:20px;position:relative;top:10px;width:100px" class="blue small flex-1" @confirm="to_json" >To JSon</ui-button>
+    <ui-node    class="flex-3" type="cc.Node"           @change="change_node"   droppable='node'        v-value="node_data" typename="Node" name='target'></ui-node>
+    <ui-asset   class="flex-3" type="cc.JsonAsset"      @change="change_asset"  droppable="asset"       v-value="asset_data"></ui-asset>
+    <div        class="flex-1"></div>
+    <ui-button  class="red small flex-2" @confirm="save_data" >Save Data</ui-button>
 </div>
 
-<div style="margin-bottom: 20px;"></div>
+<div style="margin-bottom: 25px;"></div>
 
 <div class="layout horizontal center">
-    <ui-button style="margin-bottom:20px;position:relative;top:10px;" class="white small flex-1" @confirm="sync_data" v-disable="_ready_to_sync(target._infor_)">Sync Data</ui-button>
-    <ui-asset class="flex-1" type="cc.JsonAsset" droppable="asset" @change="change_asset" v-value="asset_data"></ui-asset>
-    <ui-button style="margin-bottom:20px;position:relative;top:10px;width:100px" class="green small flex-1" @confirm="uuid_2_json" >From JSon</ui-button>
+    <ui-asset   class="flex-2" type="cc.JsonAsset" droppable="asset" ></ui-asset>
+    <ui-input   class="flex-4" style="width:300px;" placeholder="db://assets/..." @change="input_url"    v-value="data_url"></ui-input>
+    <div        class="flex-1"></div>
+    <ui-button  class="green small flex-2" @confirm="uuid_2_json" >To JSon</ui-button>
 </div>

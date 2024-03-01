@@ -34,9 +34,9 @@ export class Node2DInformation implements INodeInformation
     color: cc.Color = cc.Color.WHITE
 
     @property({ readonly: true, visible: false })
-    _opacity_: number = 255;
-    @property()
-    get opacity() { this.color.a = this._opacity_; return this._opacity_ }
+    opacity: number = 255;
+    @property( { displayName: 'Opacity' } )
+    get gopacity() { this.color.a = this.opacity; return this.opacity }
     
     static create(node: cc.Node | INodeInformation)
     {
@@ -70,14 +70,14 @@ export class Node2DInformation implements INodeInformation
         this.position = cc.v2(node.position);
         this.is3d = false;
 
-        this._opacity_ = node.opacity;
+        this.opacity = node.opacity;
         if(node instanceof cc.Node)
         {
             this.rotation = node.angle;
             this.scale = cc.v2(node.scaleX, node.scaleY)
             this.size = node.getContentSize();
             this.color = node.color;
-            this.color.a = this._opacity_;
+            this.color.a = this.opacity;
             return;
         }
 
@@ -87,7 +87,7 @@ export class Node2DInformation implements INodeInformation
         const nc = node.color;
         this.color = new cc.Color(nc.r, nc.g, nc.b);
         Editor.log(this.color)
-        this.color.a = this._opacity_;
+        this.color.a = this.opacity;
         this.size = cc.size(node.size.width, node.size.height);
     }
 
@@ -110,7 +110,7 @@ export class Node2DInformation implements INodeInformation
         node.scaleX = this.scale.x;
         node.scaleY = this.scale.y
         node.color = this.color;
-        node.opacity = this._opacity_;
+        node.opacity = this.opacity;
     }
 
 }
@@ -140,7 +140,7 @@ export class Node3DInformation extends Node2DInformation
 
         this.position = cc.v3(node.position);
         this.is3d = true;
-        this._opacity_ = node.opacity;
+        this.opacity = node.opacity;
 
         if(node instanceof cc.Node)
         {
@@ -148,7 +148,7 @@ export class Node3DInformation extends Node2DInformation
             this.scale = cc.v3(node.scaleX, node.scaleY)
             this.size = node.getContentSize();
             this.color = node.color;
-            this.color.a = this._opacity_;
+            this.color.a = this.opacity;
             return;
         }
 
@@ -159,7 +159,7 @@ export class Node3DInformation extends Node2DInformation
 
         //@ts-ignore
         this.color = cc.color(nc.r, nc.g, nc.b);
-        this.color.a = this._opacity_;
+        this.color.a = this.opacity;
         this.size = cc.size(node.size.width, node.size.height);
     }
 

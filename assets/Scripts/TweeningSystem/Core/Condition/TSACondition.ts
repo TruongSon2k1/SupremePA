@@ -1,7 +1,9 @@
+import {IJSonData, IJSonObject} from "../../../CC_pTS/Interface/IJSONData";
 import {IQuickFactoryManager} from "../../../Interfaces/IQuickFactoryManager";
 import {FactoryManager} from "../../../pTS/Factory/FactoryManager";
 import {fm_quick_reg} from "../../../pTS/Support/Decorators";
 import {Instance} from "../../../pTS/Support/Functions";
+import {ITSCondition} from "../../Component/ITweeningComponent";
 import {ExecutionType, RuntimeType} from "../../Helper/TSEnum";
 import {TSRObject} from "../../Root/TSRObject";
 import {TSAConditionExecutor, TSANormalConditionExecutor, TSAOverloadingExecutor} from "./TSAConditionExecutor";
@@ -11,8 +13,10 @@ const {ccclass, property} = cc._decorator;
 
 @fm_quick_reg()
 @ccclass('TSACondition')
-export abstract class TSACondition extends TSRObject
+export abstract class TSACondition extends TSRObject implements ITSCondition
 {
+/// EDITOR ZONE ////////////////////////////////////////////////////////////////
+        
     @property({type: cc.Enum(RuntimeType)})
     _runtime_type_: RuntimeType = RuntimeType.NORMAL;
     @property({type: cc.Enum(RuntimeType)})
@@ -46,10 +50,14 @@ export abstract class TSACondition extends TSRObject
             return;
         }
     }
+
     @property({displayName: 'Line'}) get line() { return "[ INFOR ] ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"}
 
     @property({type: TSAConditionRuntime, visible() { return this.runtimer } })
     runtimer: TSAConditionRuntime = this.runtimer_creator();
+
+    @property({type: undefined})
+    optional?: IJSonObject = null;
 
     runtimer_creator(): TSAConditionRuntime
     {
@@ -76,6 +84,8 @@ export abstract class TSACondition extends TSRObject
 
     @property({displayName: 'Line'}) get line2() { return "[ OPTIONS ] vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv"}
 
+/// CORE FUNCTION ZONE ////////////////////////////////////////////////////////////////////
+    
     /**
      * @description
      * | Check if this Condition is passed or not.
@@ -99,14 +109,57 @@ export abstract class TSACondition extends TSRObject
         this.runtimer.reset();
     }
 
+/// CORE ABSTRACT ZONE ////////////////////////////////////////////////////////////////////
+
     protected abstract _reset(): void;
-    
     public abstract ctor(): void;
     public abstract update(dt: number): void;
 
+/// JSON ZONE /////////////////////////////////////////////////////////////////////////////
+
+    public to_json():string
+    {
+        let data = null;
+
+        if(this.optional) data = this.optional.to_json();
+
+        return `
+        {
+            "name": "${this.name}",
+            "runtime_type": ${JSON.stringify(this.runtime_type)},
+            "execution_type": ${JSON.stringify(this.execution_type)},
+            "optional": ${data},
+            "runtimer": ${this.runtimer.to_json()},
+            "executor": ${this.executor.to_json()}
+        }
+        `
+    };
+
+    public to_js_data(): IJSonData
+    {
+        const json: IJSonData = {
+            type: cc.js.getClassName(this),
+            data: this
+        }
+
+        return json;
+    }
+
+    init_from_data(data: IJSonData): void 
+    {
+        const ret = data.data;
+
+        this.runtime_type = ret.runtime_type;
+        this.execution_type = ret.execution_type;
+        this.optional.init_from_data(ret.optional)
+    }
+
+/// COLLISION ZONE ////////////////////////////////////////////////////////////////////////
 
     public enter_collision(other: cc.Collider, self: cc.Collider) {}
     public exit_collision(other: cc.Collider, self: cc.Collider) {}
+
+/// LIFE CYCLE ZONE ///////////////////////////////////////////////////////////////////////
 
     /**
      * @description
@@ -126,3 +179,4 @@ export const _TSQCond_: IQuickFactoryManager =
             return new ret();
         }
     }
+

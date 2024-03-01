@@ -213,7 +213,6 @@ class CCJSON
      */
     save(data: string, path: string)
     {
-        Editor.log(data, path, "")
         Editor.assetdb.createOrSave(path, data)
     }
 

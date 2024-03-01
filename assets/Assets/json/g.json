@@ -1,0 +1,31 @@
+{ "type": "TweeningComponent", "data": {"information": {"type":"TSInformator","data":{"_name_":"TSInformator","details":"A NEW TWEENING COMPONENT","main":{"type":"cc.Node","data":"21dLj5H55Lw7JsPiWWobGh"},"silent_backend":true,"conditon_type":0,"reset_type":0,"mechanic_execution_mode":0}}, "editor": {"type": "TSEditorManager", "data": { "editor_mode": 1, "condition": {"type": "TSConditionEditor", "data": { "view_mode": 2, "type": "TSConditionPreviewObject", "list": [ { "action": 
+        {
+            "name": "TSCAwait",
+            "runtime_type": 0,
+            "execution_type": 0,
+            "optional": {"type": "TSCAwaitHelper", "data": 
+        {
+            "duration": 2
+        }
+        },
+            "runtimer": {"type": "TSACNormalRuntime", "data": {
+            "max_run_time": 1
+        }},
+            "executor": {"type": "TSANormalConditionExecutor", "data": null}
+        }
+        , "index": 0 } ] } }, "mechanic": {"type": "TSMechanicEditor", "data": { "view_mode": 2, "type": "TSMechanicPreviewObject", "list": [ { "action": 
+        {
+            "name": "TSMoving",
+            "active": true,
+            "bounding_targets": [  ],
+            "optional": {"type": "EXTMovingAction", "data": 
+        {
+            "target": {"type": "cc.Vec3", "data": { "x": 100, "y": 500, "z": -100}},
+            "type": 0,
+            "duration": 3,
+            "moving_type": 0,
+            "easing": "quartInOut"
+        }
+        }
+        }
+        , "index": 0 } ]} } }} } }

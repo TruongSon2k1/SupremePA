@@ -1,7 +1,9 @@
+import {JSonObject} from "../../../CC_pTS/JSon/JSonObject";
+
 const {ccclass, property} = cc._decorator;
 
 @ccclass('TSAConditionRuntime')
-export abstract class TSAConditionRuntime
+export abstract class TSAConditionRuntime extends JSonObject
 {
     _is_passed_: boolean = false;
 
@@ -53,5 +55,12 @@ export class TSACNormalRuntime extends TSAConditionRuntime
     {
         let ret = new TSACNormalRuntime()
         return ret;
+    }
+
+    protected __to_json?: () => string = () =>
+    {
+        return `{
+            "max_run_time": ${this.max_run_time}
+        }`
     }
 }

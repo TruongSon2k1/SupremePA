@@ -1,3 +1,4 @@
+import {ITSConditionEditor} from "../../Component/ITweeningComponent";
 import {_TSQCond_} from "../../Core/Condition/TSACondition";
 import {TSConditionANDManager, TSConditionORManager} from "../../Core/Condition/TSConditionManager";
 import {ConditionType, ResetType, ViewMode} from "../../Helper/TSEnum";
@@ -8,8 +9,9 @@ import {TSConditionPreviewObject} from "./TSConditionPreviewObject";
 const {ccclass, property} = cc._decorator;
 
 @ccclass('TSConditionEditor')
-export class TSConditionEditor extends TSAEditorObject 
+export class TSConditionEditor extends TSAEditorObject implements ITSConditionEditor
 {
+
     @property(
         {
             override: true,
@@ -73,6 +75,23 @@ export class TSConditionEditor extends TSAEditorObject
                 return TSConditionORManager.create(reset_type, this.list, silent)
             case ConditionType.AND:
                 return TSConditionANDManager.create(this.list, silent)
+        }
+    }
+
+    init_with_data(data: ITSConditionEditor): void 
+    {
+        this.view_mode = data.view_mode;
+
+        const ret = data.list
+        for(let i = 0; i < ret.length; i++)
+        {
+            const ref = TSConditionPreviewObject.create(ret[i].action.name, ret[i].index);         //< Create an instance of `TSConditionPreviewObject` with the id is the ret's name and the index.
+            const ar = ref.action;
+
+            const jsdata = {type: ar.name, data: ret[i].action};                                   //< Create an object folow `IJSonData` type
+            ar.init_from_data(jsdata)
+
+            this.list.push(ref)
         }
     }
 }

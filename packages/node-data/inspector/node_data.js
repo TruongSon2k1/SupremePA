@@ -13,7 +13,8 @@ Vue.component('node-data', {
         return {
             data_url: "",
             data: null,
-            asset_data: null
+            asset_data: null,
+            node_data: null,
         }
 
     },
@@ -112,7 +113,22 @@ Vue.component('node-data', {
 
         change_asset: function()
         {
-            
+            if(!this.asset_data) return;
+
+            const ret = {
+                id: this.target.uuid.value,
+                path: "change_json_data",
+                type: "String",
+                isSubProp: false,
+                value: this.asset_data
+            }
+
+            Editor.Ipc.sendToPanel("scene", "scene:set-property", ret);
+        },
+
+        change_node: function()
+        {
+
         },
 
         uuid_2_json: function()

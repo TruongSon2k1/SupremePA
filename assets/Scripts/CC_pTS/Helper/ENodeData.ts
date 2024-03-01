@@ -53,11 +53,30 @@ export class ENodeData extends cc.Component
     }
 
     @property()
+    set change_node_data(value: cc.Node)
+    {
+        if(!value) return;
+        if(value.is3DNode) this._infor_ = Node3DInformation.create(value);
+        else this._infor_ = Node2DInformation.create(value);
+    }
+
+    @property()
+    set change_json_data(value: string)
+    {
+        cc_support.json.uuid_parser(value, (data: IJSonData) => {
+            const constructor = cc.js.getClassByName(data.type)
+
+            if (data && constructor) {
+                this._infor_ = cc_support.json.parser(data, constructor['json_reviver'])
+            }
+        });
+    }
+
+    @property()
     set to_json(path: string)
     {
         cc_support.json.json_saver(this._infor_, path, this._infor_.json_replacer);       
     }
-
 
     @property(cc.JsonAsset)
     json: cc.JsonAsset = null;
@@ -83,7 +102,6 @@ export class ENodeData extends cc.Component
             }
         });
     }
-
 
     protected onLoad(): void 
     {

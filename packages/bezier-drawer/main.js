@@ -175,6 +175,18 @@ class BezierDrawer extends Editor.Gizmo
             return line;
         }
 
+
+
+        //const tr = this._tool.rect().fill( { color: color } ).style('pointer-events', 'fill').style('cursor', 'move');
+        //tr.animate( {
+        //    duration: 2000,
+        //    delay: 1000,
+        //    when: 'now',
+        //    swing: true,
+        //    times: 5,
+        //    wait: 200
+        //} ).attr( { fill: '#f03' } )
+
         /**
          * @description
          * | A function to calculate the given coordinate(Vec2) to the Gizmo world axis.
@@ -232,6 +244,7 @@ class BezierDrawer extends Editor.Gizmo
                 }
             }
         }
+
     }
 
     visible()
