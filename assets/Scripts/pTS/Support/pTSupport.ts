@@ -189,7 +189,7 @@ class JS
         return false;
     }
 
-    get_templat_type<T>(ctor: ConstructClass<T>)
+    get_template_type<T>(ctor: ConstructClass<T>)
     {
         return typeof (new ctor())
     }
@@ -325,11 +325,15 @@ class STRING
     }
 }
 
+type UtilsComparsor<T> = (input: T, index_data: T) => boolean;
+
 @mark_singleton
 class UTILS
 {
-    methods_as_string(prototype: any): string[]
+
+    methods_as_string<T>(clasz: ClassType<T>): string[]
     {
+        const prototype = clasz.prototype;
         return Object.getOwnPropertyNames(prototype).filter( p => typeof prototype[p] === 'function')
     }
 
@@ -402,16 +406,107 @@ class UTILS
         return vamps;
     }
     
-    must_contain<T>(ret: T, target: T[]): T[]
+    /**
+     * @description
+     * | Get the array which must contain the given data
+     *
+     * @param ret The sample to be checked.
+     * @param target The target array need to be checked.
+     * @param compasor A custom checker callback.
+     *
+     * @example
+     * ```
+     * interface Test
+     * {
+     *       id: number;
+     *       data: string;
+     * }
+     *
+     * const arr: Test[] = [{id: 2, data: 'Zero'    },
+     *                      {id: 0, data: 'First'   },
+     *                      {id: 1, data: 'Second'  },
+     *                      {id: 0, data: 'Third'   },
+     *                      {id: 0, data: 'INFINITE'}];
+     *
+     * const sample: Test = {id: 0, data: 'NaN'};
+     * const compasor = (input: Test, index_data: Test) => {
+     *       return input.id === index_data.id; //Compare the id.
+     * }
+     *
+     * const result = pTS.utils.must_contain<Test>(sample, arr, compasor);
+     *
+     * // The result should be: [{id: 0, data: 'First'   },
+     * //                        {id: 0, data: 'Third'   },
+     * //                        {id: 0, data: 'INFINITE'}];
+     *
+     * ```
+     */
+    must_contain<T>(ret: T, target: T[], compasor?: UtilsComparsor<T>): T[]
     {
         const vamps = target.filter( temp =>
         {
-            if(temp === ret) return true;
-            return false;
+            if(!!compasor) return compasor(ret, temp);
+
+            return temp === ret;
         })
         return vamps;
     }
 
+    /**
+     * @description
+     * | Get the array which must contain the given data
+     *
+     * @param sample The sample to be checked.
+     * @param checker The target array need to be checked.
+     * @param compasor A custom checker callback.
+     *
+     * @example
+     * ```
+     * interface Test
+     * {
+     *       id: number;
+     *       data: string;
+     * }
+     *
+     * const arr: Test[] = [{id: 2, data: 'Zero'    },
+     *                      {id: 0, data: 'First'   },
+     *                      {id: 1, data: 'Second'  },
+     *                      {id: 0, data: 'Third'   },
+     *                      {id: 0, data: 'INFINITE'}];
+     *
+     * const sample: Test = [{id: 0, data: 'NaN'} , {id: 1, data: 'NULL'}];
+     * const compasor = (input: Test, index_data: Test) => {
+     *       return input.id === index_data.id; //Compare the id.
+     * }
+     *
+     * const result = pTS.utils.must_contain<Test>(sample, arr, compasor);
+     *
+     * // The result should be: [{id: 0, data: 'First'   },
+     * //                        {id: 1, data: 'Second'  },
+     * //                        {id: 0, data: 'Third'   },
+     * //                        {id: 0, data: 'INFINITE'}];
+     *
+     * ```
+     */
+    includes_array<T>(sample: T[], checker: T[], compasor: UtilsComparsor<T> = (input: T, index_data: T) => { return input === index_data }): T[]
+    {
+        const arr: T[] = [];
+
+        for(const ret of checker) {
+            if(sample.some( s => compasor(s, ret) )) arr.push(ret);
+        }
+
+        return arr;
+    }
+
+    must_includes_array<T>(sample: T[], checker: T[], compasor: (checker: T[], index_data: T) => boolean = (checker: T[], index_data: T) => { return checker.includes(index_data)})
+    {
+        return sample.every( e => compasor(checker, e) );
+    }
+
+    /**
+     * @deprecated  Using `Array.includes(ret)` instead.
+     */
     is_contain<T>(ret: T, target: T[]): boolean
     {
         return this.must_contain(ret, target).length > 0;

@@ -1,6 +1,7 @@
 import {mark_singleton} from "../../pTS/Support/Decorators";
 import {Instance} from "../../pTS/Support/Functions";
 import {DefaultAssertOption, IAssertOption} from "../../pTS/Support/ISupport";
+import {pTS} from "../../pTS/Support/pTSupport";
 import {IJSonData} from "../Interface/IJSONData";
 
 class CCConsole
@@ -188,6 +189,46 @@ class CCComponent
         const papa = node.parent;
         if(papa) return this.find_root_node(papa);
         return node;
+    }
+
+    search_component<T>(target: cc.Node | cc.Component, instanceT: T): T & cc.Component
+    {
+        const node = target instanceof cc.Node ? target : target.node;
+
+        //@ts-ignore
+        const comps: cc.Component[] = node._components
+
+        const instanceKey = Object.keys(instanceT);
+
+        for(const ret of comps) {
+            const keys = Object.keys(ret).concat(Object.keys(ret.constructor.prototype))
+
+            //@ts-ignore
+            if(pTS.utils.must_includes_array(instanceKey, keys)) return ret;
+        }
+
+        return null;
+    }
+
+    search_components<T>(target: cc.Node | cc.Component, instanceT: T): (T & cc.Component)[]
+    {
+        const arr: (T & cc.Component)[] = []
+        const node = target instanceof cc.Node ? target : target.node;
+
+        //@ts-ignore
+        const comps: cc.Component[] = node._components
+
+        const instanceKey = Object.keys(instanceT);
+
+        for(const ret of comps) {
+            const keys = Object.keys(ret).concat(Object.keys(ret.constructor.prototype))
+
+            //@ts-ignore
+            if(pTS.utils.must_includes_array(instanceKey, keys)) arr.push(ret);
+        }
+
+        //@ts-ignore
+        return arr;
     }
 }
 
